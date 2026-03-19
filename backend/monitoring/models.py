@@ -33,7 +33,7 @@ class Readings(models.Model):
     acceleration = models.FloatField()
     ambient_temperature = models.FloatField()
     def __str__(self):
-        return self.timestamp.strftime("%Y-%m-%d %H:%M:%S") #convert the time to a string to prevent type errors
+        return  f"{self.livestock.name} @ {self.timestamp}"
 
 class Alerts(models.Model):
     timestamp = models.DateTimeField()
