@@ -37,7 +37,7 @@ class GeofenceBreachEvent(models.Model):
     geofence = models.ForeignKey(Geofence, on_delete=models.CASCADE, related_name= 'breaches' )
     timestamp = models.DateTimeField(auto_now_add = True)
     latitude = models.FloatField() 
-    Longitude = models.FloatField() 
+    longitude = models.FloatField() 
     resolved = models.BooleanField(default = False)
 
     def __str__(self): 
