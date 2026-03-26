@@ -11,6 +11,21 @@ export function Login() {
     <div className="space-y-6">
      <input name="username" />
      <input name="password" />
+    <div class="container">
+        <h1>Enter Password</h1>
+        <form id="passwordForm">
+            <div class="input-group">
+                <div class="input-container">
+                    <input type="password" id="password" placeholder="Enter your password" />
+                    <button type="button" id="toggleVisibility" aria-label="Show Password">👁️</button>
+                </div>
+            </div>
+        </form>
     </div>
+        </div>
+
+    
   );
 }
+
+
