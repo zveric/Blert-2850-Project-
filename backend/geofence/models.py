@@ -16,7 +16,7 @@ from monitoring.models import Sites
     - timestamp - time of breach event
     - latitude - latitude of the breach
     - longitude - longitude of the breach
-    - resolved - whether breach event is resolved (false is default) 
+    - resolved - whether breach event is resolved (false is default)
 
 '''
 
