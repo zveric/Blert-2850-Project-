@@ -10,4 +10,6 @@
     <toc-element topic="Farm-Hand.md"/>
     <toc-element topic="Veterinarian.md"/>
     <toc-element topic="starter-topic.md"/>
+    <toc-element topic="Police-Department.md"/>
+    <toc-element topic="Researcher.md"/>
 </instance-profile>

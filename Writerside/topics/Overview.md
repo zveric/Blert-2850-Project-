@@ -4,3 +4,5 @@ Due to time and resource constraints we were unable to conduct full user studies
 
 - [Farm Hand](Farm-Hand.md)
 - [Veterinarian](Veterinarian.md)
+- [Police Department](Police-Department.md)
+- [Researcher](Researcher.md)
