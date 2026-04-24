@@ -16,6 +16,9 @@ from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+GDAL_LIBRARY_PATH = r'C:\Users\Muqrish Salihin\Blert-2850-Project-\backend\venv\Lib\site-packages\osgeo\gdal.dll'
+GEOS_LIBRARY_PATH = r'C:\Users\Muqrish Salihin\Blert-2850-Project-\backend\venv\Lib\site-packages\osgeo\geos_c.dll'
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -38,7 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'monitoring'
+    'django.contrib.gis',
+    'monitoring',
+    'geofence',
+    'rest_framework', 
 ]
 
 MIDDLEWARE = [
@@ -76,8 +82,12 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': config('DB_NAME', default= 'coil_db'),
+        'USER': config('DB_USER', default= 'postgres'),
+        'PASSWORD': config('DB_PASSWORD', default= ''),
+        'HOST': config('DB_HOST', default= 'localhost'),
+        'PORT': config('DB_PORT', default= '5432'),
     }
 }
 
