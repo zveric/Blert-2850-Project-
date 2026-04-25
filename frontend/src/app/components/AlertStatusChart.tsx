@@ -4,9 +4,9 @@ import { PieChart as PieChartIcon } from "lucide-react";
 
 export function AlertStatusChart() {
   const data = [
-    { name: 'Green (Normal)', value: 85, color: '#22c55e' },
-    { name: 'Amber (Warning)', value: 10, color: '#f59e0b' },
-    { name: 'Red (Critical)', value: 5, color: '#ef4444' },
+    { name: 'Green (Normal)', value: 85, color: '#15803d' },
+    { name: 'Amber (Warning)', value: 10, color: '#b45309' },
+    { name: 'Red (Critical)', value: 5, color: '#b91c1c' },
   ];
 
   return (
