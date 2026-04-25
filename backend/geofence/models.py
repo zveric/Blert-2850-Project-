@@ -16,7 +16,7 @@ from monitoring.models import Sites
     - timestamp - time of breach event
     - latitude - latitude of the breach
     - longitude - longitude of the breach
-    - resolved - whether breach event is resolved (false is default) 
+    - resolved - whether breach event is resolved (false is default)
 
 '''
 
@@ -37,7 +37,7 @@ class GeofenceBreachEvent(models.Model):
     geofence = models.ForeignKey(Geofence, on_delete=models.CASCADE, related_name= 'breaches' )
     timestamp = models.DateTimeField(auto_now_add = True)
     latitude = models.FloatField() 
-    Longitude = models.FloatField() 
+    longitude = models.FloatField() 
     resolved = models.BooleanField(default = False)
 
     def __str__(self): 

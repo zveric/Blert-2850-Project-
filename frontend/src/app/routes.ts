@@ -3,6 +3,7 @@ import { RootLayout } from "./components/RootLayout";
 import { Dashboard } from "./pages/Dashboard";
 import { Analytics } from "./pages/Analytics";
 import { MapPage } from "./pages/MapPage";
+import { Login } from "./pages/Login";
 
 export const router = createBrowserRouter([
   {
@@ -12,6 +13,7 @@ export const router = createBrowserRouter([
       { index: true, Component: Dashboard },
       { path: "analytics", Component: Analytics },
       { path: "map", Component: MapPage },
+      { path: "Login", Component: Login },
     ],
   },
 ]);

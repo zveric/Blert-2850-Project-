@@ -1,8 +1,17 @@
 import React from 'react';
 import { Outlet, NavLink } from 'react-router';
-import { HelpCircle, Activity, Bell, LogOut, User, LayoutDashboard, Map as MapIcon } from 'lucide-react';
+import { HelpCircle, Activity, Bell, LogOut, User, LogIn, LayoutDashboard, Map  as MapIcon } from 'lucide-react';
 
 export function RootLayout() {
+  
+
+  const navItems = [
+    { name: 'Dashboard', path: '/', icon: LayoutDashboard, exact: true },
+    { name: 'Analytics', path: '/analytics', icon: Activity },
+    { name: 'Live Map', path: '/map', icon: MapIcon },
+    { name: 'Login', path: '/login', icon: LogIn }
+  ];
+
   const navLinkClass = ({ isActive }: { isActive: boolean }) => 
     `flex items-center gap-2 py-5 border-b-2 transition-colors ${isActive ? 'text-blue-600 border-blue-600' : 'text-slate-500 border-transparent hover:text-slate-800 hover:border-slate-300'}`;
 
@@ -21,16 +30,21 @@ export function RootLayout() {
           </div>
           
           <div className="flex items-center gap-6">
+            
             <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-              <NavLink to="/" className={navLinkClass} end>
-                <LayoutDashboard size={16} /> Dashboard
-              </NavLink>
-              <NavLink to="/analytics" className={navLinkClass}>
-                <Activity size={16} /> Analytics
-              </NavLink>
-              <NavLink to="/map" className={navLinkClass}>
-                <MapIcon size={16} /> Live Map
-              </NavLink>
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <NavLink 
+                    key={item.name} 
+                    to={item.path} 
+                    className={navLinkClass} 
+                    end={item.exact}
+                  >
+                    <Icon size={16} /> {item.name}
+                  </NavLink>
+                );
+              })}
             </nav>
             
             <div className="w-px h-6 bg-slate-200 mx-2 hidden sm:block"></div>
@@ -51,7 +65,6 @@ export function RootLayout() {
         </div>
       </header>
 
-      {/* Main Content Area for Pages */}
       <main className="flex-grow p-6">
         <div className="max-w-[1600px] mx-auto">
           <Outlet />
