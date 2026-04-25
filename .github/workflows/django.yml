@@ -31,4 +31,4 @@ jobs:
       env:
         DJANGO_SETTINGS_MODULE: core.settings
       run: |
-        python manage.py test
+        python backend/manage.py test
