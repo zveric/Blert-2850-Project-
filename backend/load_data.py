@@ -1,6 +1,37 @@
 import pandas as pd
+from django.core.management.base import BaseCommand
+from monitoring.models import Sites, Alerts, Readings, Livestock
 
-PATH = "data-project-datasets-final/synthetic_outputs/livestock_tracking.csv"
+
+# https://docs.djangoproject.com/en/6.0/howto/custom-management-commands/
+# Base Command to run this script and load the data to the database
+class Command(BaseCommand):
+    help = "Loads the data from  the .csv file"
+
+    def handle(self, *args, **options):
+        path = "data-project-datasets-final/synthetic_outputs/livestock_tracking.csv"
+        chunk_size = 1000
+
+        for chunk in pd.read_csv(path, chunksize=chunk_size):
+            complete_chunk = chunk.dropna(how="any")
+            chunk_object = []
+
+            for i, row in complete_chunk.iterrows():
+                site, i = Sites.objects.get_or_create(
+                    name = row["site_id"],
+                    defaults = {"geofence": "default"}
+                )
+
+                livestock, i = Livestock.objects.get_or_create(
+                    name = row["site_id"],
+                    defaults = {}
+                )
+
+                
+
+                alerts, i = Alerts.objects.get_or_create(name=row['alerts'])
+                readings, i = Readings.objects.get_or_create(name=row['readings'])
+                livestock, i = Livestock.objects.get_or_create(name=row['livestock'])
 
 class Data:
 
@@ -9,6 +40,7 @@ class Data:
 
         _chunk_size = 1000 # private var to control chunk size
         _complete_chunks = [] # storing complete chunks
+        
 
         # loop to read csv file in specified chunk size
         for chunk in pd.read_csv(self.path, chunksize=_chunk_size):
