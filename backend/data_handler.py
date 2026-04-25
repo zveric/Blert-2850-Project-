@@ -1,4 +1,16 @@
 import pandas as pd
+import django
+from monitoring.models import Sites, Alerts, Readings, Livestock
+import os
+
+
+# https://docs.djangoproject.com/en/6.0/topics/settings/#calling-django-setup
+# https://docs.djangoproject.com/en/6.0/topics/settings/#designating-the-settings
+# adding data to the database and running the update function in the background so it can update the data as it is received
+os.environ["DJANGO_SETTINGS_MODULE"] = "core.settings"
+django.setup()
+
+PATH = "data-project-datasets-final/synthetic_outputs/livestock_tracking.csv"
 
 class Data:
 
