@@ -17,7 +17,7 @@ class Livestock(models.Model):
     site_id = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
-        return self.name
+        return self.site_id
 
 # https://gis.stackexchange.com/questions/179627/django-postgis-how-to-insert-coordinates-in-pointfield-in-epsg27700-and-retur
 class Readings(models.Model):
@@ -33,7 +33,7 @@ class Readings(models.Model):
 
     accel_mag_g = models.FloatField()
     ambient_temperature_c = models.FloatField()
-    status = models.CharField(max_length=100, unique=True)
+    status = models.CharField(max_length=100)
     alert_triggered = models.IntegerField()
     alert_low_activity = models.IntegerField()
     alert_geofence = models.IntegerField()

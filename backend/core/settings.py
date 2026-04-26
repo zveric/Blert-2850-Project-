@@ -12,12 +12,13 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 from decouple import config
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-GDAL_LIBRARY_PATH = config('GDAL_LIBRARY_PATH', default= '')
-GEOS_LIBRARY_PATH = config('GEOS_LIBRARY_PATH', default= '') 
+GDAL_LIBRARY_PATH = config('GDAL_LIBRARY_PATH')
+GEOS_LIBRARY_PATH = config('GEOS_LIBRARY_PATH')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
@@ -43,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'monitoring',
-    'geofence',
     'rest_framework', 
     'corsheaders',
 ]
