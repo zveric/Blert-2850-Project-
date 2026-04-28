@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.gis',
     'monitoring',
-    'geofence',
+    #'geofence',
     'rest_framework', 
     'corsheaders',
 ]
