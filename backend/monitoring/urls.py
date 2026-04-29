@@ -1,23 +1,25 @@
 from django.urls import path, include
-from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
-from . import models 
+from monitoring.models import User, Livestock, Readings
 
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
+    """Serializer for the user model in monitoring.models"""
     class Meta:
-        model = models.User
+        model = User
         fields = ['email', 'password']
 
 class LivestockSerializer(serializers.HyperlinkedModelSerializer):
+    """Serializer for the livestock model in monitoring.models"""
     class Meta:
-        model = models.Livestock
+        model = Livestock
         fields = "__all__" 
 
 class ReadingsSerializer(serializers.HyperlinkedModelSerializer):
+    """Serializer for the reading class in monitoring.models"""
     class Meta:
-        model = models.Readings
+        model = Readings
         fields = "__all__" 
 
 
@@ -48,15 +50,15 @@ class ReadingsSerializer(serializers.HyperlinkedModelSerializer):
 # ViewSets define the view behavior.
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = models.User.objects.all()
+    queryset = User.objects.all()
     serializer_class = UserSerializer
 
 class LivestockViewSet(viewsets.ModelViewSet):
-    queryset = models.Livestock.objects.all()
+    queryset = Livestock.objects.all()
     serializer_class = LivestockSerializer
 
 class ReadingsViewSet(viewsets.ModelViewSet):
-    queryset = models.Readings.objects.all()
+    queryset = Readings.objects.all()
     serializer_class = ReadingsSerializer
 
 # class SiteViewSet(viewsets.ModelViewSet):
