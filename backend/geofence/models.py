@@ -1,5 +1,5 @@
 from django.contrib.gis.db import models
-from monitoring.models import Sites
+from monitoring.models import Livestock, Readings, User
 
 # Create your models here.
 '''
@@ -14,19 +14,18 @@ from monitoring.models import Sites
     - livestock - reference which livestock breachd the geofence
     - geofence - reference which geofence was breached
     - timestamp - time of breach event
-    - latitude - latitude of the breach
-    - longitude - longitude of the breach
+    - location - location of breach event (point field), 4326 is the standard GPD coordinate for latitude & longitude
     - resolved - whether breach event is resolved (false is default)
 
 '''
 
 class Geofence(models.Model): 
-    sites = models.OneToOneField(Sites, on_delete=models.CASCADE, related_name= "geofence_boundary")
+    site_id = models.CharField(max_length=100, unique=True)
     boundary = models.PolygonField() 
     created_at = models.DateTimeField(auto_now_add = True) 
 
     def __str__(self):
-        return f"Geofence for {self.site.name}"
+        return f"Geofence for {self.site.id}"
 
     def contains (self, point): 
         return self.boundary.contains(point)
@@ -36,8 +35,7 @@ class GeofenceBreachEvent(models.Model):
     livestock = models.ForeignKey('monitoring.Livestock', on_delete=models.CASCADE, related_name = "breaches")
     geofence = models.ForeignKey(Geofence, on_delete=models.CASCADE, related_name= 'breaches' )
     timestamp = models.DateTimeField(auto_now_add = True)
-    latitude = models.FloatField() 
-    longitude = models.FloatField() 
+    location = models.PointField(srid=4326) 
     resolved = models.BooleanField(default = False)
 
     def __str__(self): 
