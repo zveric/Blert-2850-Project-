@@ -26,8 +26,8 @@ Core Functions for the Geofencing aspect of the Blert System
 
 def send_breach_alert(livestock, geofence_breach_event): 
     #create alert via SMS via Africa's Talking API or Twilio API (not implemented since not in MVP scope)
-    print(f"ALERT: {livestock.name} has breached the geofence:\n"
-          f"Location: ({geofence_breach_event.latitude}, {geofence_breach_event.longitude})\n"
+    print(f"ALERT: {livestock.site_id} has breached the geofence:\n"
+          f"Location: ({geofence_breach_event.location.y}, {geofence_breach_event.location.x})\n"
           f"Time: {geofence_breach_event.timestamp}")
 
 
@@ -40,8 +40,8 @@ def geofence_breach_resolution(geofence_breach_id):
 
 #CRUD Operations for the geofence management
 
-def create_geofence(sites, boundary): 
-    geofence = Geofence.objects.create(sites=sites, boundary=boundary)
+def create_geofence(site_id, boundary): 
+    geofence = Geofence.objects.create(site_id=site_id, boundary=boundary)
     return geofence 
 
 def update_geofence(geofence_id, new_boundary): 
@@ -61,7 +61,7 @@ def get_geofence_breach_by_livestock(livestock_id):
 
 def geofence_breach_check(livestock, latitude, longitude) : 
     point = Point(longitude, latitude)
-    geofence = Geofence.objects.get(site = livestock.site)
+    geofence = Geofence.objects.get(site_id = livestock.site_id)
 
     if not geofence.contains(point): 
         geofence_breach_event = GeofenceBreachEvent.objects.create(
@@ -80,12 +80,12 @@ def get_all_breaches():
     breaches = GeofenceBreachEvent.objects.all() 
     return breaches 
 
-def get_unresolved_branches():
+def get_unresolved_breaches():
     breaches = GeofenceBreachEvent.objects.filter(resolved = False) 
     return breaches 
 
 def get_geofence_breach_by_site(site_id): 
-    breaches = GeofenceBreachEvent.objects.filter(livestock_site_id = site_id) 
+    breaches = GeofenceBreachEvent.objects.filter(livestock__site_id = site_id) 
     return breaches 
 
 
