@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'geofence',
     'rest_framework', 
     'corsheaders',
+    'rest_framework_gis', 
 ]
 
 MIDDLEWARE = [
