@@ -1,19 +1,64 @@
 from django.urls import path, include
-from rest_framework import viewsets, routers
-from . import models
-from monitoring.serializers import UserSerializer, LivestockSerializer, ReadingsSerializer 
+from rest_framework import routers, serializers, viewsets
+from monitoring.models import User, Livestock, Readings
+
+
+
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    """Serializer for the user model in monitoring.models"""
+    class Meta:
+        model = User
+        fields = ['email', 'password']
+
+class LivestockSerializer(serializers.HyperlinkedModelSerializer):
+    """Serializer for the livestock model in monitoring.models"""
+    class Meta:
+        model = Livestock
+        fields = "__all__" 
+
+class ReadingsSerializer(serializers.HyperlinkedModelSerializer):
+    """Serializer for the reading class in monitoring.models"""
+    class Meta:
+        model = Readings
+        fields = "__all__" 
+
+
+
+# https://www.django-rest-framework.org/api-guide/serializers/#specifying-which-fields-to-include
+# class SitesSerialiser(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = models.Sites
+#         fields = "__all__"
+
+# class LivestockSerializer(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = models.Livestock
+#         fields = "__all__" 
+
+# class ReadingsSerializers(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = models.Readings
+#         fields = "__all__"
+
+# class AlertsSerializers(serializers.HyperlinkedModelSerializer):
+#     class Meta:
+#         model = models.Alerts
+#         fields = "__all__"
+
+
 
 # ViewSets define the view behavior.
 
 class UserViewSet(viewsets.ModelViewSet):
-    queryset = models.User.objects.all()
+    queryset = User.objects.all()
     serializer_class = UserSerializer
 
 class LivestockViewSet(viewsets.ModelViewSet):
-    queryset = models.Livestock.objects.all()
+    queryset = Livestock.objects.all()
     serializer_class = LivestockSerializer
 
 class ReadingsViewSet(viewsets.ModelViewSet):
+    queryset = Readings.objects.all()
     serializer_class = ReadingsSerializer
     
     def get_queryset(self):

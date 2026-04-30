@@ -133,7 +133,15 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+
+# Letting rest api be open to requests so that the front end can access the data without token authentication
+# https://pypi.org/project/django-cors-headers/
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "http://127.0.0.1:5173",
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+}

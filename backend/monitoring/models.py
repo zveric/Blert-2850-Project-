@@ -1,16 +1,17 @@
-from django.db import models 
+from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.contrib.gis.db import models as models
+from django.contrib.gis.db import models as point_model
 
 # Create your models here.
 # https://docs.djangoproject.com/en/6.0/topics/auth/customizing/
-# using the built in abstract user class for the user model
+
 class User(AbstractUser):
-    pass
+    """Using Django provided class"""  
 
 class Livestock(models.Model):
+    """Livestock class to hold all the reading data related to the different herds"""
     user = models.ForeignKey(
-        User, 
+        User,
         on_delete=models.CASCADE,
         related_name="livestock"
     )
@@ -21,16 +22,15 @@ class Livestock(models.Model):
 
 # https://gis.stackexchange.com/questions/179627/django-postgis-how-to-insert-coordinates-in-pointfield-in-epsg27700-and-retur
 class Readings(models.Model):
+    """Using Readings class to hold all the readings data for each of the herds"""
     livestock = models.ForeignKey(
-        Livestock, 
+        Livestock,
         on_delete=models.CASCADE,
         related_name="readings"
     )
 
     timestamp = models.DateTimeField()
-    
-    geolocation = models.PointField(srid=4326)
-
+    geolocation = point_model.PointField(srid=4326)
     accel_mag_g = models.FloatField()
     ambient_temperature_c = models.FloatField()
     status = models.CharField(max_length=100, unique=True)
@@ -42,8 +42,7 @@ class Readings(models.Model):
     def __str__(self):
         return str(self.timestamp)
 
-   
-
+"""Old database models. Leaving them in for documentation purposes"""
 # class Sites(models.Model):
 #     name = models.CharField(max_length=100)
 #     geofence = models.CharField(max_length=100)
