@@ -5,6 +5,7 @@ import { AlertButton } from '../components/AlertButton';
 import { AdvicePanel } from '../components/AdvicePanel';
 import { DetailedTable } from '../components/DetailedTable';
 
+
 export function Dashboard() {
   return (
     <div className="space-y-6">
@@ -40,10 +41,14 @@ export function Dashboard() {
         <div className="xl:col-span-1 min-h-[400px]">
           <AdvicePanel />
         </div>
+
       </div>
 
-      {/* Bottom Row - Detailed Table */}
-      <DetailedTable />
+      <div>
+        <h2 className="text-xl font-semibold mb-4 text-slate-800">Recent Herd Activity</h2>
+        <DetailedTable />
+      </div>
+
     </div>
   );
 }

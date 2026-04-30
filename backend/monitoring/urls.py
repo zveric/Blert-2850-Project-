@@ -1,49 +1,7 @@
 from django.urls import path, include
-from django.contrib.auth.models import User
-from rest_framework import routers, serializers, viewsets
-from . import models 
-
-
-
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = models.User
-        fields = ['email', 'password']
-
-class LivestockSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = models.Livestock
-        fields = "__all__" 
-
-class ReadingsSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = models.Readings
-        fields = "__all__" 
-
-
-
-# https://www.django-rest-framework.org/api-guide/serializers/#specifying-which-fields-to-include
-# class SitesSerialiser(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = models.Sites
-#         fields = "__all__"
-
-# class LivestockSerializer(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = models.Livestock
-#         fields = "__all__" 
-
-# class ReadingsSerializers(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = models.Readings
-#         fields = "__all__"
-
-# class AlertsSerializers(serializers.HyperlinkedModelSerializer):
-#     class Meta:
-#         model = models.Alerts
-#         fields = "__all__"
-
-
+from rest_framework import viewsets, routers
+from . import models
+from monitoring.serializers import UserSerializer, LivestockSerializer, ReadingsSerializer 
 
 # ViewSets define the view behavior.
 
@@ -56,31 +14,21 @@ class LivestockViewSet(viewsets.ModelViewSet):
     serializer_class = LivestockSerializer
 
 class ReadingsViewSet(viewsets.ModelViewSet):
-    queryset = models.Readings.objects.all()
     serializer_class = ReadingsSerializer
-
-# class SiteViewSet(viewsets.ModelViewSet):
-#     queryset = models.Sites.objects.all()
-#     serializer_class = SitesSerialiser
-
-# class LivestockViewSet(viewsets.ModelViewSet):
-#     queryset = models.Livestock.objects.all()
-#     serializer_class = LivestockSerializer
-
-# class ReadingViewSet(viewsets.ModelViewSet):
-#     queryset = models.Readings.objects.all()
-#     serializer_class = ReadingsSerializers
-
-# class AlertsViewSet(viewsets.ModelViewSet):
-#     queryset = models.Alerts.objects.all()
-#     serializer_class = AlertsSerializers
+    
+    def get_queryset(self):
+        limit = self.request.query_params.get('limit', None)
+        queryset = models.Readings.objects.all()
+        if limit:
+            queryset = queryset[:int(limit)]
+        return queryset
 
 # Routers 
 router = routers.DefaultRouter()
 
 router.register(r"user", UserViewSet)
 router.register(r"livestock", LivestockViewSet)
-router.register(r"readings", ReadingsViewSet)
+router.register(r"readings", ReadingsViewSet, basename="readings")
 
 # router.register(r"sites", SiteViewSet)
 # router.register(r"livestock", LivestockViewSet)
