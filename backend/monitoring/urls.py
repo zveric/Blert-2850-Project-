@@ -60,29 +60,20 @@ class LivestockViewSet(viewsets.ModelViewSet):
 class ReadingsViewSet(viewsets.ModelViewSet):
     queryset = Readings.objects.all()
     serializer_class = ReadingsSerializer
-
-# class SiteViewSet(viewsets.ModelViewSet):
-#     queryset = models.Sites.objects.all()
-#     serializer_class = SitesSerialiser
-
-# class LivestockViewSet(viewsets.ModelViewSet):
-#     queryset = models.Livestock.objects.all()
-#     serializer_class = LivestockSerializer
-
-# class ReadingViewSet(viewsets.ModelViewSet):
-#     queryset = models.Readings.objects.all()
-#     serializer_class = ReadingsSerializers
-
-# class AlertsViewSet(viewsets.ModelViewSet):
-#     queryset = models.Alerts.objects.all()
-#     serializer_class = AlertsSerializers
+    
+    def get_queryset(self):
+        limit = self.request.query_params.get('limit', None)
+        queryset = models.Readings.objects.all()
+        if limit:
+            queryset = queryset[:int(limit)]
+        return queryset
 
 # Routers 
 router = routers.DefaultRouter()
 
 router.register(r"user", UserViewSet)
 router.register(r"livestock", LivestockViewSet)
-router.register(r"readings", ReadingsViewSet)
+router.register(r"readings", ReadingsViewSet, basename="readings")
 
 # router.register(r"sites", SiteViewSet)
 # router.register(r"livestock", LivestockViewSet)
