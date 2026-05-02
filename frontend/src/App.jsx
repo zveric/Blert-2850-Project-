@@ -2,6 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
+import LineChart from './Line-Chart'
 import './App.css'
 
 function App() {
@@ -21,6 +22,8 @@ function App() {
             Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
           </p>
         </div>
+
+        <LineChart />
         <button
           type="button"
           className="counter"
