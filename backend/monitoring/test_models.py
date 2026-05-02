@@ -14,8 +14,8 @@ class UserFactory(factory.django.DjangoModelFactory):
     # Make a basic user profile. With some of the abstract user information
     username = factory.Sequence(lambda n: f"user_{n}")
     email = factory.Sequence(lambda n: f"useremail{n}@test.com")
-    first_name = factory.Faker("firstname")
-    last_name = factory.Faker("lastname")
+    first_name = factory.Faker("first_name")
+    last_name = factory.Faker("last_name")
     password = factory.PostGenerationMethodCall(
         "set_password", "testpass123"
     )  # Create the password after the user obj is setup. Using hashing to make it more realistic
