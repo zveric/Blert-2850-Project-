@@ -7,3 +7,6 @@ tzdata==2025.3
 python-decouple==3.8
 psycopg[binary]==3.2.13
 djangorestframework-gis
+pytest==7.4.3
+pytest-django==4.7.0
+pandas
