@@ -15,6 +15,7 @@ function App() {
       <div className="container d-flex gap-4">
         <AlertBtn />
         <Map />
+        <LineChart />
       </div>
     </section>
   )
