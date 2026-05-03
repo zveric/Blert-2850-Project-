@@ -66,6 +66,18 @@ export default function LineChart() {
           },
         ],
       }}
+      options={{
+          maintainAspectRatio: false,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Ambient temperatures of cows (blue) and goats (red)', 
+              font: {
+                size: 14,
+              }
+            }
+          }
+        }}
     />
     </div>
   );
