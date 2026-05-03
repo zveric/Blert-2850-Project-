@@ -40,12 +40,6 @@ export default function LineChart() {
             data: temperatures, 
             borderColor: 'rgb(0, 30, 255)', 
           },
-          {
-            id: 2,
-            label: 'temp 2',
-            data: temperatures,
-            borderColor: 'rgb(255, 72, 0)',
-          },
         ],
       }}
     />
