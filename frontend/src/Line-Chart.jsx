@@ -10,7 +10,7 @@ export default function LineChart() {
   const [labels, setLabels] = useState([]);
 
   useEffect(() => {
-    getReadings(1, 1).then(data => {
+    getReadings(1, 50).then(data => {
       
       const temps = data.map(item => item.ambient_temperature_c);
       console.log(temps); 
