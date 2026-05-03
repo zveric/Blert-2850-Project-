@@ -14,10 +14,21 @@ function ReadingsList() {
     }, [limit])
 
 
-    if (loading) return <p>Loading...</p>
+    //if (loading) return <p>Loading...</p>
+
+    // Class styles for the button
+    const cardStyle = {
+        background: "#fff",
+        borderRadius: "16px",
+        boxShadow: "0 4px 16px rgba(0,0,0,0.10)",
+        padding: "20px",
+        display: "inline-block",
+        width: '100%',
+        height: '400px',
+    }; 
 
     return (
-        <div>
+        <div style={cardStyle}>
             <h2>Readings List</h2>
             <table>
                 <thead>

@@ -2,6 +2,7 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 import { Line } from 'react-chartjs-2';
 import { getReadings } from '../api';
 import { useState, useEffect } from 'react';
+import { windowBreakpoints } from './windowBreakpoints';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -9,6 +10,7 @@ export default function LineChart() {
   const [temperatures, setTemperatures] = useState([]);
   const [temperatures2, setTemperatures2] = useState([]);
   const [labels, setLabels] = useState([]);
+  const { width, height,isMobile } = windowBreakpoints();
 
   useEffect(() => {
     getReadings(50, 1).then(data => {
@@ -45,8 +47,19 @@ export default function LineChart() {
     }); 
   }, []);
 
+  // Class styles for the button
+    const cardStyle = {
+        background: "#fff",
+        borderRadius: "16px",
+        boxShadow: "0 4px 16px rgba(0,0,0,0.10)",
+        padding: "20px",
+        display: "inline-block",
+        width: '100%',
+        height: isMobile ? "300px" : '600px',
+    }; 
+
   return (
-    <div style={{ height: '400px', width: '100%' }}>
+    <div style={cardStyle}>
     <Line
       datasetIdKey='id'
       data={{
