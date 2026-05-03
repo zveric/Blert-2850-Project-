@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import LineChart from './Line-Chart'
+import LineChart from './components/Line-Chart.jsx'
 import Navbar from './components/navbar'
 import Map from "./components/map"
 import AlertBtn from './components/alert-btn'
+import ReadingList from './components/readings-list'
 import './App.css'
 
 function App() {
@@ -16,6 +17,14 @@ function App() {
         <AlertBtn />
         <Map />
       </div>
+        <div className="container">
+            <LineChart/>
+        </div>
+        <div className="container">
+            <ReadingList/>
+        </div>
+
+
     </section>
   )
 }
