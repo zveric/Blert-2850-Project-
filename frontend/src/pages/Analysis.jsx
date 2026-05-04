@@ -1,6 +1,6 @@
 import Navbar from '../components/navbar'
 import LineChart from "../components/Line-Chart.jsx";
-import accelerationGraph from "../components/acceleration-graph.jsx";
+import AccelerationGraph from "../components/acceleration-graph.jsx";
 
 
 function Analysis() {
@@ -16,7 +16,7 @@ function Analysis() {
 
 
                     <LineChart />
-                    <accelerationGraph />
+                    <AccelerationGraph />
                                     </div>
 
             </main>
