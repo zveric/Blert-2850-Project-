@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { getReadings } from '../api'
+import './readings-list.css'
 
 function ReadingsList() {
     const [readings, setReadings] = useState([])
@@ -13,42 +14,87 @@ function ReadingsList() {
         })
     }, [limit])
 
+    const getStatusBadgeClass = (status) => {
+        const statusLower = status?.toLowerCase() || 'unknown' //Change to lowercase and if no status available then set to unknown
+        return `status-badge status-${statusLower}` //Return the status of the reading
+    }
 
-    if (loading) return <p>Loading...</p>
+    const formatTimestamp = (timestamp) => {
+        if (!timestamp) return 'N/A'
+        return new Date(timestamp).toLocaleString() //Return clean timestamp
+    }
+
+    const formatCoordinates = (coords) => {
+        if (!coords) return 'N/A'
+        //Written with the help of Copilot AI 'How can i format coordinates for display"
+        if (Array.isArray(coords)) {
+            return `[${coords.map(c => c.toFixed(4)).join(', ')}]`
+        }
+        return String(coords)
+    }
+
+    if (loading) {
+        return <div className="loading-container"><p>Loading...</p></div> //Shown while data is loading in. This usually doesnt take long. But when the backend isnt running this remains onscreen.
+    }
+
+    if (readings.length === 0) { //Shown if no readings found in database, but backend running
+        return (
+            <div className="readings-container">
+                <div className="readings-header">
+                    <h2>Readings List</h2>
+                </div>
+                <div className="empty-state">No readings available</div>
+            </div>
+        )
+    }
 
     return (
-        <div>
-            <h2>Readings List</h2>
-            <table>
-                <thead>
-                    <tr>
-                       <th>Timestamp</th>
-                       <th>Location</th>
-                       <th>Temperature</th>
-                       <th>Acceleration</th>
-                       <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {readings.map(reading => (
-                        <tr key={reading.id}>
-                            <td>{reading.timestamp}</td>
-                            <td>{reading.geolocation.coordinates}</td>
-                            <td>{reading.temperature}</td>
-                            <td>{reading.acceleration}</td>
-                            <td>{reading.status}</td>
+        <div className="readings-container">
+            <div className="readings-header">
+                <h2>Readings List</h2>
+                <div className="readings-info">
+                    <span>Show:</span>
+                    <select value={limit} onChange={(e) => setLimit(Number(e.target.value))}> //Set the value chosen here to be the number of entrys requested from the database.
+                        <option value={10}>10</option>
+                        <option value={20}>20</option>
+                        <option value={50}>50</option>
+                        <option value={100}>100</option>
+                    </select>
+                </div>
+            </div>
+            <div className="table-wrapper">
+                <table className="readings-table">
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Location</th>
+                            <th>Temperature</th>
+                            <th>Acceleration</th>
+                            <th>Status</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        {readings.map(reading => (
+                            <tr key={reading.id}>
+                                <td className="timestamp-cell">{formatTimestamp(reading.timestamp)}</td>
+                                <td className="location-cell">{formatCoordinates(reading.geolocation?.coordinates)}</td>
+                                <td className="temperature-cell">{reading.ambient_temperature_c}°C</td>
+                                <td className="acceleration-cell">{reading.accel_mag_g} m/s²</td>
+                                <td className="status-cell">
+                                    <span className={getStatusBadgeClass(reading.status)}>
+                                        {reading.status}
+                                    </span>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
-
-
-
-
-
-
 }
 
 export default ReadingsList
+
+
+
