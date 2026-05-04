@@ -29,6 +29,7 @@ function Dashboard() {
             <div style={mapAndAlertStyle}>
                 <Map />
                 <div style={{width : "30%"}}>
+                    <AlertBtn />
 
 
                 </div>
