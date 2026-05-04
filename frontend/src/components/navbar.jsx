@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js' 
 import '../styles/navbar.css'
 import '../index.css'
+import {Link} from 'react-router-dom'
 import { FaRegMap } from "react-icons/fa";
 import logoImage from '../assets/logo.jpeg'
 
@@ -32,10 +33,10 @@ function Navbar() {
                     <ul className="navbar-nav ms-auto gap-5">
 
                         <li className="nav-item">
-                            <a className="nav-link" href="/dashboard">Dashboard</a>
+                            <Link className="nav-link" to="/dashboard">Dashboard</Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="/analysis">Analysis</a>
+                            <Link className="nav-link" to="/analysis">Analysis</Link>
                         </li>
 
                     </ul>
