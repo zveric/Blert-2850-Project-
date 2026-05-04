@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet'
 import { getReadings } from '../api'
 import { divIcon } from 'leaflet'
 import '@fortawesome/fontawesome-free/css/all.min.css'
@@ -13,7 +13,7 @@ function Map() {
     const [positionA, setPositionA] = useState(null);
     const [positionB, setPositionB] = useState(null);
     const [sliderValue, setSliderValue] = useState(1);
-    const { width, height,isMobile } = windowBreakpoints();
+    const { isMobile } = windowBreakpoints();
 
     const customIcon = (color) => divIcon({
         className: '',
@@ -23,23 +23,38 @@ function Map() {
     })
 
     useEffect(() => {
-        Promise.all([ // Promise just allows the values to be there before we know them
-            getReadings(sliderValue, 1), // cow
-            getReadings(sliderValue, 2) //goat
+        const MAX_WINDOW = 50 // Fetch up to Max window values for each animal
+        Promise.all([
+            getReadings(MAX_WINDOW, 1),
+            getReadings(MAX_WINDOW, 2)
         ]).then(([dataA, dataB]) => {
-            if (dataA[0]) {
-                const coords = dataA[0].geolocation.coordinates
-                setPositionA([coords[1], coords[0]])  // flip: [lat, lng]
+            const idx = Math.max(0, Math.min(sliderValue - 1, (dataA?.length || 1) - 1)) //Calculate the value of an index from the slider value. Never go beond the max number. And convert to 0 based array.
+            if (dataA && dataA[idx]) {
+                const coords = dataA[idx].geolocation.coordinates
+                setPositionA([coords[1], coords[0]])  // flip for leaflet
             }
-            if (dataB[0]) {
-                const coords = dataB[0].geolocation.coordinates
+
+            const idxB = Math.max(0, Math.min(sliderValue - 1, (dataB?.length || 1) - 1))
+            if (dataB && dataB[idxB]) {
+                const coords = dataB[idxB].geolocation.coordinates
                 setPositionB([coords[1], coords[0]])
             }
-        })
+        }).catch(err => console.error("Error fetching readings:", err))
     }, [sliderValue])
 
-    // if (!positionA) return <p>Loading map...</p>
-    // if (!positionB) return <p>Loading map...</p>
+  // Update the centering of the map as the slider position changes.
+    function Recenter({ position }) {
+        const map = useMap()
+        useEffect(() => {
+            if (position) {
+                // preserve current zoom
+                map.setView(position, map.getZoom())
+            }
+        }, [position, map])
+        return null
+    }
+    if (!positionA) return <p>Loading map...</p>
+    if (!positionB) return <p>Loading map...</p>
 
     // Class styles for the button
     const cardStyle = {
@@ -60,6 +75,7 @@ function Map() {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
+                <Recenter position={positionA} />
                 <Marker position={positionA} icon={customIcon('#2947cd')}></Marker>
                 <Marker position={positionB} icon={customIcon('#00a2b7')}></Marker>
             </MapContainer>
@@ -74,7 +90,7 @@ function Map() {
                     min="1"
                     max="50"
                     value={sliderValue}
-                    onChange={(e) => setSliderValue(e.target.value)}
+                    onChange={(e) => setSliderValue(Number(e.target.value))}
                     style={{width: '83%'}}
                 />
                 <div style={{width: '17%', display: 'inline-block', textAlign: 'center'}}>
