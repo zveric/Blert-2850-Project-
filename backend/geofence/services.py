@@ -1,7 +1,7 @@
 from geofence.models import Geofence, GeofenceBreachEvent
 from monitoring.models import Livestock 
 from django.contrib.gis.geos import Point 
-import africastalking 
+#import africastalking - not being implemented yet 
 
 """
 Core Functions for the Geofencing aspect of the Blert System 
@@ -27,11 +27,9 @@ Core Functions for the Geofencing aspect of the Blert System
 
 def send_breach_alert(livestock, geofence_breach_event, recipient_phone_number): 
     #create alert via SMS via Africa's Talking API or Twilio API (not implemented since not in MVP scope)
-    """print(f"ALERT: {livestock.site_id} has breached the geofence:\n"
+    print(f"ALERT: {livestock.site_id} has breached the geofence:\n"
           f"Location: ({geofence_breach_event.location.y}, {geofence_breach_event.location.x})\n"
-          f"Time: {geofence_breach_event.timestamp}")"""
-    
-    username = 
+          f"Time: {geofence_breach_event.timestamp}")
 
 
 
