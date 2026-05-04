@@ -26,7 +26,7 @@ function ReadingsList() {
 
     const formatCoordinates = (coords) => {
         if (!coords) return 'N/A'
-        //Written with the help of Copilot AI "How can i format coordinates for display"
+        //Written with the help of Copilot AI "How can I format coordinates for display"
         if (Array.isArray(coords)) {
             return `[${coords.map(c => c.toFixed(4)).join(', ')}]`
         }
@@ -34,7 +34,7 @@ function ReadingsList() {
     }
 
     if (loading) {
-        return <div className="loading-container"><p>Loading...</p></div> //Shown while data is loading in. This usually doesnt take long. But when the backend isnt running this remains onscreen.
+        return <div className="loading-container"><p>Loading...</p></div> //Shown while data is loading in. This usually doesn't take long. But when the backend isn't running this remains onscreen.
     }
 
     if (readings.length === 0) { //Shown if no readings found in database, but backend running
@@ -67,7 +67,7 @@ function ReadingsList() {
                 <h2>Readings List</h2>
                 <div className="readings-info">
                     <span>Show:</span>
-                    <select value={limit} onChange={(e) => setLimit(Number(e.target.value))}> //Set the value chosen here to be the number of entrys requested from the database.
+                    <select value={limit} onChange={(e) => setLimit(Number(e.target.value))}> //Set the value chosen here to be the number of entry requested from the database.
                         <option value={10}>10</option>
                         <option value={20}>20</option>
                         <option value={50}>50</option>
