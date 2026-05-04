@@ -1,0 +1,65 @@
+Index: backend/monitoring/models.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from django.db import models \nfrom django.contrib.auth.models import AbstractUser\nfrom django.contrib.gis.db import models as models\n\n# Create your models here.\n# https://docs.djangoproject.com/en/6.0/topics/auth/customizing/\n# using the built in abstract user class for the user model\nclass User(AbstractUser):\n    pass\n\nclass Livestock(models.Model):\n    user = models.ForeignKey(\n        User, \n        on_delete=models.CASCADE,\n        related_name=\"livestock\"\n    )\n    site_id = models.CharField(max_length=100, unique=True)\n\n    def __str__(self):\n        return self.name\n\n# https://gis.stackexchange.com/questions/179627/django-postgis-how-to-insert-coordinates-in-pointfield-in-epsg27700-and-retur\nclass Readings(models.Model):\n    livestock = models.ForeignKey(\n        Livestock, \n        on_delete=models.CASCADE,\n        related_name=\"readings\"\n    )\n\n    timestamp = models.DateTimeField()\n    \n    geolocation = models.PointField(srid=4326)\n\n    accel_mag_g = models.FloatField()\n    ambient_temperature_c = models.FloatField()\n    status = models.CharField(max_length=100, unique=True)\n    alert_triggered = models.IntegerField()\n    alert_low_activity = models.IntegerField()\n    alert_geofence = models.IntegerField()\n    alert_flee = models.IntegerField()\n\n    def __str__(self):\n        return self.name\n\n   \n\n# class Sites(models.Model):\n#     name = models.CharField(max_length=100)\n#     geofence = models.CharField(max_length=100)\n\n#     def __str__(self):\n#         return self.name\n\n# class Livestock(models.Model):\n#     name = models.CharField(max_length=100)\n#     species = models.CharField(max_length=100)\n#     site = models.ForeignKey(\n#         Sites,\n#         on_delete=models.CASCADE, # delete all livestock if their parent site is removed\n#         related_name=\"livestock\" # makes api design easier\n#     )\n\n#     def __str__(self):\n#         return self.name\n\n# class Readings(models.Model):\n#     timestamp = models.DateTimeField()\n#     livestock = models.ForeignKey(\n#         Livestock,\n#         on_delete=models.CASCADE,\n#         related_name=\"readings\",\n#     )\n#     latitude = models.FloatField()\n#     longitude = models.FloatField()\n#     acceleration = models.FloatField()\n#     ambient_temperature = models.FloatField()\n#     def __str__(self):\n#         return  f\"{self.livestock.name} @ {self.timestamp}\"\n\n# class Alerts(models.Model):\n#     timestamp = models.DateTimeField()\n#     reading = models.ForeignKey(\n#         Readings,\n#         on_delete=models.CASCADE,\n#         related_name=\"alerts\",\n#     )\n#     livestock = models.ForeignKey(\n#         Livestock,\n#         on_delete=models.CASCADE,\n#         related_name=\"alerts\",\n#     )\n#     type = models.CharField(max_length=100)\n#     description = models.TextField()\n\n#     def __str__(self):\n#         return f\"{self.alert_type} at {self.timestamp}\"\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/backend/monitoring/models.py b/backend/monitoring/models.py
+--- a/backend/monitoring/models.py	(revision 2f43a8b475229c50c07a70276eb63c2e5c9910e6)
++++ b/backend/monitoring/models.py	(date 1777736973257)
+@@ -1,34 +1,30 @@
+-from django.db import models 
+ from django.contrib.auth.models import AbstractUser
+ from django.contrib.gis.db import models as models
+ 
++
+ # Create your models here.
+ # https://docs.djangoproject.com/en/6.0/topics/auth/customizing/
+-# using the built in abstract user class for the user model
++# using the built-in abstract user class for the user model
+ class User(AbstractUser):
+     pass
+ 
++
+ class Livestock(models.Model):
+-    user = models.ForeignKey(
+-        User, 
+-        on_delete=models.CASCADE,
+-        related_name="livestock"
+-    )
++    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="livestock")
+     site_id = models.CharField(max_length=100, unique=True)
+ 
+     def __str__(self):
+         return self.name
+ 
++
+ # https://gis.stackexchange.com/questions/179627/django-postgis-how-to-insert-coordinates-in-pointfield-in-epsg27700-and-retur
+ class Readings(models.Model):
+     livestock = models.ForeignKey(
+-        Livestock, 
+-        on_delete=models.CASCADE,
+-        related_name="readings"
++        Livestock, on_delete=models.CASCADE, related_name="readings"
+     )
+ 
+     timestamp = models.DateTimeField()
+-    
++
+     geolocation = models.PointField(srid=4326)
+ 
+     accel_mag_g = models.FloatField()
+@@ -42,7 +38,6 @@
+     def __str__(self):
+         return self.name
+ 
+-   
+ 
+ # class Sites(models.Model):
+ #     name = models.CharField(max_length=100)
+@@ -94,4 +89,3 @@
+ 
+ #     def __str__(self):
+ #         return f"{self.alert_type} at {self.timestamp}"
+-
