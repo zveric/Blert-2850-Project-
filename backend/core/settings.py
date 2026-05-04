@@ -27,7 +27,7 @@ GEOS_LIBRARY_PATH = config('GEOS_LIBRARY_PATH', default= '')
 SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', cast=bool, default= False)
+DEBUG = config('DEBUG', cast=bool, default= True)
 
 ALLOWED_HOSTS = []
 

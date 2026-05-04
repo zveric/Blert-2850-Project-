@@ -22,12 +22,20 @@ class ReadingsViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         livestock_query = self.request.query_params.get("livestock")
         limit = self.request.query_params.get("limit", None)
+        start_time = self.request.query_params.get("start_time", None) 
+        end_time = self.request.query_params.get("end_time", None) 
         queryset = Readings.objects.all()
 
         if livestock_query:
             queryset = Readings.objects.filter(livestock=livestock_query)
         else:
             queryset = Readings.objects.all()
+
+        if start_time: 
+            queryset = queryset.filter(timestamp__gte=start_time) 
+
+        if end_time:
+            queryset = queryset.filter(timestamp__lte = end_time) 
             
         if limit:
             queryset = queryset[:int(limit)]
