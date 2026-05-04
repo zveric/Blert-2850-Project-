@@ -30,7 +30,7 @@ function Dashboard() {
                 <Map />
                 <div style={{width : "30%"}}>
                     <AlertBtn />
-                    <LineChart/>
+
 
                 </div>
             </div>

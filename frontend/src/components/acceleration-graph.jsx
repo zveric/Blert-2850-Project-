@@ -6,7 +6,7 @@ import { windowBreakpoints } from './windowBreakpoints';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-export default function accelerationGraph() {
+export default function AccelerationGraph() {
   const [acccel1, setacccel1] = useState([]);
   const [acccel2, setacccel2] = useState([]);
   const [labels, setLabels] = useState([]);
