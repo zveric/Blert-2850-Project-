@@ -33,11 +33,19 @@ class Readings(models.Model):
     geolocation = point_model.PointField(srid=4326)
     accel_mag_g = models.FloatField()
     ambient_temperature_c = models.FloatField()
-    status = models.CharField(max_length=100, unique=True)
+    status = models.CharField(max_length=100, unique=True)  
+
+    def __str__(self):
+        return str(self.timestamp)
+
+class Alerts(models.Model):
+    """Using Alerts class to hold the alerts and the timestamp id for each of the herds"""
+    readings = models.OneToOneField(
+        Readings,
+        on_delete=models.CASCADE,
+        related_name="alert"
+    )
     alert_triggered = models.IntegerField()
     alert_low_activity = models.IntegerField()
     alert_geofence = models.IntegerField()
     alert_flee = models.IntegerField()
-
-    def __str__(self):
-        return str(self.timestamp)
