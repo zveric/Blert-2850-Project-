@@ -16,7 +16,7 @@ export default function accelerationGraph() {
     getReadings(50, 1).then(data => {
       data = data.reverse();
       
-      const acccel1 = data.map(item => item.g_acceleration);
+      const acccel1 = data.map(item => item.accel_mag_g);
       console.log(acccel1); 
       setacccel1(acccel1);
 
@@ -32,7 +32,7 @@ export default function accelerationGraph() {
       getReadings(50, 2).then(data => {
       data = data.reverse();
       
-      const acccel2 = data.map(item => item.g_acceleration);
+      const acccel2 = data.map(item => item.accel_mag_g);
       console.log(acccel2); 
       setacccel2(acccel2);
 
