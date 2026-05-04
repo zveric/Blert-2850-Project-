@@ -4,13 +4,16 @@ import { getReadings } from '../api'
 import { divIcon } from 'leaflet'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import 'leaflet/dist/leaflet.css'
+import { windowBreakpoints } from './windowBreakpoints';
+
 
 
 
 function Map() {
-    const [positionA, setPositionA] = useState(null)
-    const [positionB, setPositionB] = useState(null)
-    const [sliderValue, setSliderValue] = useState(0)
+    const [positionA, setPositionA] = useState(null);
+    const [positionB, setPositionB] = useState(null);
+    const [sliderValue, setSliderValue] = useState(1);
+    const { width, height,isMobile } = windowBreakpoints();
 
     const customIcon = (color) => divIcon({
         className: '',
@@ -35,13 +38,24 @@ function Map() {
         })
     }, [sliderValue])
 
-    if (!positionA) return <p>Loading map...</p>
-    if (!positionB) return <p>Loading map...</p>
+    // if (!positionA) return <p>Loading map...</p>
+    // if (!positionB) return <p>Loading map...</p>
+
+    // Class styles for the button
+    const cardStyle = {
+        background: "#fff",
+        borderRadius: "16px",
+        boxShadow: "0 4px 16px rgba(0,0,0,0.10)",
+        padding: "20px",
+        display: "inline-block",
+        width: isMobile ? '100%' : '80%',
+        height: isMobile ? '50vh' : '80vh',
+    }; 
 
     return (
         // From leaflet docs
-        <div style={{width: '100%'}}>
-            <MapContainer center={positionA} zoom={16} scrollWheelZoom={true} style={{ height: '500px', width: '100%' }}>
+        <div className="gap-4" style={cardStyle}>
+            <MapContainer center={positionA} zoom={16} scrollWheelZoom={true} style={{ height: isMobile ? '85%' : '90%', width: '100%' }}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -49,16 +63,23 @@ function Map() {
                 <Marker position={positionA} icon={customIcon('#2947cd')}></Marker>
                 <Marker position={positionB} icon={customIcon('#00a2b7')}></Marker>
             </MapContainer>
-            <div>  
-                <label>sliderValue: {sliderValue}</label>
+            <div className='d-flex flex-row gap-4'>
+                <p>Day: placeholder </p>
+                <p>Month: placeholder </p>
+                <p>Year: placeholder </p>
+            </div>
+            <div>
                 <input
                     type="range"
-                    min="0"
+                    min="1"
                     max="50"
                     value={sliderValue}
                     onChange={(e) => setSliderValue(e.target.value)}
-                    style={{width: '100%'}}
+                    style={{width: '83%'}}
                 />
+                <div style={{width: '17%', display: 'inline-block', textAlign: 'center'}}>
+                    <label>Time: {sliderValue}</label>
+                </div>
             </div>
         </div>
     )
