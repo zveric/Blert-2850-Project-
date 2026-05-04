@@ -34,7 +34,8 @@ function App() {
         <Map />
         <div style={{width : "30%"}}>
           <AlertBtn />
-          <LineChart/>      
+          <LineChart/>
+          <accelerationGraph/>      
         </div>
       </div>
       <div style={{gap: "20px", padding: "0 50px",margin: isMobile ? "0 0px" : "0 150px",}}>
