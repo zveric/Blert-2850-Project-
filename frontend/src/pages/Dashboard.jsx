@@ -29,8 +29,7 @@ function Dashboard() {
             <div style={mapAndAlertStyle}>
                 <Map />
                 <div style={{width : "30%"}}>
-                    <AlertBtn />
-                    <LineChart/>
+
 
                 </div>
             </div>
