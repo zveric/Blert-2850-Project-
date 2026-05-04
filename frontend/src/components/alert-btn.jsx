@@ -29,8 +29,8 @@ function AlertBtn() {
         padding: "20px",
         display: "inline-block",
         overflow: "hidden",
-        width: isMobile ? '100%' : '30%',
-        height: isMobile ? '30vh' : '80vh',
+        width: '100%',
+        height: isMobile ? '30vh' : '60%',
     }; 
 
     const buttonStyle = {
@@ -79,7 +79,7 @@ function AlertBtn() {
                     style = {buttonStyle}
                 />
                 
-                <div style = {{maxHeight: isMobile ? '21vh' :  "71vh", overflowY: "scroll", width: "100%"}}>
+                <div style = {{maxHeight: isMobile ? '21vh' :  "40vh", overflowY: "scroll", width: "100%"}}>
                     <table style = {{borderCollapse: "collapse", width: "100%"}}>
                         <thead> 
                             <tr> 

@@ -55,7 +55,7 @@ export default function LineChart() {
         padding: "20px",
         display: "inline-block",
         width: '100%',
-        height: isMobile ? "300px" : '600px',
+        height: isMobile ? "300px" : "40%",
     }; 
 
   return (

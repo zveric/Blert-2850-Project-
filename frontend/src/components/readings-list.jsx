@@ -26,7 +26,7 @@ function ReadingsList() {
 
     const formatCoordinates = (coords) => {
         if (!coords) return 'N/A'
-        //Written with the help of Copilot AI 'How can i format coordinates for display"
+        //Written with the help of Copilot AI "How can i format coordinates for display"
         if (Array.isArray(coords)) {
             return `[${coords.map(c => c.toFixed(4)).join(', ')}]`
         }
@@ -48,8 +48,21 @@ function ReadingsList() {
         )
     }
 
+    // Class styles for the button
+    const cardStyle = {
+        background: "#fff",
+        borderRadius: "16px",
+        boxShadow: "0 4px 16px rgba(0,0,0,0.10)",
+        padding: "20px",
+        display: "inline-block",
+        width: '100%',
+        height: '1000px',
+        overflow: "hidden",
+    };
+
+
     return (
-        <div className="readings-container">
+        <div className="readings-container" style={cardStyle}>
             <div className="readings-header">
                 <h2>Readings List</h2>
                 <div className="readings-info">
@@ -62,7 +75,7 @@ function ReadingsList() {
                     </select>
                 </div>
             </div>
-            <div className="table-wrapper">
+            <div className="table-wrapper" style={{ maxHeight: '800px', overflowY: 'auto' }}>
                 <table className="readings-table">
                     <thead>
                         <tr>
