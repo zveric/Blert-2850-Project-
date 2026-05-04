@@ -2,7 +2,7 @@
 
 .readings-container {
   padding: 24px;
-  max-width: 1400px;
+  max-width: 100%;
   margin: 0 auto;
 }
 
@@ -96,6 +96,7 @@
 .readings-table tbody tr {
   border-bottom: 1px solid #e8e8e8;
   transition: background-color 0.2s;
+
 }
 
 .readings-table tbody tr:hover {
