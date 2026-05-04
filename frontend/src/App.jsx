@@ -22,7 +22,7 @@ function App() {
     display: 'flex',
     flexDirection: isMobile ? 'column' : 'row',
     gap: '20px',
-    padding: '50px',
+    margin: '0 px',
     margin: isMobile ? "0 0px" : "0 150px",
   };
 
@@ -32,10 +32,10 @@ function App() {
 
       <div style={mapAndAlertStyle}>
         <Map />
-        <AlertBtn />
-      </div>
-      <div style={{gap: "20px", padding: "0 50px",margin: isMobile ? "0 0px" : "0 150px",}}>
-          <LineChart/>
+        <div style={{width : "30%"}}>
+          <AlertBtn />
+          <LineChart/>      
+        </div>
       </div>
       <div style={{gap: "20px", padding: "0 50px",margin: isMobile ? "0 0px" : "0 150px",}}>
           <ReadingList/>

@@ -48,7 +48,7 @@ function Map() {
         boxShadow: "0 4px 16px rgba(0,0,0,0.10)",
         padding: "20px",
         display: "inline-block",
-        width: isMobile ? '100%' : '80%',
+        width: isMobile ? '100%' : '70%',
         height: isMobile ? '50vh' : '80vh',
     }; 
 
