@@ -6,7 +6,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
 django.setup()
 
 from django.contrib.gis.geos import Point
-from monitoring.models import User, Livestock, Readings
+from monitoring.models import User, Livestock, Readings, Alerts
 
 def populate():
     PATH = "data-project-datasets-final\synthetic_outputs\livestock_tracking.csv"
@@ -31,12 +31,20 @@ def populate():
             geolocation = Point(float(row["longitude"]), float(row["latitude"])),
             accel_mag_g = float(row["accel_mag_g"]),
             ambient_temperature_c = float(row["ambient_temperature_c"]),
-            status = row["status"],
-            alert_triggered = int(row["alert_triggered"]),
-            alert_low_activity = int(row["alert_low_activity"]),
-            alert_geofence = int(row["alert_geofence"]),
-            alert_flee = int(row["alert_flee"]) 
+            status = row["status"]
+            # alert_triggered = int(row["alert_triggered"]),
+            # alert_low_activity = int(row["alert_low_activity"]),
+            # alert_geofence = int(row["alert_geofence"]),
+            # alert_flee = int(row["alert_flee"]) 
         ) 
+
+        if row["alert_triggered"] == 1:
+            Alerts.objects.create(
+                alert_triggered = int(row["alert_triggered"]),
+                alert_low_activity = int(row["alert_low_activity"]),
+                alert_geofence = int(row["alert_geofence"]),
+                alert_flee = int(row["alert_flee"]) 
+            )
     
 if __name__ == "__main__":
     populate()
