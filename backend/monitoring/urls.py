@@ -9,7 +9,7 @@ router = routers.DefaultRouter()
 router.register(r"user", UserViewSet)
 router.register(r"livestock", LivestockViewSet)
 router.register(r"readings", ReadingsViewSet, basename="readings")
-router.register(r"alerts", AlertsViewset)
+router.register(r"alerts", AlertsViewset, basename="alerts")
 
 
 urlpatterns = [
