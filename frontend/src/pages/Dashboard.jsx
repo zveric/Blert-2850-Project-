@@ -14,13 +14,13 @@ function Dashboard() {
         display: 'flex',
         flexDirection: 'column',
         gap: '20px',
+        marginTop: isMobile ? "0 0px" : "0 50px",
     };
 
     const mapAndAlertStyle = {
         display: 'flex',
         flexDirection: isMobile ? 'column' : 'row',
         gap: '20px',
-
         margin: isMobile ? "0 0px" : "0 150px",
     };
 
