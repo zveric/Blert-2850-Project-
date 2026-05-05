@@ -7,14 +7,23 @@ import { FaRegMap } from "react-icons/fa";
 import logoImage from '../assets/logo.jpeg'
 
 function Navbar() {
+
+    const navBarStyle = {
+        display: "flex",
+        flexDirection: "row",
+        gap: "20px",
+        margin: "0 150px",
+        width: "100%"
+    }
+
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
 
-            <div className="container">
+            <div style={navBarStyle}>
 
                 <img src={logoImage} alt="Blert Logo" className={"navbar-logo"}/>
                 <a className="navbar-brand d-flex align-items-center gap-2" href="/">
-
                     Blert
                 </a>
 
