@@ -3,6 +3,8 @@ import { Line } from 'react-chartjs-2';
 import { getReadings } from '../api';
 import { useState, useEffect } from 'react';
 import { windowBreakpoints } from './windowBreakpoints';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -10,42 +12,67 @@ export default function AccelerationGraph() {
   const [acccel1, setacccel1] = useState([]);
   const [acccel2, setacccel2] = useState([]);
   const [labels, setLabels] = useState([]);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  // const [fullData1, setFullData1] = useState([]);
+  // const [fullData2, setFullData2] = useState([]);
   const { width, height,isMobile } = windowBreakpoints();
 
-  useEffect(() => {
-    getReadings(50, 1).then(data => {
-      data = data.reverse();
-      
-      const acccel1 = data.map(item => item.accel_mag_g);
-      console.log(acccel1); 
-      setacccel1(acccel1);
+useEffect(() => {
+  Promise.all([
+      getReadings(500, 1, startDate, endDate),
+      getReadings(500, 2, startDate, endDate)
+    ]).then(([data1, data2]) => {
 
-      const times = data.map((item, index) => {
+      setacccel1(data1.map(item => item.accel_mag_g));
+      setacccel2(data2.map(item => item.accel_mag_g));
+
+
+      setLabels(cowData.map((item, index) => {
         return item.timestamp 
-          ? new Date(item.timestamp).toLocaleTimeString() 
+          ? new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
           : `Reading ${index + 1}`;
-      });
-      
-      setLabels(times);
+      }));
     });
+  }, [startDate, endDate]);
 
-      getReadings(50, 2).then(data => {
-      data = data.reverse();
-      
-      const acccel2 = data.map(item => item.accel_mag_g);
-      console.log(acccel2); 
-      setacccel2(acccel2);
 
-      const times = data.map((item, index) => {
-        return item.timestamp 
-          ? new Date(item.timestamp).toLocaleTimeString() 
-          : `Reading ${index + 1}`;
-      });
+
+  //     setacccel2(goatData.map(item => item.accel_mag_g));
+  // useEffect(() => {
+  //   getReadings(130000, 1).then(data => {
+  //     data = data.reverse();
       
-      setLabels(times);
+  //     const acccel1 = data.map(item => item.accel_mag_g);
+  //     console.log(acccel1); 
+  //     setacccel1(acccel1);
+
+  //     const times = data.map((item, index) => {
+  //       return item.timestamp 
+  //         ? new Date(item.timestamp).toLocaleTimeString() 
+  //         : `Reading ${index + 1}`;
+  //     });
       
-    }); 
-  }, []);
+  //     setLabels(times);
+  //   });
+
+  //     getReadings(50, 2).then(data => {
+  //     data = data.reverse();
+      
+  //     const acccel2 = data.map(item => item.accel_mag_g);
+  //     console.log(acccel2); 
+  //     setacccel2(acccel2);
+
+  //     const times = data.map((item, index) => {
+  //       return item.timestamp 
+  //         ? new Date(item.timestamp).toLocaleTimeString() 
+  //         : `Reading ${index + 1}`;
+  //     });
+      
+  //     setLabels(times);
+      
+  //   }); 
+  // }, []);
 
   // Class styles for the button
     const cardStyle = {
