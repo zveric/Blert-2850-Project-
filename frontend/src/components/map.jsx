@@ -62,7 +62,7 @@ function Map() {
         padding: "20px",
         display: "inline-block",
         width: isMobile ? '100%' : '70%',
-        height: isMobile ? '50vh' : '80vh',
+        height: isMobile ? '50vh' : '100%',
     }; 
 
     return (

@@ -22,6 +22,7 @@ function Dashboard() {
         flexDirection: isMobile ? 'column' : 'row',
         gap: '20px',
         margin: isMobile ? "0 0px" : "0 150px",
+        height: isMobile ? "100%" : "95vh",
     };
 
     return (
