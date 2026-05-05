@@ -28,12 +28,12 @@ useEffect(() => {
       setacccel2(data2.map(item => item.accel_mag_g));
 
 
-      setLabels(cowData.map((item, index) => {
-        return item.timestamp 
-          ? new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
-          : `Reading ${index + 1}`;
-      }));
-    });
+        setLabels(data1.map((item, index) => {
+          return item.timestamp 
+            ? new Date(item.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
+            : `Reading ${index + 1}`;
+        }));
+      });
   }, [startDate, endDate]);
 
 
@@ -82,11 +82,39 @@ useEffect(() => {
         padding: "20px",
         display: "inline-block",
         width: '100%',
-        height: isMobile ? "50vh" : "40%",
+        height: isMobile ? "300px" : "40%",
     }; 
 
   return (
     <div style={cardStyle}>
+
+    <div style={{ display: 'flex', gap: '10px', marginBottom: '15px', zIndex: 10, flexWrap: 'wrap' }}>
+        <DatePicker
+          selected={startDate}
+          onChange={(date) => setStartDate(date)}
+          selectsStart
+          startDate={startDate}
+          endDate={endDate}
+          showTimeSelect
+          timeIntervals={15}
+          placeholderText="Start Date & Time"
+          style={{ padding: '5px' }}
+        />
+        <DatePicker
+          selected={endDate}
+          onChange={(date) => setEndDate(date)}
+          selectsEnd
+          startDate={startDate}
+          endDate={endDate}
+          minDate={startDate}
+          showTimeSelect
+          timeIntervals={15}
+          placeholderText="End Date & Time"
+          style={{ padding: '5px' }}
+        />
+        <button onClick={() => {setStartDate(null); setEndDate(null)}} style={{borderRadius: '5px'}}>Clear</button>
+      </div>
+
     <Line
       datasetIdKey='id'
       data={{
