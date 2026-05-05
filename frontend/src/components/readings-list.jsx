@@ -6,12 +6,14 @@ function ReadingsList() {
     const [readings, setReadings] = useState([])
 
     const [limit, setLimit] = useState(10)
+    const [livestock, setLivestock] = useState(1)
 
     useEffect(() => {
-        getReadings(limit).then(data => {
+        getReadings(limit, livestock).then(data => {
+
             setReadings(data)
         })
-    }, [limit])
+    }, [limit, livestock])
 
     const getStatusBadgeClass = (status) => {
         const statusLower = status?.toLowerCase() || 'unknown' //Change to lowercase and if no status available then set to unknown (i belive all statuses should be present but jic)
@@ -50,6 +52,10 @@ function ReadingsList() {
         <div className="readings-container" style={cardStyle}>
             <div className="readings-header">
                 <h2>Readings List</h2>
+                <select value={livestock} onChange={(e) => setLivestock(e.target.value)}>
+                    <option value= "1">Herd A</option>
+                    <option value= "2">Herd B</option>
+                </select>
                 <div className="readings-info">
                     <span>Show:</span>
                     {/*Input for number of readings (better than the old dropdown)*/}
@@ -57,7 +63,9 @@ function ReadingsList() {
                         const v = Number(e.target.value);
                         if (Number.isInteger(v) && v >= 0) setLimit(v);
                     }}  style={{ width: 80 }}/>
+
                 </div>
+
             </div>
             {/*// Table for the readings*/}
             <div className="table-wrapper" style={{ maxHeight: '800px', overflowY: 'auto' }}>
