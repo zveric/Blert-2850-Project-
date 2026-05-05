@@ -3,7 +3,7 @@ import { Line } from 'react-chartjs-2';
 import { getReadings } from '../api';
 import { useState, useEffect } from 'react';
 import { windowBreakpoints } from './windowBreakpoints';
-import DatePicker from "react-datepicker";
+import DatePicker from "react-datepicker"; //used ai to learn about this library and compare to alternatives
 import "react-datepicker/dist/react-datepicker.css";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -87,8 +87,8 @@ useEffect(() => {
 
   return (
     <div style={cardStyle}>
-
-    <div style={{ display: 'flex', gap: '10px', marginBottom: '15px', zIndex: 10, flexWrap: 'wrap' }}>
+{/* used ai to debug the silly error where I forgot to add this card */}
+    <div style={{ display: 'flex', gap: '10px', marginBottom: '15px', zIndex: 10, flexWrap: 'wrap' }}> 
         <DatePicker
           selected={startDate}
           onChange={(date) => setStartDate(date)}
