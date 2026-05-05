@@ -16,9 +16,6 @@ from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-GDAL_LIBRARY_PATH = config('GDAL_LIBRARY_PATH', default= '')
-GEOS_LIBRARY_PATH = config('GEOS_LIBRARY_PATH', default= '') 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
@@ -41,12 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django.contrib.gis',
+    #'django.contrib.gis',
     'monitoring',
-    'geofence',
+    #'geofence',
     'rest_framework', 
     'corsheaders',
-    'rest_framework_gis', 
+    #'rest_framework_gis', 
 ]
 
 MIDDLEWARE = [
@@ -86,12 +83,8 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': config('DB_NAME', default= 'coil_db'),
-        'USER': config('DB_USER', default= 'postgres'),
-        'PASSWORD': config('DB_PASSWORD', default= ''),
-        'HOST': config('DB_HOST', default= 'localhost'),
-        'PORT': config('DB_PORT', default= '5432'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 

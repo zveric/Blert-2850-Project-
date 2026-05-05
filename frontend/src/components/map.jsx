@@ -111,6 +111,7 @@ function Map() {
             getReadings(MAX_WINDOW, 1),
             getReadings(MAX_WINDOW, 2)
         ]).then(([dataA, dataB]) => {
+<<<<<<< HEAD
             //const idx = Math.max(0, Math.min(sliderValue - 1, (dataA?.length || 1) - 1)) //Calculate the value of an index from the slider value. Never go beond the max number. And convert to 0 based array.
 
             if (dataA && Array.isArray(dataA)) setReadingsA(dataA);
@@ -131,6 +132,19 @@ function Map() {
             
     }, []);
 
+=======
+            const idxA = Math.max(0, Math.min(sliderValue - 1, (dataA?.length || 1) - 1)) //Calculate the value of an index from the slider value. Never go beond the max number. And convert to 0 based array.
+            if (dataA && [dataA[idxA].latitude,dataA[idxA].longitude]) {
+                setPositionA([dataA[idxA].latitude,dataA[idxA].longitude])  // flip for leaflet
+            }
+
+            const idxB = Math.max(0, Math.min(sliderValue - 1, (dataB?.length || 1) - 1))
+            if (dataB && [dataB[idxB].latitude,dataB[idxB].longitude]) {
+                setPositionB([dataB[idxB].latitude,dataB[idxB].longitude])
+            }
+        }).catch(err => console.error("Error fetching readings:", err))
+    }, [sliderValue])
+>>>>>>> b54ae52ca25c44f15b93af0caadbed96d35e919b
 
   // Update the centering of the map as the slider position changes.
     function Recenter({ position }) {
