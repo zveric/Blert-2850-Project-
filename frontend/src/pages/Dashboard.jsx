@@ -30,8 +30,9 @@ function Dashboard() {
                 <Map />
                 <div style={{width : "30%"}}>
                     <AlertBtn />
-
-
+                    <a href="/analysis" target="_self" rel="noopener noreferrer">
+                        <LineChart />
+                    </a>
                 </div>
             </div>
             <div style={{gap: "20px", padding: "0 50px",margin: isMobile ? "0 0px" : "0 150px",}}>
