@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.contrib.gis.db import models as point_model
 
 # Create your models here.
 # https://docs.djangoproject.com/en/6.0/topics/auth/customizing/
@@ -30,10 +29,11 @@ class Readings(models.Model):
     )
 
     timestamp = models.DateTimeField()
-    geolocation = point_model.PointField(srid=4326)
+    latitude = models.FloatField()
+    longitude = models.FloatField()
     accel_mag_g = models.FloatField()
     ambient_temperature_c = models.FloatField()
-    status = models.CharField(max_length=100, unique=True)  
+    status = models.CharField(max_length=100)  
 
     def __str__(self):
         return str(self.timestamp)
