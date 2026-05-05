@@ -80,7 +80,7 @@ export default function LineChart() {
         ],
       }}
       options={{
-          maintainAspectRatio: false,
+          maintainAspectRatio: true,
           plugins: {
             title: {
               display: true,

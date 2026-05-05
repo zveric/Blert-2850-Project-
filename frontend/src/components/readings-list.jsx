@@ -90,7 +90,7 @@ function ReadingsList() {
                         {readings.map(reading => (
                             <tr key={reading.id}>
                                 <td className="timestamp-cell">{formatTimestamp(reading.timestamp)}</td>
-                                <td className="location-cell">{formatCoordinates(reading.geolocation?.coordinates)}</td>
+                                <td className="location-cell">{formatCoordinates([reading.latitude, reading.longitude])}</td>
                                 <td className="temperature-cell">{reading.ambient_temperature_c}°C</td>
                                 <td className="acceleration-cell">{reading.accel_mag_g} m/s²</td>
                                 <td className="status-cell">

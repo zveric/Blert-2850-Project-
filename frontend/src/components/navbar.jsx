@@ -12,11 +12,11 @@ function Navbar() {
 
             <div className="container">
 
+                <img src={logoImage} alt="Blert Logo" className={"navbar-logo"}/>
                 <a className="navbar-brand d-flex align-items-center gap-2" href="/">
 
                     Blert
                 </a>
-                <img src={logoImage} alt="Blert Logo" className={"navbar-logo"}/>
 
                 <button
                     className="navbar-toggler"

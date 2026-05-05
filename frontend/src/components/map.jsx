@@ -28,16 +28,14 @@ function Map() {
             getReadings(MAX_WINDOW, 1),
             getReadings(MAX_WINDOW, 2)
         ]).then(([dataA, dataB]) => {
-            const idx = Math.max(0, Math.min(sliderValue - 1, (dataA?.length || 1) - 1)) //Calculate the value of an index from the slider value. Never go beond the max number. And convert to 0 based array.
-            if (dataA && dataA[idx]) {
-                const coords = dataA[idx].geolocation.coordinates
-                setPositionA([coords[1], coords[0]])  // flip for leaflet
+            const idxA = Math.max(0, Math.min(sliderValue - 1, (dataA?.length || 1) - 1)) //Calculate the value of an index from the slider value. Never go beond the max number. And convert to 0 based array.
+            if (dataA && [dataA[idxA].latitude,dataA[idxA].longitude]) {
+                setPositionA([dataA[idxA].latitude,dataA[idxA].longitude])  // flip for leaflet
             }
 
             const idxB = Math.max(0, Math.min(sliderValue - 1, (dataB?.length || 1) - 1))
-            if (dataB && dataB[idxB]) {
-                const coords = dataB[idxB].geolocation.coordinates
-                setPositionB([coords[1], coords[0]])
+            if (dataB && [dataB[idxB].latitude,dataB[idxB].longitude]) {
+                setPositionB([dataB[idxB].latitude,dataB[idxB].longitude])
             }
         }).catch(err => console.error("Error fetching readings:", err))
     }, [sliderValue])
