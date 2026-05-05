@@ -20,6 +20,7 @@ class ReadingsViewSet(viewsets.ModelViewSet):
     serializer_class = ReadingsSerializer
     
     def get_queryset(self):
+        timestamp_query = self.request.query_params.get("timestamp")
         livestock_query = self.request.query_params.get("livestock")
         limit = self.request.query_params.get("limit", None)
         start_time = self.request.query_params.get("start_time", None) 
@@ -36,9 +37,13 @@ class ReadingsViewSet(viewsets.ModelViewSet):
 
         if end_time:
             queryset = queryset.filter(timestamp__lte = end_time) 
-            
+
+        queryset = queryset.order_by('-timestamp')
+
+
         if limit:
             queryset = queryset[:int(limit)]
+
         return queryset
     
 class AlertsViewset(viewsets.ModelViewSet):
