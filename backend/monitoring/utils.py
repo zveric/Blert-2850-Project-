@@ -6,7 +6,6 @@ from datetime import datetime
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
 django.setup()
 
-from django.contrib.gis.geos import Point
 from monitoring.models import User, Livestock, Readings
 
 
@@ -22,8 +21,8 @@ def update(request=None):
 
     user = User.objects.get(username="admin")
     
-    # print(existing_timestamps[1])
-    # print(new_lines.tail)
+    print(existing_timestamps[1])
+    print(new_lines.tail)
 
 
     for x, row in new_lines.iterrows():
@@ -41,7 +40,8 @@ def update(request=None):
             Readings.objects.create(
                 livestock = animal,
                 timestamp = row["timestamp"],
-                geolocation = Point(float(row["longitude"]), float(row["latitude"])),
+                longitude = row["longitude"],
+                latitude = row["latitude"],
                 accel_mag_g = float(row["accel_mag_g"]),
                 ambient_temperature_c = float(row["ambient_temperature_c"]),
                 status = row["status"],
@@ -54,32 +54,32 @@ def update(request=None):
             print("ERROR: Duplicate timestamp, reading skipped")
 
 # CAUTION: Only run this if database is empty!!!
-def populate(request=None):
-    PATH = r"..\data-project-datasets-final\synthetic_outputs\livestock_tracking.csv"
+# def populate(request=None):
+#     PATH = r"..\data-project-datasets-final\synthetic_outputs\livestock_tracking.csv"
 
-    df = pd.read_csv(PATH)
-    df = df.dropna(how="any")
+#     df = pd.read_csv(PATH)
+#     df = df.dropna(how="any")
 
-    user, created = User.objects.get_or_create(
-        username = "admin",
-        defaults = {"is_staff": True, "is_superuser": True}
-    )
+#     user, created = User.objects.get_or_create(
+#         username = "admin",
+#         defaults = {"is_staff": True, "is_superuser": True}
+#     )
 
-    for x, row in df.iterrows():
-        animal, created = Livestock.objects.get_or_create(
-            site_id = row["site_id"],
-            defaults = {"user": user}
-        )
+#     for x, row in df.iterrows():
+#         animal, created = Livestock.objects.get_or_create(
+#             site_id = row["site_id"],
+#             defaults = {"user": user}
+#         )
 
-        Readings.objects.create(
-            livestock = animal,
-            timestamp = row["timestamp"],
-            geolocation = Point(float(row["longitude"]), float(row["latitude"])),
-            accel_mag_g = float(row["accel_mag_g"]),
-            ambient_temperature_c = float(row["ambient_temperature_c"]),
-            status = row["status"],
-            alert_triggered = int(row["alert_triggered"]),
-            alert_low_activity = int(row["alert_low_activity"]),
-            alert_geofence = int(row["alert_geofence"]),
-            alert_flee = int(row["alert_flee"]) 
-        ) 
+#         Readings.objects.create(
+#             livestock = animal,
+#             timestamp = row["timestamp"],
+#             geolocation = Point(float(row["longitude"]), float(row["latitude"])),
+#             accel_mag_g = float(row["accel_mag_g"]),
+#             ambient_temperature_c = float(row["ambient_temperature_c"]),
+#             status = row["status"],
+#             alert_triggered = int(row["alert_triggered"]),
+#             alert_low_activity = int(row["alert_low_activity"]),
+#             alert_geofence = int(row["alert_geofence"]),
+#             alert_flee = int(row["alert_flee"]) 
+#         ) 

@@ -1,9 +1,9 @@
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from monitoring.utils import update, populate
-from monitoring.models import User, Livestock, Readings
-from monitoring.serializers import UserSerializer, LivestockSerializer, ReadingsSerializer
+from monitoring.utils import update
+from monitoring.models import User, Livestock, Readings, Alerts
+from monitoring.serializers import UserSerializer, LivestockSerializer, ReadingsSerializer, AlertsSerializer
 
 
 # ViewSets define the view behavior.
@@ -40,6 +40,10 @@ class ReadingsViewSet(viewsets.ModelViewSet):
         if limit:
             queryset = queryset[:int(limit)]
         return queryset
+    
+class AlertsViewset(viewsets.ModelViewSet):
+    queryset = Alerts.objects.all()
+    serializer_class = AlertsSerializer
 
 @api_view(['GET'])
 def update_database(request):
@@ -52,13 +56,13 @@ def update_database(request):
     except Exception as e:
         return Response({"status": "Failure", "error": str(e)}, status=500)
     
-@api_view(['GET'])
-def populate_database(request):
-    try:
-        populate()
-        return Response({
-            "status": "Success",
-            "message": "Populating the database"
-        })
-    except Exception as e:
-        return Response({"status": "Failure", "error": str(e)}, status=500)
+# @api_view(['GET'])
+# def populate_database(request):
+#     try:
+#         populate()
+#         return Response({
+#             "status": "Success",
+#             "message": "Populating the database"
+#         })
+#     except Exception as e:
+#         return Response({"status": "Failure", "error": str(e)}, status=500)
