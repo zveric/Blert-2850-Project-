@@ -55,7 +55,7 @@ export default function AccelerationGraph() {
         padding: "20px",
         display: "inline-block",
         width: '100%',
-        height: isMobile ? "300px" : "40%",
+        height: isMobile ? "50vh" : "40%",
     }; 
 
   return (

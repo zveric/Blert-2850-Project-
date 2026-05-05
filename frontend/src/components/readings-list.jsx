@@ -56,7 +56,7 @@ function ReadingsList() {
         padding: "20px",
         display: "inline-block",
         width: '100%',
-        height: '1000px',
+        height: '60vh',
         overflow: "hidden",
     };
 
@@ -75,7 +75,7 @@ function ReadingsList() {
                     </select>
                 </div>
             </div>
-            <div className="table-wrapper" style={{ maxHeight: '800px', overflowY: 'auto' }}>
+            <div className="table-wrapper" style={{ maxHeight: '51vh', overflowY: 'auto' }}>
                 <table className="readings-table">
                     <thead>
                         <tr>

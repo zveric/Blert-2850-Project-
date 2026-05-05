@@ -14,7 +14,7 @@ function Dashboard() {
         display: 'flex',
         flexDirection: 'column',
         gap: '20px',
-        marginTop: isMobile ? "0 0px" : "0 50px",
+        marginTop: isMobile ? "0 0px" : "0 150px",
     };
 
     const mapAndAlertStyle = {
@@ -28,14 +28,14 @@ function Dashboard() {
         <section style={pageStyle} id="Dashboard">
             <div style={mapAndAlertStyle}>
                 <Map />
-                <div style={{width : "30%"}}>
+                <div style={{width: isMobile ? "100%" : "30%"}}>
                     <AlertBtn />
                     <a href="/analysis" target="_self" rel="noopener noreferrer">
                         <LineChart />
                     </a>
                 </div>
             </div>
-            <div style={{gap: "20px", padding: "0 50px",margin: isMobile ? "0 0px" : "0 150px",}}>
+            <div style={{margin: isMobile ? "0 0px" : "0 150px",}}>
                 <ReadingList/>
             </div>
             <div style={{padding: "0 50px"}}></div>
