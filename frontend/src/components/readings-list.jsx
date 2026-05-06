@@ -43,7 +43,7 @@ function ReadingsList() {
         padding: "20px",
         display: "inline-block",
         width: '100%',
-        height: '60vh',
+        height: '63vh',
         overflow: "hidden",
     };
 
@@ -52,17 +52,17 @@ function ReadingsList() {
         <div className="readings-container" style={cardStyle}>
             <div className="readings-header">
                 <h2>Readings List</h2>
-                <select value={livestock} onChange={(e) => setLivestock(e.target.value)}>
-                    <option value= "1">Herd A</option>
-                    <option value= "2">Herd B</option>
-                </select>
-                <div className="readings-info">
+                <div className="readings-info bs-border-color-light">
+                    <select value={livestock} onChange={(e) => setLivestock(e.target.value)}>
+                        <option value= "1">Cow Herd</option>
+                        <option value= "2">Goat Herd</option>
+                    </select>
                     <span>Show:</span>
                     {/*Input for number of readings (better than the old dropdown)*/}
                     <input  type="number"  min="1"  value={limit}  onChange={(e) => {
                         const v = Number(e.target.value);
                         if (Number.isInteger(v) && v >= 0) setLimit(v);
-                    }}  style={{ width: 80 }}/>
+                    }} className='form-control bs-border-color-light' style={{ width: 80 }}/>
 
                 </div>
 

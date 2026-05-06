@@ -26,7 +26,7 @@ function Dashboard() {
     };
 
     return (
-        <section style={pageStyle} id="Dashboard">
+        <section style={pageStyle}>
             <div style={mapAndAlertStyle}>
                 <Map />
                 <div style={{width: isMobile ? "100%" : "30%"}}>

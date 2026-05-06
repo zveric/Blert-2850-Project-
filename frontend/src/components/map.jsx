@@ -101,8 +101,10 @@ function HotlineLayer({readings, sliderValue}) {
 
 
 function Map() {
-    const [readingsA, setReadingsA] = useState([]);
-    const [readingsB, setReadingsB] = useState([]);
+    const [readingsA, setReadingsA] = useState(1);
+    const [readingsB, setReadingsB] = useState(1);
+    const [livestock, setLivestock] = useState(1)
+    const [timestamp, setTimestamp] = useState(null);
     const [sliderValue, setSliderValue] = useState(1);
     const { isMobile } = windowBreakpoints();
     const [showA, setShowA] = useState(true); 
@@ -123,17 +125,8 @@ function Map() {
             getReadings(MAX_WINDOW, 2)
         ]).then(([dataA, dataB]) => {
             if (dataA) setReadingsA(dataA)
+            if (dataA) setTimestamp(dataA[idxA].timestamp)
             if (dataB) setReadingsB(dataB)
-
-            // const idxA = Math.max(0, Math.min(sliderValue - 1, (dataA?.length || 1) - 1)) //Calculate the value of an index from the slider value. Never go beond the max number. And convert to 0 based array.
-            // if (dataA && [dataA[idxA].latitude,dataA[idxA].longitude]) {
-            //     setPositionA([dataA[idxA].latitude,dataA[idxA].longitude])  // flip for leaflet
-            // }
-
-            // const idxB = Math.max(0, Math.min(sliderValue - 1, (dataB?.length || 1) - 1))
-            // if (dataB && [dataB[idxB].latitude,dataB[idxB].longitude]) {
-            //     setPositionB([dataB[idxB].latitude,dataB[idxB].longitude])
-            // }
         }).catch(err => console.error("Error fetching readings:", err))
     }, [])
 
@@ -151,10 +144,17 @@ function Map() {
     const idxA = readingsA.length > 0? Math.max(0, Math.min(sliderValue - 1 , readingsA.length - 1)) : 0; 
     const idxB = readingsB.length > 0? Math.max(0, Math.min(sliderValue - 1 , readingsB.length - 1)) : 0; 
 
+    useEffect(() => {
+        const idxA = Math.max(0, Math.min(sliderValue - 1, readingsA.length - 1));
+        
+        if (readingsA[idxA]?.timestamp) {
+            setTimestamp(readingsA[idxA].timestamp);
+        }
+    }, [sliderValue, livestock, readingsA, readingsB]);
     
     const positionA = readingsA[idxA]?.latitude? [readingsA[idxA].latitude, readingsA[idxA].longitude] : null; 
 
-    const positionB = readingsB[idxB]?.latitude? [readingsB[idxA].latitude,readingsB[idxA].longitude] : null; 
+    const positionB = readingsB[idxB]?.latitude? [readingsB[idxB].latitude,readingsB[idxB].longitude] : null; 
 
     if (!positionA|| !positionB) return <p> Map is mapping out your livestock ...</p>;
 
@@ -163,13 +163,13 @@ function Map() {
 
     return (
         // From leaflet docs
-        <div className="gap-4" style={cardStyle}>
-            <MapContainer center={positionA} zoom={16} scrollWheelZoom={true} style={{ height: isMobile ? '85%' : '90%', width: '100%' }}>
+        <div className="readings-info bs-border-color-light gap-4" style={cardStyle}>
+            <MapContainer center={livestock === "1" ? positionA : positionB} zoom={16} scrollWheelZoom={true} style={{ height: isMobile ? '85%' : '90%', width: '100%' }}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <Recenter position={positionA} />
+                <Recenter position={livestock === "1" ? positionA : positionB} />
 
                 {showA && <HotlineLayer readings={readingsA} sliderValue={sliderValue} />}
                 {showB && <HotlineLayer readings={readingsB} sliderValue={sliderValue} />}
@@ -179,9 +179,10 @@ function Map() {
                 <Legend />
             </MapContainer>
             <div className='d-flex flex-row gap-4'>
-                <p>Day: placeholder </p>
-                <p>Month: placeholder </p>
-                <p>Year: placeholder </p>
+                <p>Day: {timestamp ? new Date(timestamp).getDate() : 'N/A'} </p>
+                <p>Month: {timestamp ? new Date(timestamp).getMonth() + 1 : 'N/A'} </p>
+                <p>Year: {timestamp ? new Date(timestamp).getFullYear() : 'N/A'} </p>
+                <p>Time: {timestamp ? new Date(timestamp).toLocaleTimeString() : 'N/A'} </p>
 
                 <button
                     onClick = {() => setShowA(!showA)}
@@ -217,11 +218,15 @@ function Map() {
                     max="50"
                     value={sliderValue}
                     onChange={(e) => setSliderValue(Number(e.target.value))}
-                    style={{width: '83%'}}
+                    style={{width: '75%'}}
                 />
-                <div style={{width: '17%', display: 'inline-block', textAlign: 'center'}}>
+                <div style={{width: '10%', display: 'inline-block', textAlign: 'center'}}>
                     <label>Time: {sliderValue}</label>
                 </div>
+                <select  value={livestock} onChange={(e) => setLivestock(e.target.value)}>
+                    <option value= {"1"}>Cow Herd</option>
+                    <option value= {"2"}>Goat Herd</option>
+                </select>
             </div>
         </div>
     )
