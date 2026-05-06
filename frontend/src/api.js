@@ -1,4 +1,4 @@
-export async function getReadings(limit = 10, livestock = null) {
+export async function getReadings(limit = 10, livestock = null, startDate = null, endDate = null)  {
     let url = `/api/readings/?limit=${limit}`
     
     if (livestock) {
