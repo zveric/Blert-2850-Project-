@@ -2,6 +2,8 @@ import {windowBreakpoints} from "../components/windowBreakpoints.js";
 import Navbar from '../components/navbar'
 import LineChart from "../components/Line-Chart.jsx";
 import AccelerationGraph from "../components/acceleration-graph.jsx";
+import ReportModal from '../components/ReportModal.jsx';
+import { useState, useRef } from 'react'
 
 
 function Analysis() {
