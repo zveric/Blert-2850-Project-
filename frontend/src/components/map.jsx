@@ -13,6 +13,7 @@ function Map() {
     const [positionA, setPositionA] = useState(null);
     const [positionB, setPositionB] = useState(null);
     const [livestock, setLivestock] = useState(1)
+    const [timestamp, setTimestamp] = useState(null);
     const [sliderValue, setSliderValue] = useState(1);
     const { isMobile } = windowBreakpoints();
 
@@ -32,6 +33,7 @@ function Map() {
             const idxA = Math.max(0, Math.min(sliderValue - 1, (dataA?.length || 1) - 1)) //Calculate the value of an index from the slider value. Never go beond the max number. And convert to 0 based array.
             if (dataA && [dataA[idxA].latitude,dataA[idxA].longitude]) {
                 setPositionA([dataA[idxA].latitude,dataA[idxA].longitude])  // flip for leaflet
+                setTimestamp(dataA[idxA].timestamp)
             }
 
             const idxB = Math.max(0, Math.min(sliderValue - 1, (dataB?.length || 1) - 1))
@@ -79,9 +81,9 @@ function Map() {
                 <Marker position={positionB} icon={customIcon('#00a2b7')}></Marker>
             </MapContainer>
             <div className='d-flex flex-row gap-4'>
-                <p>Day: {sliderValue} </p>
-                <p>Month: {sliderValue} </p>
-                <p>Year: {sliderValue} </p>
+                <p>Day: {timestamp ? new Date(timestamp).getDate() : 'N/A'} </p>
+                <p>Month: {timestamp ? new Date(timestamp).getMonth() + 1 : 'N/A'} </p>
+                <p>Year: {timestamp ? new Date(timestamp).getFullYear() : 'N/A'} </p>
             </div>
             <div>
                 <input
