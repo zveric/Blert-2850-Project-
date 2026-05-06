@@ -55,7 +55,7 @@ export default function LineChart() {
         padding: "20px",
         display: "inline-block",
         width: '100%',
-        height: isMobile ? "300px" : "40%",
+        height: isMobile ? "50vh" : "50%",
     }; 
 
   return (
@@ -80,7 +80,7 @@ export default function LineChart() {
         ],
       }}
       options={{
-          maintainAspectRatio: true,
+          maintainAspectRatio: false,
           plugins: {
             title: {
               display: true,

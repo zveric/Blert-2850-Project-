@@ -1,3 +1,4 @@
+import {windowBreakpoints} from "../components/windowBreakpoints.js";
 import Navbar from '../components/navbar'
 import LineChart from "../components/Line-Chart.jsx";
 import AccelerationGraph from "../components/acceleration-graph.jsx";
@@ -10,10 +11,20 @@ function Analysis() {
     const [showReport, setShowReport] = useState(false); 
     const tempChartRef = useRef(null); 
     const activityChartRef = useRef(null); 
+    const { isMobile } = windowBreakpoints();
+
+    const pageStyle = {
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px',
+        marginTop: isMobile ? "0 0px" : "0 50px",
+        margin: isMobile ? "0 0px" : "0 150px",
+    };
+
 
     return (
         <>
-            <main style={{ padding: '2rem' }}>
+            <main style={{pageStyle}}>
                 <div style  = {{display: 'flex', justifyContent: 'space-between', alignItem: 'center', marginBottom: '1.5rem'}}> 
                     <div>
                         <h1>Analysis</h1>
@@ -37,12 +48,12 @@ function Analysis() {
                     </button>
 
                 </div>
-                <div style={{width : "30%"}}>
+                <div style= {{width : isMobile ? "100%" : "30%", height: isMobile ? "50vh" : "80vh"}}>
                     <div ref = {tempChartRef}>
                         <LineChart />
                     </div>
                     <div ref = {activityChartRef}> 
-                        
+                        <AccelerationGraph />
                     </div>
                     
                 </div>
@@ -57,7 +68,6 @@ function Analysis() {
 
             </main>
         </>
-    )
-}
+)}
 
 export default Analysis
