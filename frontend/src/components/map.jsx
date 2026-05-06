@@ -1,11 +1,12 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { MapContainer, TileLayer, Marker, useMap } from 'react-leaflet'
 import { getReadings } from '../api'
 import { divIcon } from 'leaflet'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import 'leaflet/dist/leaflet.css'
 import { windowBreakpoints } from './windowBreakpoints';
-import L from 'leaflet' 
+import L from 'leaflet'; 
+import ReportModal from './ReportModal'
 
 
 function getColor(deviation) {
@@ -14,6 +15,18 @@ function getColor(deviation) {
     if (deviation < 0.4) return '#ff9800';
     return '#f44336'; 
 
+}
+
+// Update the centering of the map as the slider position changes.
+function Recenter({ position }) {
+    const map = useMap()
+    useEffect(() => {
+        if (position) {
+            // preserve current zoom
+            map.setView(position, map.getZoom())
+        }
+    }, [position, map])
+    return null
 }
 
 function Legend() {
@@ -67,18 +80,15 @@ function HotlineLayer({readings, sliderValue}) {
             const prev = visible[i -1]; 
             const curr = visible[i];
 
-            const prevCoords = prev.geolocation.coordinates;
-            const currCoords = curr.geolocation.coordinates;    
-
             const deviation = Math.abs((curr.accel_mag_g ?? 1) - 1.0); 
 
             const color = getColor(deviation); 
 
-            const segment =  L.polyline([[prevCoords[1], prevCoords[0]], [currCoords[1], currCoords[0]]], {color, weight: 4, opacity: 0.7}).addTo(map);
-            layers.push(segment); 
+            const segment = L.polyline([[prev.latitude, prev.longitude], [curr.latitude, curr.longitude]], { color, weight: 4, opacity: 0.7 }).addTo(map);
+            layers.push(segment);
         }
     } catch (err) {
-        console.error("Error creating hotline layer", err)
+        console.error("Error creating hotline layer", err)  
     }
 
         return() => layers.forEach(layer => map.removeLayer(layer)); 
@@ -97,6 +107,7 @@ function Map() {
     const { isMobile } = windowBreakpoints();
     const [showA, setShowA] = useState(true); 
     const [showB, setShowB] = useState(true); 
+    const mapRef = useRef(null); 
 
     const customIcon = (color) => divIcon({
         className: '',
@@ -111,52 +122,20 @@ function Map() {
             getReadings(MAX_WINDOW, 1),
             getReadings(MAX_WINDOW, 2)
         ]).then(([dataA, dataB]) => {
-<<<<<<< HEAD
-            //const idx = Math.max(0, Math.min(sliderValue - 1, (dataA?.length || 1) - 1)) //Calculate the value of an index from the slider value. Never go beond the max number. And convert to 0 based array.
+            if (dataA) setReadingsA(dataA)
+            if (dataB) setReadingsB(dataB)
 
-            if (dataA && Array.isArray(dataA)) setReadingsA(dataA);
-            if (dataB && Array.isArray(dataB)) setReadingsB(dataB);
-        }).catch(err => console.error ("Error fetcching readings:", err)); 
-           
-          
-        //    if (dataA && dataA[idx]) {
-        //         const coords = dataA[idx].geolocation.coordinates
-        //         setPositionA([coords[1], coords[0]])  // flip for leaflet
-        //     }
+            // const idxA = Math.max(0, Math.min(sliderValue - 1, (dataA?.length || 1) - 1)) //Calculate the value of an index from the slider value. Never go beond the max number. And convert to 0 based array.
+            // if (dataA && [dataA[idxA].latitude,dataA[idxA].longitude]) {
+            //     setPositionA([dataA[idxA].latitude,dataA[idxA].longitude])  // flip for leaflet
+            // }
 
-        //     const idxB = Math.max(0, Math.min(sliderValue - 1, (dataB?.length || 1) - 1))
-        //     if (dataB && dataB[idxB]) {
-        //         const coords = dataB[idxB].geolocation.coordinates
-        //         setPositionB([coords[1], coords[0]])
-        //     }
-            
-    }, []);
-
-=======
-            const idxA = Math.max(0, Math.min(sliderValue - 1, (dataA?.length || 1) - 1)) //Calculate the value of an index from the slider value. Never go beond the max number. And convert to 0 based array.
-            if (dataA && [dataA[idxA].latitude,dataA[idxA].longitude]) {
-                setPositionA([dataA[idxA].latitude,dataA[idxA].longitude])  // flip for leaflet
-            }
-
-            const idxB = Math.max(0, Math.min(sliderValue - 1, (dataB?.length || 1) - 1))
-            if (dataB && [dataB[idxB].latitude,dataB[idxB].longitude]) {
-                setPositionB([dataB[idxB].latitude,dataB[idxB].longitude])
-            }
+            // const idxB = Math.max(0, Math.min(sliderValue - 1, (dataB?.length || 1) - 1))
+            // if (dataB && [dataB[idxB].latitude,dataB[idxB].longitude]) {
+            //     setPositionB([dataB[idxB].latitude,dataB[idxB].longitude])
+            // }
         }).catch(err => console.error("Error fetching readings:", err))
-    }, [sliderValue])
->>>>>>> b54ae52ca25c44f15b93af0caadbed96d35e919b
-
-  // Update the centering of the map as the slider position changes.
-    function Recenter({ position }) {
-        const map = useMap()
-        useEffect(() => {
-            if (position) {
-                // preserve current zoom
-                map.setView(position, map.getZoom())
-            }
-        }, [position, map])
-        return null
-    }
+    }, [])
 
     // Class styles for the button
     const cardStyle = {
@@ -172,11 +151,15 @@ function Map() {
     const idxA = readingsA.length > 0? Math.max(0, Math.min(sliderValue - 1 , readingsA.length - 1)) : 0; 
     const idxB = readingsB.length > 0? Math.max(0, Math.min(sliderValue - 1 , readingsB.length - 1)) : 0; 
 
-    const positionA = readingsA[idxA] ? [readingsA[idxA].geolocation.coordinates[1], readingsA[idxA].geolocation.coordinates[0]] : null; 
-    const positionB = readingsB[idxB] ? [readingsB[idxB].geolocation.coordinates[1], readingsB[idxB].geolocation.coordinates[0]] : null;
     
+    const positionA = readingsA[idxA]?.latitude? [readingsA[idxA].latitude, readingsA[idxA].longitude] : null; 
+
+    const positionB = readingsB[idxB]?.latitude? [readingsB[idxA].latitude,readingsB[idxA].longitude] : null; 
+
     if (!positionA|| !positionB) return <p> Map is mapping out your livestock ...</p>;
 
+
+    
 
     return (
         // From leaflet docs
