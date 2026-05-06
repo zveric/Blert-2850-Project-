@@ -145,7 +145,7 @@ function Map() {
         padding: "20px",
         display: "inline-block",
         width: isMobile ? '100%' : '70%',
-        height: isMobile ? '50vh' : '80vh',
+        height: isMobile ? '50vh' : '100%',
     }; 
 
     const idxA = readingsA.length > 0? Math.max(0, Math.min(sliderValue - 1 , readingsA.length - 1)) : 0; 
