@@ -12,6 +12,7 @@ import { windowBreakpoints } from './windowBreakpoints';
 function Map() {
     const [positionA, setPositionA] = useState(null);
     const [positionB, setPositionB] = useState(null);
+    const [livestock, setLivestock] = useState(1)
     const [sliderValue, setSliderValue] = useState(1);
     const { isMobile } = windowBreakpoints();
 
@@ -67,20 +68,20 @@ function Map() {
 
     return (
         // From leaflet docs
-        <div className="gap-4" style={cardStyle}>
-            <MapContainer center={positionA} zoom={16} scrollWheelZoom={true} style={{ height: isMobile ? '85%' : '90%', width: '100%' }}>
+        <div className="readings-info bs-border-color-light gap-4" style={cardStyle}>
+            <MapContainer center={livestock === "1" ? positionA : positionB} zoom={16} scrollWheelZoom={true} style={{ height: isMobile ? '85%' : '90%', width: '100%' }}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <Recenter position={positionA} />
+                <Recenter position={livestock === "1" ? positionA : positionB} />
                 <Marker position={positionA} icon={customIcon('#2947cd')}></Marker>
                 <Marker position={positionB} icon={customIcon('#00a2b7')}></Marker>
             </MapContainer>
             <div className='d-flex flex-row gap-4'>
-                <p>Day: placeholder </p>
-                <p>Month: placeholder </p>
-                <p>Year: placeholder </p>
+                <p>Day: {sliderValue} </p>
+                <p>Month: {sliderValue} </p>
+                <p>Year: {sliderValue} </p>
             </div>
             <div>
                 <input
@@ -89,11 +90,15 @@ function Map() {
                     max="50"
                     value={sliderValue}
                     onChange={(e) => setSliderValue(Number(e.target.value))}
-                    style={{width: '83%'}}
+                    style={{width: '75%'}}
                 />
-                <div style={{width: '17%', display: 'inline-block', textAlign: 'center'}}>
+                <div style={{width: '10%', display: 'inline-block', textAlign: 'center'}}>
                     <label>Time: {sliderValue}</label>
                 </div>
+                <select  value={livestock} onChange={(e) => setLivestock(e.target.value)}>
+                    <option value= {"1"}>Cow Herd</option>
+                    <option value= {"2"}>Goat Herd</option>
+                </select>
             </div>
         </div>
     )
