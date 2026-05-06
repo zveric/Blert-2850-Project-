@@ -101,8 +101,8 @@ function HotlineLayer({readings, sliderValue}) {
 
 
 function Map() {
-    const [positionA, setPositionA] = useState(null);
-    const [positionB, setPositionB] = useState(null);
+    const [readingsA, setReadingsA] = useState(1);
+    const [readingsB, setReadingsB] = useState(1);
     const [livestock, setLivestock] = useState(1)
     const [timestamp, setTimestamp] = useState(null);
     const [sliderValue, setSliderValue] = useState(1);
@@ -144,10 +144,17 @@ function Map() {
     const idxA = readingsA.length > 0? Math.max(0, Math.min(sliderValue - 1 , readingsA.length - 1)) : 0; 
     const idxB = readingsB.length > 0? Math.max(0, Math.min(sliderValue - 1 , readingsB.length - 1)) : 0; 
 
+    useEffect(() => {
+        const idxA = Math.max(0, Math.min(sliderValue - 1, readingsA.length - 1));
+        
+        if (readingsA[idxA]?.timestamp) {
+            setTimestamp(readingsA[idxA].timestamp);
+        }
+    }, [sliderValue, livestock, readingsA, readingsB]);
     
     const positionA = readingsA[idxA]?.latitude? [readingsA[idxA].latitude, readingsA[idxA].longitude] : null; 
 
-    const positionB = readingsB[idxB]?.latitude? [readingsB[idxA].latitude,readingsB[idxA].longitude] : null; 
+    const positionB = readingsB[idxB]?.latitude? [readingsB[idxB].latitude,readingsB[idxB].longitude] : null; 
 
     if (!positionA|| !positionB) return <p> Map is mapping out your livestock ...</p>;
 
@@ -162,14 +169,47 @@ function Map() {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <Recenter position={positionA} />
-                <Marker position={positionA} icon={customIcon('#2947cd')}></Marker>
-                <Marker position={positionB} icon={customIcon('#00a2b7')}></Marker>
+                <Recenter position={livestock === "1" ? positionA : positionB} />
+
+                {showA && <HotlineLayer readings={readingsA} sliderValue={sliderValue} />}
+                {showB && <HotlineLayer readings={readingsB} sliderValue={sliderValue} />}
+
+                {showA && positionA && <Marker position={positionA} icon={customIcon('#2947cd')}></Marker>}
+                {showB && positionB && <Marker position={positionB} icon={customIcon('#00a2b7')}></Marker>}
+                <Legend />
             </MapContainer>
             <div className='d-flex flex-row gap-4'>
-                <p>Day: placeholder </p>
-                <p>Month: placeholder </p>
-                <p>Year: placeholder </p>
+                <p>Day: {timestamp ? new Date(timestamp).getDate() : 'N/A'} </p>
+                <p>Month: {timestamp ? new Date(timestamp).getMonth() + 1 : 'N/A'} </p>
+                <p>Year: {timestamp ? new Date(timestamp).getFullYear() : 'N/A'} </p>
+                <p>Time: {timestamp ? new Date(timestamp).toLocaleTimeString() : 'N/A'} </p>
+
+                <button
+                    onClick = {() => setShowA(!showA)}
+                    style = {{
+                        padding: '5px 10px',
+                        background: showA? ' #2947cd' : '#ccc',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        fontSize: '10px',
+                        cursor: 'pointer', }}
+                        >
+                            Animal A
+                </button>
+                <button
+                    onClick = {() => setShowB(!showB)}
+                    style = {{
+                        padding: '5px 10px',
+                        background: showB? ' #2947cd' : '#ccc',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '4px',
+                        fontSize: '10px',
+                        cursor: 'pointer', }}
+                        >
+                            Animal B
+                </button>
             </div>
             <div>
                 <input
