@@ -7,7 +7,7 @@ const livestock_id = [1,2]
 const readings_limit = 10 
 
 
-export default function AlertSystem() {
+export default function AlertSystem( {manualTrigger, onManualClose}) {
 
     const [smsModal, setSmsModal] = useState(null)
     const[phoneNumber, setPhoneNumber] = useState("")
@@ -20,6 +20,19 @@ export default function AlertSystem() {
 
     const triggeredSMS = useRef(new Set()) 
     const triggeredAlert = useRef(new Set())
+
+
+    useEffect(() => {
+        if(manualTrigger) {
+            setSmsModal({ latitude: -32.778657, longitude: 26.836552, livestockId: "2"})
+            setSmsMessage(
+                `MANUAL ALERT: Livestock activity requires attention.\n` +
+                `Location: Lat -32.778657, Lng 26.836552\n` +
+                `Time: ${new Date().toLocaleString()}`
+            )
+            onManualClose()
+        }
+    }, [manualTrigger])
 
 
     useEffect(() => { 
@@ -43,7 +56,7 @@ export default function AlertSystem() {
 
                                 const isFlee = alertData.alert_flee  === 1
                                 const isGeofence = alertData.alert_geofence === 1
-                                const isTriggered = alertData.alert_triggered === 1
+                                //const isTriggered = alertData.alert_triggered === 1
 
                                 if ((isFlee || isGeofence) && !triggeredAlert.current.has(reading.id)){
                                     triggeredAlert.current.add(reading.id)
@@ -58,22 +71,22 @@ export default function AlertSystem() {
                                     })
                                 } 
 
-                                if (isTriggered && !triggeredSMS.current.has(reading.id)) {
-                                    triggeredSMS.current.add(reading.id)
+                                // if (isTriggered && !triggeredSMS.current.has(reading.id)) {
+                                //     triggeredSMS.current.add(reading.id)
 
-                                    setSmsModal( prev => prev ?? {
-                                        latitude: reading.latitude, 
-                                        longitude: reading.longitude, 
-                                        livestockId: id, 
+                                //     setSmsModal( prev => prev ?? {
+                                //         latitude: reading.latitude, 
+                                //         longitude: reading.longitude, 
+                                //         livestockId: id, 
 
-                                    })
+                                //     })
 
-                                    setSmsMessage (
-                                        `ALERT: Livestock ${id} has triggered an alert. \n ` +
-                                        `Location: Latitude: ${reading.latitude}, Longitude: ${reading.longitude} \n `+
-                                        `Time: ${new Date(reading.timestamp).toLocaleString()}`
-                                    )
-                                }
+                                //     setSmsMessage (
+                                //         `ALERT: Livestock ${id} has triggered an alert. \n ` +
+                                //         `Location: Latitude: ${reading.latitude}, Longitude: ${reading.longitude} \n `+
+                                //         `Time: ${new Date(reading.timestamp).toLocaleString()}`
+                                //     )
+                                // }
 
                             } catch (e) {
                                 console.error("Failed to fetch alert details:", e)

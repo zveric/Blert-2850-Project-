@@ -5,6 +5,7 @@ import AlertBtn from "../components/alert-btn.jsx";
 import LineChart from "../components/Line-Chart.jsx";
 import ReadingList from "../components/readings-list.jsx";
 import AlertSystem from "../components/AlertSystem.jsx";
+import AlertLog from "../components/alert-logs.jsx";
 
 function Dashboard() {
     const [count, setCount] = useState(0)
@@ -26,13 +27,15 @@ function Dashboard() {
         height: isMobile ? "100%" : "95vh",
     };
 
+    const [manualTrigger, setManualTrigger] = useState(false)
+
     return (
         <section style={pageStyle}>
-            <AlertSystem/>
+            <AlertSystem manualTrigger= {manualTrigger} onManualClose={() => setManualTrigger(false)}/>
             <div style={mapAndAlertStyle}>
                 <Map />
                 <div style={{width: isMobile ? "100%" : "30%"}}>
-                    <AlertBtn />
+                    <AlertBtn onTrigger = {() => setManualTrigger(true)} />
                     <a href="/analysis" target="_self" rel="noopener noreferrer">
                         <LineChart />
                     </a>

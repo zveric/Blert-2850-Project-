@@ -76,6 +76,7 @@ def manual_sms(request):
         response = send_sms(phone_number, message)
         return Response({'status': 'SMS sent', 'response': str(response)})
     except Exception as e: 
+        print(f"SMS Error: {e}")
         return Response ({'error': str(e)}, status = 500 )
     
 
