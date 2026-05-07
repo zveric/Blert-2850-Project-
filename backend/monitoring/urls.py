@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework import routers
-from monitoring.views import UserViewSet, LivestockViewSet, ReadingsViewSet, AlertsViewset
+from monitoring.views import UserViewSet, LivestockViewSet, ReadingsViewSet, AlertsViewset, manual_sms
 from monitoring.utils import update
 
 # Routers 
@@ -14,5 +14,7 @@ router.register(r"alerts", AlertsViewset, basename="alerts")
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("update-database", update, name="update_database")
+    path("update-database", update, name="update_database"),
+    path("sms/send/", manual_sms, name = "manual_sms"),
 ]
+

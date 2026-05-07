@@ -4,7 +4,8 @@ from rest_framework.response import Response
 from monitoring.utils import update
 from monitoring.models import User, Livestock, Readings, Alerts
 from monitoring.serializers import UserSerializer, LivestockSerializer, ReadingsSerializer, AlertsSerializer
-
+from monitoring.services import send_sms 
+from rest_framework.decorators import api_view 
 
 # ViewSets define the view behavior.
 class UserViewSet(viewsets.ModelViewSet):
@@ -61,6 +62,24 @@ def update_database(request):
     except Exception as e:
         return Response({"status": "Failure", "error": str(e)}, status=500)
     
+
+@api_view(['POST'])
+def manual_sms(request):
+
+    phone_number = request.data.get('phone_number')
+    message = request.data.get('message')
+
+    if not phone_number or not message: 
+        return Response ({'error': 'phone_number and message are required'}, status = 400)
+    
+    try: 
+        response = send_sms(phone_number, message)
+        return Response({'status': 'SMS sent', 'response': str(response)})
+    except Exception as e: 
+        return Response ({'error': str(e)}, status = 500 )
+    
+
+
 # @api_view(['GET'])
 # def populate_database(request):
 #     try:
