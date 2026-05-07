@@ -10,15 +10,18 @@ django.setup()
 from monitoring.models import User, Livestock, Readings, Alerts
 
 def populate():
-    PATH = r"data-project-datasets-final/synthetic_outputs/livestock_tracking.csv"
+    PATH = "data-project-datasets-final/synthetic_outputs/livestock_tracking.csv"
 
     df = pd.read_csv(PATH)
     df = df.dropna(how="any")
 
     user, created = User.objects.get_or_create(
-        username = "admin",
+        username = "LeBron",
         defaults = {"is_staff": True, "is_superuser": True}
     )
+    if created:
+        user.set_password("MOO@blert")
+        user.save()
 
     with transaction.atomic():
         for x, row in df.iterrows():
