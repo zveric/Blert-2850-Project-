@@ -11,3 +11,4 @@ pytest==7.4.3
 pytest-django==4.7.0
 pandas
 factory-boy
+africastalking==2.0.2

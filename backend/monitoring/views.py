@@ -14,6 +14,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+
 class LivestockViewSet(viewsets.ModelViewSet):
     queryset = Livestock.objects.all()
     serializer_class = LivestockSerializer
