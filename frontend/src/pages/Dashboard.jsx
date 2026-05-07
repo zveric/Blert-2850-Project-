@@ -4,6 +4,7 @@ import Map from "../components/map.jsx";
 import AlertBtn from "../components/alert-btn.jsx";
 import LineChart from "../components/Line-Chart.jsx";
 import ReadingList from "../components/readings-list.jsx";
+import AlertSystem from "../components/AlertSystem.jsx";
 
 function Dashboard() {
     const [count, setCount] = useState(0)
@@ -27,6 +28,7 @@ function Dashboard() {
 
     return (
         <section style={pageStyle}>
+            <AlertSystem/>
             <div style={mapAndAlertStyle}>
                 <Map />
                 <div style={{width: isMobile ? "100%" : "30%"}}>
