@@ -73,7 +73,7 @@ function Analysis() {
                         />
                     </div>
 
-                    {/* Right — generate report */}
+                    
                     <button
                         onClick={() => setShowReport(true)}
                         onMouseEnter={e => {
@@ -124,15 +124,24 @@ function Analysis() {
                             />
                         </div>
                         <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "30vh" }}>
-                            <AlertBreakdown />
+                            <AlertBreakdown
+                                startDate = {appliedStart}
+                                endDate = {appliedEnd}                            
+                            />
                         </div>
                     </div>
                     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', gap: '20px', flex: 1 }}>
                         <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "55vh" }}>
-                            <GrazingHeatmap />
+                            <GrazingHeatmap 
+                                startDate = {appliedStart}
+                                endDate = {appliedEnd}                             
+                            />
                         </div>
                         <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "35vh" }}>
-                            <ActivityPattern />
+                            <ActivityPattern
+                                startDate = {appliedStart}
+                                endDate = {appliedEnd} 
+                            />
                         </div>
                     </div>
                 </div>

@@ -22,11 +22,19 @@ export function getToken() {
     return localStorage.getItem('token')
 }
 
-export async function getReadings(limit = 10, livestock = null) {
+export async function getReadings(limit = 10, livestock = null, startDate = null, endDate = null) {
     let url = `/api/readings/?limit=${limit}`
 
     if (livestock) {
         url += `&livestock=${livestock}`
+    }
+
+    if (startDate) {
+        url +=`&start_time = ${startDate.toISOString()}`
+    }
+
+    if (endDate) {
+        url +=`&start_time = ${startDate.toISOString()}`
     }
 
     const res = await fetch(url, {

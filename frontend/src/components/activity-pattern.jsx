@@ -6,13 +6,13 @@ import { windowBreakpoints } from './windowBreakpoints';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-export default function ActivityPattern() {
+export default function ActivityPattern({startDate, endDate}) {
     const [hourlyA, setHourlyA] = useState(new Array(24).fill(0));
     const [hourlyB, setHourlyB] = useState(new Array(24).fill(0));
     const { isMobile } = windowBreakpoints();
 
     useEffect(() => {
-        getReadings(500, 1).then(data => {
+        getReadings(500, 1,startDate, endDate).then(data => {
             console.log(data)
             const buckets = new Array(24).fill(0)
             const counts = new Array(24).fill(0)
@@ -25,7 +25,7 @@ export default function ActivityPattern() {
             setHourlyA(buckets.map((sum, i) => counts[i] ? +(sum / counts[i]).toFixed(3) : 0))
         })
 
-        getReadings(500, 2).then(data => {
+        getReadings(500, 2, startDate, endDate).then(data => {
             console.log(data)
             const buckets = new Array(24).fill(0)
             const counts = new Array(24).fill(0)

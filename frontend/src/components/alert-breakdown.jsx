@@ -6,13 +6,13 @@ import { windowBreakpoints } from './windowBreakpoints';
 
 ChartJS.register(LinearScale, PointElement, Tooltip, Legend, Title);
 
-export default function TempVsActivity() {
+export default function TempVsActivity({startDate, endDate}) {
     const [pointsA, setPointsA] = useState([]);
     const [pointsB, setPointsB] = useState([]);
     const { isMobile } = windowBreakpoints();
 
     useEffect(() => {
-        getReadings(200, 1).then(data => {
+        getReadings(200, 1, startDate, endDate).then(data => {
             console.log(data)
             const points = data
                 .filter(r => r.ambient_temperature_c != null && r.accel_mag_g != null)
@@ -20,14 +20,14 @@ export default function TempVsActivity() {
             setPointsA(points)
         })
 
-        getReadings(200, 2).then(data => {
+        getReadings(200, 2,startDate, endDate).then(data => {
             console.log(data)
             const points = data
                 .filter(r => r.ambient_temperature_c != null && r.accel_mag_g != null)
                 .map(r => ({ x: r.ambient_temperature_c, y: r.accel_mag_g }))
             setPointsB(points)
         })
-    }, [])
+    }, [startDate,endDate])
 
     return (
         <div style={{height: "100%"}}>
