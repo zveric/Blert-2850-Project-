@@ -120,5 +120,3 @@ function GrazingHeatmap() {
 }
 
 export default GrazingHeatmap
-
-// Generated nearly the entire file with Ai using Claude Sonnet 4.6

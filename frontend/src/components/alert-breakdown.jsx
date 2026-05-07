@@ -71,5 +71,3 @@ export default function TempVsActivity() {
         </div>
     )
 }
-
-// Generated nearly the entire file with Ai using Claude Sonnet 4.6

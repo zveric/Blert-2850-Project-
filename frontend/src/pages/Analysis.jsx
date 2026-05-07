@@ -1,25 +1,39 @@
-import {windowBreakpoints} from "../components/windowBreakpoints.js";
-import Navbar from '../components/navbar'
+import { windowBreakpoints } from "../components/windowBreakpoints.js";
+import Navbar from '../components/navbar';
 import LineChart from "../components/Line-Chart.jsx";
 import AccelerationGraph from "../components/acceleration-graph.jsx";
-import GrazingHeatmap from '../components/grazing-heatmap'
+import GrazingHeatmap from '../components/grazing-heatmap';
 import ReportModal from '../components/ReportModal.jsx';
-import AlertBreakdown from '../components/alert-breakdown.jsx'
-import ActivityPattern from '../components/activity-pattern.jsx'
-import { useState, useRef } from 'react'
+import AlertBreakdown from '../components/alert-breakdown.jsx';
+import ActivityPattern from '../components/activity-pattern.jsx';
+import DateRangeSelector from '../components/date-range-selector.jsx';
+import { useState, useRef } from 'react';
 
 function Analysis() {
+    const [showReport, setShowReport] = useState(false);
+    const [startDate, setStartDate]   = useState(null);
+    const [endDate, setEndDate]       = useState(null);
+    const [appliedStart, setAppliedStart] = useState(null);
+    const [appliedEnd, setAppliedEnd]     = useState(null);
 
-    const [showReport, setShowReport] = useState(false); 
-    const tempChartRef = useRef(null); 
-    const activityChartRef = useRef(null); 
-    const { isMobile } = windowBreakpoints();
+    const tempChartRef     = useRef(null);
+    const activityChartRef = useRef(null);
+    const { isMobile }     = windowBreakpoints();
+
+    const handleDateChange = ({ startDate, endDate }) => {
+        setStartDate(startDate);
+        setEndDate(endDate);
+    };
+
+    const handleApply = () => {
+        setAppliedStart(startDate);
+        setAppliedEnd(endDate);
+    };
 
     const pageStyle = {
         display: 'flex',
         flexDirection: 'column',
         gap: '20px',
-        marginTop: isMobile ? "0 0px" : "0 50px",
         margin: isMobile ? "0 0px" : "0 150px",
         height: "100vh",
     };
@@ -31,75 +45,108 @@ function Analysis() {
         padding: "20px",
         display: "inline-block",
         width: '100%',
-    }; 
-
-    const buttonStyle = {
-        width: "75px",
-        height: "75px",
-        borderRadius: "50%",
-        backgroundColor: "#e53935",
-        border: "none",
-        cursor: "pointer",
-        flexShrink: 0,
-        fontSize: "15px",
-        boxShadow: "0 4px 12px rgba(229,57,53,0.5)",
-        transform: "scale(1)",
-        transition: "transform 0.1s, box-shadow 0.1s, background-color 0.1s ease-in-out",
     };
 
     return (
         <>
             <main style={pageStyle}>
-                <div style = {{display: 'flex', justifyContent: 'space-between', alignItem: 'center', marginBottom: '1.5rem'}}> 
-                    <div>
-                        <h1>Analysis</h1>
-                        <p>This is the analysis page.</p>
+
+                <div style={{
+                    ...cardStyle,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap',
+                    gap: '12px',
+                    padding: '14px 20px',
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                        <span style={{ fontWeight: 600, fontSize: '0.9rem', color: '#444', whiteSpace: 'nowrap' }}>
+                            Filter charts:
+                        </span>
+                        <DateRangeSelector
+                            startDate={startDate}
+                            endDate={endDate}
+                            onChange={handleDateChange}
+                            onApply={handleApply}
+                            showApply={true}
+                        />
                     </div>
 
+                    {/* Right — generate report */}
                     <button
-                        onClick = {() => setShowReport(true)} 
-                        style = {buttonStyle}
+                        onClick={() => setShowReport(true)}
+                        onMouseEnter={e => {
+                            e.currentTarget.style.backgroundColor = '#c62828';
+                            e.currentTarget.style.boxShadow = '0 6px 18px rgba(229,57,53,0.45)';
+                            e.currentTarget.style.transform = 'translateY(-1px)';
+                        }}
+                        onMouseLeave={e => {
+                            e.currentTarget.style.backgroundColor = '#e53935';
+                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(229,57,53,0.3)';
+                            e.currentTarget.style.transform = 'translateY(0)';
+                        }}
+                        style={{
+                            padding: '9px 20px',
+                            borderRadius: '10px',
+                            backgroundColor: '#e53935',
+                            color: '#fff',
+                            border: 'none',
+                            cursor: 'pointer',
+                            fontSize: '0.9rem',
+                            fontWeight: 600,
+                            whiteSpace: 'nowrap',
+                            boxShadow: '0 4px 12px rgba(229,57,53,0.3)',
+                            transition: 'background-color 0.15s, box-shadow 0.15s, transform 0.15s',
+                            flexShrink: 0,
+                        }}
+                        title="Generate A Report"
+                        aria-label="Generate A Report"
                     >
-                        Generate A Report
+                        Generate Report
                     </button>
-
                 </div>
 
-                <div style = {{display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: '20px', alignItems: 'flex-start'}}>
-
-                    <div style = {{height: '100%', display: 'flex', flexDirection: 'column', gap: '20px', flex: 1}}>
-                        <div style = {{...cardStyle,width: isMobile ? "100vw" : "100%", height: isMobile ? "50vh" : "30vh"}} ref = {tempChartRef}>
-                            <LineChart />
+                <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: '20px', alignItems: 'flex-start' }}>
+                    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', gap: '20px', flex: 1 }}>
+                        <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "30vh" }} ref={tempChartRef}>
+                            <LineChart
+                                startDate={appliedStart}
+                                endDate={appliedEnd}
+                                hidePickers={true}
+                            />
                         </div>
-                        <div style = {{...cardStyle,width: isMobile ? "100vw" : "100%", height: isMobile ? "50vh" : "30vh"}} ref = {activityChartRef}> 
-                            <AccelerationGraph />
+                        <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "30vh" }} ref={activityChartRef}>
+                            <AccelerationGraph
+                                startDate={appliedStart}
+                                endDate={appliedEnd}
+                                hidePickers={true}
+                            />
                         </div>
-                        <div style = {{...cardStyle,width: isMobile ? "100vw" : "100%", height: isMobile ? "50vh" : "30vh"}}>
+                        <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "30vh" }}>
                             <AlertBreakdown />
                         </div>
                     </div>
-
-                    <div style = {{height: '100%', display: 'flex', flexDirection: 'column', gap: '20px', flex: 1}}>
-                        <div style = {{...cardStyle,width: isMobile ? "100vw" : "100%", height: isMobile ? "50vh" : "55vh"}}>
+                    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', gap: '20px', flex: 1 }}>
+                        <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "55vh" }}>
                             <GrazingHeatmap />
                         </div>
-                        <div style = {{...cardStyle,width: isMobile ? "100vw" : "100%", height: isMobile ? "50vh" : "35vh"}}>
+                        <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "35vh" }}>
                             <ActivityPattern />
                         </div>
                     </div>
-
                 </div>
 
                 {showReport && (
-                    <ReportModal 
+                    <ReportModal
                         onClose={() => setShowReport(false)}
-                        tempChartRef= {tempChartRef}
+                        tempChartRef={tempChartRef}
                         activityChartRef={activityChartRef}
-                        /> 
+                    />
                 )}
-
             </main>
         </>
-)}
+    );
+}
 
-export default Analysis
+export default Analysis;
