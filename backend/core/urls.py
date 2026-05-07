@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from monitoring.views import update_database
+from monitoring.views import update_database, register
 from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [

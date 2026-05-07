@@ -3,10 +3,10 @@ import Navbar from './components/navbar'
 import Dashboard from './pages/Dashboard'
 import Analysis from './pages/Analysis'
 import Login from './pages/Login'
+import Register from './pages/Register'
 import { getToken } from './api'
 import './App.css'
  
-// if there is no token redirect to login
 function PrivateRoute({ children }) {
     if (!getToken()) {
         return <Navigate to="/login" replace />
@@ -17,6 +17,7 @@ function PrivateRoute({ children }) {
 function App() {
     return (
         <Routes>
+            <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Navigate to="/dashboard" replace />} />
             <Route path="/dashboard" element={
