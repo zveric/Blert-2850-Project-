@@ -68,3 +68,10 @@ class TestModels(TestCase):
         self.assertIsNotNone(readings.longitude)
         self.assertGreaterEqual(readings.accel_mag_g, 0)
         self.assertGreaterEqual(readings.ambient_temperature_c, 0)
+
+    def test_alerts_creation(self):
+        alerts = AlertsFactory()
+        self.assertIn(alerts.alert_triggered, [0, 1])
+        self.assertIn(alerts.alert_low_activity, [0, 1])
+        self.assertIn(alerts.alert_geofence, [0, 1])
+        self.assertIn(alerts.alert_flee, [0, 1])
