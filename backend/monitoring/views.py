@@ -6,8 +6,8 @@ from monitoring.utils import update
 from monitoring.models import User, Livestock, Readings, Alerts
 from monitoring.serializers import UserSerializer, LivestockSerializer, ReadingsSerializer, AlertsSerializer
 from monitoring.services import send_sms 
-from rest_framework.decorators import api_view 
-from rest_framework.permissions import *
+from rest_framework.decorators import api_view, permission_classes 
+from rest_framework.permissions import AllowAny
 
 # ViewSets define the view behavior.
 class UserViewSet(viewsets.ModelViewSet):
