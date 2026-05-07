@@ -1,21 +1,21 @@
- import { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { login } from '../api'
+import { register } from '../api'
 import logoImage from '../assets/logo.jpeg'
 
-function Login() {
+function Register() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState(null)
 
     const navigate = useNavigate()
 
-    const handleLogin = () => {
-        login(username, password).then(success => {
+    const handleRegister = () => {
+        register(username, password).then(success => {
             if (success) {
-                navigate('/dashboard')
+                navigate('/login')
             } else {
-                setError('Invalid username or password')
+                setError('Username already exists')
             }
         })
     }
@@ -25,8 +25,8 @@ function Login() {
             <div className="row justify-content-center">
                 <div className="col-md-4">
 
-                    <img src={logoImage} alt="Blert Logo" className="rounded mb-2" />
-                    <h2>Blert Login</h2>
+                    <img src={logoImage} alt="Blert Logo" className="rounded-circle mb-2" width="60" />
+                    <h2>Blert Register</h2>
 
                     {error && <p style={{ color: 'red' }}>{error}</p>}
 
@@ -40,13 +40,12 @@ function Login() {
                         <input type="password" className="form-control" value={password} onChange={e => setPassword(e.target.value)} />
                     </div>
 
-                    <button className="btn btn-dark" onClick={handleLogin}>Login</button>
-                    <p className="mt-3">Don't have an account? <a href="/register">Register</a></p>
-                    
+                    <button className="btn btn-dark" onClick={handleRegister}>Register</button>
+
                 </div>
             </div>
         </div>
     )
 }
 
-export default Login
+export default Register
