@@ -47,7 +47,7 @@ function HeatLayer({readings, mode}) {
 }
 
 
-function GrazingHeatmap() {
+function GrazingHeatmap({startDate, endDate}) {
     const [readingsA, setReadingsA] = useState([]);
     const [readingsB, setReadingsB] = useState([]);
     const [showA, setShowA] = useState(true);
@@ -56,16 +56,16 @@ function GrazingHeatmap() {
     const { isMobile } = windowBreakpoints();
 
     useEffect(() => {
-        getReadings(500, 1).then(data => {
+        getReadings(500, 1, startDate, endDate).then(data => {
             console.log(data)
             setReadingsA(data)
         })
 
-        getReadings(500, 2).then(data => {
+        getReadings(500, 2, startDate, endDate).then(data => {
             console.log(data)
             setReadingsB(data)
         });
-    }, [])
+    }, [startDate, endDate])
 
     if (!readingsA || !readingsB) return <p>loading heatmap...</p>
 

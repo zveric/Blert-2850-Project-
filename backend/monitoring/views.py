@@ -1,3 +1,4 @@
+# Gemini was used to research documentation for query_params, api_view
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -5,12 +6,14 @@ from monitoring.utils import update
 from monitoring.models import User, Livestock, Readings, Alerts
 from monitoring.serializers import UserSerializer, LivestockSerializer, ReadingsSerializer, AlertsSerializer
 from monitoring.services import send_sms 
-from rest_framework.decorators import api_view 
+from rest_framework.decorators import api_view, permission_classes 
+from rest_framework.permissions import AllowAny
 
 # ViewSets define the view behavior.
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
 
 class LivestockViewSet(viewsets.ModelViewSet):
     queryset = Livestock.objects.all()
@@ -51,14 +54,12 @@ class AlertsViewset(viewsets.ModelViewSet):
     queryset = Alerts.objects.all()
     serializer_class = AlertsSerializer
 
+
 @api_view(['GET'])
 def update_database(request):
     try:
         update()
-        return Response({
-            "status": "Success",
-            "message": "Checking if the readings are unique"
-        })
+        return Response({"status": "Success", "message": "Updated"})
     except Exception as e:
         return Response({"status": "Failure", "error": str(e)}, status=500)
     
@@ -78,16 +79,16 @@ def manual_sms(request):
     except Exception as e: 
         print(f"SMS Error: {e}")
         return Response ({'error': str(e)}, status = 500 )
-    
 
+# Used Gemini to understand the documentation for permission classes 
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def register(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
 
-# @api_view(['GET'])
-# def populate_database(request):
-#     try:
-#         populate()
-#         return Response({
-#             "status": "Success",
-#             "message": "Populating the database"
-#         })
-#     except Exception as e:
-#         return Response({"status": "Failure", "error": str(e)}, status=500)
+    if User.objects.filter(username=username).exists():
+        return Response({'error': 'Username already exists'}, status=400)
+
+    User.objects.create_user(username=username, password=password)
+    return Response({'message': 'User created'}, status=201)

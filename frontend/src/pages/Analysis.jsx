@@ -114,15 +114,24 @@ function Analysis() {
                             />
                         </div>
                         <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "30vh", minHeight: "300px" }}>
-                            <AlertBreakdown />
+                            <AlertBreakdown
+                                startDate = {appliedStart}
+                                endDate = {appliedEnd}                            
+                            />
                         </div>
                     </div>
                     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', gap: '20px', flex: 1 }}>
                         <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "55vh", minHeight: "300px" }}>
-                            <GrazingHeatmap />
+                            <GrazingHeatmap 
+                                startDate = {appliedStart}
+                                endDate = {appliedEnd}                             
+                            />
                         </div>
                         <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "35vh", minHeight: "300px" }}>
-                            <ActivityPattern />
+                            <ActivityPattern
+                                startDate = {appliedStart}
+                                endDate = {appliedEnd} 
+                            />
                         </div>
                     </div>
                 </div>
