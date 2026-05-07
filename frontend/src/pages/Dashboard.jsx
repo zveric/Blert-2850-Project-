@@ -27,6 +27,17 @@ function Dashboard() {
         height: isMobile ? "100%" : "95vh",
     };
 
+    
+    const cardStyle = {
+        background: "#fff",
+        borderRadius: "16px",
+        boxShadow: "0 4px 16px rgba(0,0,0,0.10)",
+        padding: "20px",
+        display: "inline-block",
+        width: '100%',
+        height: isMobile ? "50vh" : "50%",
+    }; 
+
     const [manualTrigger, setManualTrigger] = useState(false)
 
     return (
@@ -34,9 +45,11 @@ function Dashboard() {
             <AlertSystem manualTrigger= {manualTrigger} onManualClose={() => setManualTrigger(false)}/>
             <div style={mapAndAlertStyle}>
                 <Map />
-                <div style={{width: isMobile ? "100%" : "30%"}}>
-                    <AlertBtn onTrigger = {() => setManualTrigger(true)} />
-                    <a href="/analysis" target="_self" rel="noopener noreferrer">
+                <div style={{ width: isMobile ? "100%" : "30%", gap: "20px", display: 'flex', flexDirection: 'column' }}>
+                    <div style={cardStyle}>
+                        <AlertBtn onTrigger = {() => setManualTrigger(true)} />
+                    </div>
+                    <a style={cardStyle} href="/analysis" target="_self" rel="noopener noreferrer">
                         <LineChart />
                     </a>
                 </div>
