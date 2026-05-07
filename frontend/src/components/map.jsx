@@ -158,7 +158,7 @@ function Map() {
 
     return (
         <div className="readings-info bs-border-color-light gap-4" style={cardStyle}>
-            <MapContainer center={livestock === "1" ? positionA : positionB} zoom={16} scrollWheelZoom={true} style={{ height: isMobile ? '75%' : '82%', width: '100%' }}>
+            <MapContainer center={livestock === "1" ? positionA : positionB} zoom={16} scrollWheelZoom={true} style={{ height: isMobile ? '75%' : '90%', width: '100%' }}>
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -172,40 +172,41 @@ function Map() {
                 {showB && positionB && <Marker position={positionB} icon={customIcon('#00a2b7')}></Marker>}
                 <Legend />
             </MapContainer>
-
-            <div className='d-flex flex-row gap-4' style={{fontSize: '12px', color: '#555', marginTop: '6px'}}>
-                <p style={{margin: 0}}>Day: {timestamp ? new Date(timestamp).getDate() : 'N/A'} </p>
-                <p style={{margin: 0}}>Month: {timestamp ? new Date(timestamp).getMonth() + 1 : 'N/A'} </p>
-                <p style={{margin: 0}}>Year: {timestamp ? new Date(timestamp).getFullYear() : 'N/A'} </p>
-                <p style={{margin: 0}}>Time: {timestamp ? new Date(timestamp).toLocaleTimeString() : 'N/A'} </p>
-            </div>
-
-            <div className='d-flex flex-row align-items-center gap-3' style={{marginTop: '8px', flexWrap: 'wrap'}}>
-
-                <input
-                    type="range"
-                    min="1"
-                    max="50"
-                    value={sliderValue}
-                    onChange={(e) => setSliderValue(Number(e.target.value))}
-                    style={{flex: 1, minWidth: '100px'}}
-                />
-                <label style={{fontSize: '11px', color: '#555', whiteSpace: 'nowrap'}}>Time: {sliderValue}</label>
-
-                <button onClick={() => setShowA(!showA)} style={btnStyle(showA, '#2947cd')}>Animal A</button>
-                <button onClick={() => setShowB(!showB)} style={btnStyle(showB, '#00a2b7')}>Animal B</button>
-
-                <div className='d-flex flex-row gap-2' style={{fontSize: '11px'}}>
-                    <label style={{cursor: 'pointer'}}>
-                        <input type="radio" name="livestock" value="1" checked={livestock === "1"} onChange={(e) => setLivestock(e.target.value)} style={{marginRight: '4px'}}/>
-                        Cow Herd
-                    </label>
-                    <label style={{cursor: 'pointer'}}>
-                        <input type="radio" name="livestock" value="2" checked={livestock === "2"} onChange={(e) => setLivestock(e.target.value)} style={{marginRight: '4px'}}/>
-                        Goat Herd
-                    </label>
+            <div style={{height: isMobile ? '25%' : '10%', alignItems: 'center'}}>
+                <div className='d-flex flex-row gap-4' style={{fontSize: '12px', color: '#555', marginTop: '6px'}}>
+                    <p style={{margin: 0}}>Day: {timestamp ? new Date(timestamp).getDate() : 'N/A'} </p>
+                    <p style={{margin: 0}}>Month: {timestamp ? new Date(timestamp).getMonth() + 1 : 'N/A'} </p>
+                    <p style={{margin: 0}}>Year: {timestamp ? new Date(timestamp).getFullYear() : 'N/A'} </p>
+                    <p style={{margin: 0}}>Time: {timestamp ? new Date(timestamp).toLocaleTimeString() : 'N/A'} </p>
                 </div>
 
+                <div className='d-flex flex-row align-items-center gap-3' style={{marginTop: '8px', flexWrap: 'wrap'}}>
+
+                    <input
+                        type="range"
+                        min="1"
+                        max="50"
+                        value={sliderValue}
+                        onChange={(e) => setSliderValue(Number(e.target.value))}
+                        style={{flex: 1, minWidth: '100px'}}
+                    />
+                    <label style={{fontSize: '11px', color: '#555', whiteSpace: 'nowrap'}}>Time: {sliderValue}</label>
+
+                    <button onClick={() => setShowA(!showA)} style={btnStyle(showA, '#2947cd')}>Cow</button>
+                    <button onClick={() => setShowB(!showB)} style={btnStyle(showB, '#00a2b7')}>Goat</button>
+
+                    <div className='d-flex flex-row gap-2' style={{fontSize: '11px'}}>
+                        <label style={{cursor: 'pointer'}}>
+                            <input type="radio" name="livestock" value="1" checked={livestock === "1"} onChange={(e) => setLivestock(e.target.value)} style={{marginRight: '4px'}}/>
+                            Cow Herd
+                        </label>
+                        <label style={{cursor: 'pointer'}}>
+                            <input type="radio" name="livestock" value="2" checked={livestock === "2"} onChange={(e) => setLivestock(e.target.value)} style={{marginRight: '4px'}}/>
+                            Goat Herd
+                        </label>
+                    </div>
+
+                </div>
             </div>
         </div>
     )
