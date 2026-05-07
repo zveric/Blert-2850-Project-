@@ -10,7 +10,7 @@ django.setup()
 from monitoring.models import User, Livestock, Readings, Alerts
 
 def populate():
-    PATH = r"data-project-datasets-final\synthetic_outputs\livestock_tracking.csv"
+    PATH = r"data-project-datasets-final/synthetic_outputs/livestock_tracking.csv"
 
     df = pd.read_csv(PATH)
     df = df.dropna(how="any")

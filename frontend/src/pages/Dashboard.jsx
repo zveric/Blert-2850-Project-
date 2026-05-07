@@ -4,6 +4,7 @@ import Map from "../components/map.jsx";
 import AlertBtn from "../components/alert-btn.jsx";
 import LineChart from "../components/Line-Chart.jsx";
 import ReadingList from "../components/readings-list.jsx";
+import AlertLog from "../components/alert-logs.jsx";
 
 function Dashboard() {
     const [count, setCount] = useState(0)
