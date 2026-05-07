@@ -16,14 +16,14 @@ function Dashboard() {
         display: 'flex',
         flexDirection: 'column',
         gap: '20px',
-        marginTop: isMobile ? "0 0px" : "0 150px",
+        marginTop: isMobile ? "0 0px" : "0 15vw",
     };
 
     const mapAndAlertStyle = {
         display: 'flex',
         flexDirection: isMobile ? 'column' : 'row',
         gap: '20px',
-        margin: isMobile ? "0 0px" : "0 150px",
+        margin: isMobile ? "0 0px" : "0 10vw",
         height: isMobile ? "100%" : "95vh",
     };
 
@@ -32,10 +32,10 @@ function Dashboard() {
         background: "#fff",
         borderRadius: "16px",
         boxShadow: "0 4px 16px rgba(0,0,0,0.10)",
-        padding: "20px",
         display: "inline-block",
         width: '100%',
         height: isMobile ? "50vh" : "50%",
+        overflow: "hidden",  
     }; 
 
     const [manualTrigger, setManualTrigger] = useState(false)
@@ -47,9 +47,12 @@ function Dashboard() {
                 <Map />
                 <div style={{ width: isMobile ? "100%" : "30%", gap: "20px", display: 'flex', flexDirection: 'column' }}>
                     <div style={cardStyle}>
-                        <AlertBtn onTrigger = {() => setManualTrigger(true)} />
+                        <div style={{height: "100%", padding: "20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+                            <AlertBtn onTrigger = {() => setManualTrigger(true)} />
+                            <AlertLog />
+                        </div>
                     </div>
-                    <a style={cardStyle} href="/analysis" target="_self" rel="noopener noreferrer">
+                    <a style={{...cardStyle, padding: "20px"}} href="/analysis" target="_self" rel="noopener noreferrer">
                         <LineChart />
                     </a>
                 </div>

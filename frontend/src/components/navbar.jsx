@@ -13,7 +13,7 @@ function Navbar() {
         display: "flex",
         flexDirection: "row",
         gap: "20px",
-        margin: "0 150px",
+        margin: "0 15vw",
         width: "100%"
     }
 
