@@ -1,3 +1,4 @@
+# Gemini was used to research documentation for Django and RestAPI
 import os
 import pandas as pd
 import django
@@ -6,20 +7,41 @@ from datetime import datetime
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
 django.setup()
 
-from monitoring.models import User, Livestock, Readings
+from monitoring.models import User, Livestock, Readings, Alerts
+
+PATH = r"..\data-project-datasets-final\synthetic_outputs\livestock_tracking.csv"
+UPDATE_CHECK = r"update_check.txt"
 
 
 def update(request=None):
 
+    def update_required():
+        if not os.path.exists(UPDATE_CHECK):
+            with open(UPDATE_CHECK, "w") as f:
+                f.write(datetime.now().isoformat())
+            return True
+
+        with open(UPDATE_CHECK, "r") as f:
+            last_check = f.read().strip()
+
+        last_check_date = datetime.fromisoformat(last_check)
+
+        csv_modified_date = datetime.fromtimestamp(os.path.getmtime(PATH))
+
+        return csv_modified_date > last_check_date
+
+
     print("Update function triggered")
-    PATH = r"..\data-project-datasets-final\synthetic_outputs\livestock_tracking.csv"
+    if not update_required():
+        print("Already up to date")
+        return 0        
 
     new_lines = pd.read_csv(PATH)
     new_lines = new_lines.dropna(how="any").tail(2)
 
     existing_timestamps = [t.timestamp() for t in Readings.objects.values_list("timestamp", flat=True)]
 
-    user = User.objects.get(username="admin")
+    user = User.objects.first()
     
     print(existing_timestamps[1])
     print(new_lines.tail)
@@ -37,7 +59,7 @@ def update(request=None):
                 defaults = {"user": user}
             )
 
-            Readings.objects.create(
+            reading = Readings.objects.create(
                 livestock = animal,
                 timestamp = row["timestamp"],
                 longitude = row["longitude"],
@@ -45,41 +67,17 @@ def update(request=None):
                 accel_mag_g = float(row["accel_mag_g"]),
                 ambient_temperature_c = float(row["ambient_temperature_c"]),
                 status = row["status"],
-                alert_triggered = int(row["alert_triggered"]),
-                alert_low_activity = int(row["alert_low_activity"]),
-                alert_geofence = int(row["alert_geofence"]),
-                alert_flee = int(row["alert_flee"]) 
             )
+
+            if row["alert_triggered"] == 1:
+                Alerts.objects.create(
+                    readings = reading,
+                    alert_triggered = int(row["alert_triggered"]),
+                    alert_low_activity = int(row["alert_low_activity"]),
+                    alert_geofence = int(row["alert_geofence"]),
+                    alert_flee = int(row["alert_flee"]) 
+                )
         else:
             print("ERROR: Duplicate timestamp, reading skipped")
-
-# CAUTION: Only run this if database is empty!!!
-# def populate(request=None):
-#     PATH = r"..\data-project-datasets-final\synthetic_outputs\livestock_tracking.csv"
-
-#     df = pd.read_csv(PATH)
-#     df = df.dropna(how="any")
-
-#     user, created = User.objects.get_or_create(
-#         username = "admin",
-#         defaults = {"is_staff": True, "is_superuser": True}
-#     )
-
-#     for x, row in df.iterrows():
-#         animal, created = Livestock.objects.get_or_create(
-#             site_id = row["site_id"],
-#             defaults = {"user": user}
-#         )
-
-#         Readings.objects.create(
-#             livestock = animal,
-#             timestamp = row["timestamp"],
-#             geolocation = Point(float(row["longitude"]), float(row["latitude"])),
-#             accel_mag_g = float(row["accel_mag_g"]),
-#             ambient_temperature_c = float(row["ambient_temperature_c"]),
-#             status = row["status"],
-#             alert_triggered = int(row["alert_triggered"]),
-#             alert_low_activity = int(row["alert_low_activity"]),
-#             alert_geofence = int(row["alert_geofence"]),
-#             alert_flee = int(row["alert_flee"]) 
-#         ) 
+    with open(UPDATE_CHECK, "w") as f:
+        f.write(datetime.now().isoformat())
