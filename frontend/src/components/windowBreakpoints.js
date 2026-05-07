@@ -15,8 +15,8 @@ export function windowBreakpoints() {
     return {
         width: windowSize.width,
         height: windowSize.height,
-        isMobile: windowSize.width < 800,
-        isTablet: windowSize.width >= 800 && windowSize.width < 1000,
+        isMobile: windowSize.width < 1200,
+        isTablet: windowSize.width >= 1200 && windowSize.width < 1000,
         isDesktop: windowSize.width >= 1000
     };
 } 

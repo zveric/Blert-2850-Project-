@@ -67,7 +67,7 @@ function AlertBtn(props) {
     }; 
 
     return (
-        <div style={cardStyle}>
+        <div>
             <p style = {{fontSize: "18px", fontWeight: "bold", marginBottom: "8px"}}>
                 PRESS TO TRIGGER ALERT
             </p>

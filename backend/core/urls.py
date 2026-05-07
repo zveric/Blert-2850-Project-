@@ -23,7 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('monitoring.urls')),
     path('api-auth/', include('rest_framework.urls')),
-    path('api/register/', register),
     path('api/login/', obtain_auth_token),
     path('utils/update-database/', update_database),
     #path('api/geofence/', include('geofence.urls')),
