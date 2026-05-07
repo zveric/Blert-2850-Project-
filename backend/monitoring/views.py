@@ -6,11 +6,14 @@ from monitoring.models import User, Livestock, Readings, Alerts
 from monitoring.serializers import UserSerializer, LivestockSerializer, ReadingsSerializer, AlertsSerializer
 from monitoring.services import send_sms 
 from rest_framework.decorators import api_view 
+from rest_framework.permissions import *
 
 # ViewSets define the view behavior.
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
 
 class LivestockViewSet(viewsets.ModelViewSet):
     queryset = Livestock.objects.all()
