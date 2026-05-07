@@ -2,9 +2,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js' 
 import '../styles/navbar.css'
 import '../index.css'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { FaRegMap } from "react-icons/fa";
 import logoImage from '../assets/logo.jpeg'
+import { logout } from '../api'
 
 function Navbar() {
 
@@ -47,7 +48,9 @@ function Navbar() {
                         <li className="nav-item">
                             <Link className="nav-link" to="/analysis">Analysis</Link>
                         </li>
-
+                        <li className="nav-item">
+                            <Link className="nav-link" to="/login" onClick={logout}>Logout</Link>
+                        </li>
                     </ul>
 
                 </div>
