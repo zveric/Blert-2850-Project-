@@ -16,14 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from monitoring.views import update_database
+from monitoring.views import update_database, register
 from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('monitoring.urls')),
     path('api-auth/', include('rest_framework.urls')),
-    path('api/login', obtain_auth_token),
+    path('api/register/', register),
+    path('api/login/', obtain_auth_token),
     path('utils/update-database/', update_database),
     #path('api/geofence/', include('geofence.urls')),
     #path('utils/populate-database/', views.populate_database),
