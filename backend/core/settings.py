@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'monitoring',
     #'geofence',
     'rest_framework', 
+    'rest_framework.authtoken',
     'corsheaders',
     #'rest_framework_gis', 
 ]
@@ -134,7 +135,10 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication' # Used Gemini to find docs to implement token authentication  
     ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated'
+    ]
 }

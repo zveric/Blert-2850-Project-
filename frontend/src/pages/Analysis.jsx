@@ -67,7 +67,6 @@ function Analysis() {
 
                 <div style = {{display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: '20px', alignItems: 'flex-start'}}>
 
-                    {/* left column - 3 graphs stacked */}
                     <div style = {{height: '100%', display: 'flex', flexDirection: 'column', gap: '20px', flex: 1}}>
                         <div style = {{...cardStyle,width: isMobile ? "100vw" : "100%", height: isMobile ? "50vh" : "30vh"}} ref = {tempChartRef}>
                             <LineChart />
@@ -80,7 +79,6 @@ function Analysis() {
                         </div>
                     </div>
 
-                    {/* right column - heatmap big on top, trajectory below */}
                     <div style = {{height: '100%', display: 'flex', flexDirection: 'column', gap: '20px', flex: 1}}>
                         <div style = {{...cardStyle,width: isMobile ? "100vw" : "100%", height: isMobile ? "50vh" : "55vh"}}>
                             <GrazingHeatmap />
