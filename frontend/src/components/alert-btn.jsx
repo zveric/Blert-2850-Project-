@@ -1,7 +1,7 @@
 import {useState} from 'react'; 
 import { windowBreakpoints } from './windowBreakpoints';
 
-function AlertBtn() {
+function AlertBtn(props) {
     const scrollRef = useState(null)[0]; 
     const [alerts, setAlerts] = useState([]);
     const [isHovering, setIsHovering] = useState(false);
@@ -15,6 +15,7 @@ function AlertBtn() {
             message : "Manual Alert Triggered",
         };  
         setAlerts((prev) => [newAlert, ...prev]); 
+        props.onTrigger()
 
         if (scrollRef.current) {
             scrollRef.current.scrollTop = 0; 

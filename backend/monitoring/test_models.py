@@ -6,7 +6,7 @@ from monitoring.models import User, Livestock, Readings, Alerts
 import factory  # for dynamic data https://factoryboy.readthedocs.io/en/stable/index.html
 
 
-class UserFactory(factory.django.DjangoModelFactory):
+class UserFactory(factory.django.DjangoModelFactory): 
     class Meta:
         model = User
 
