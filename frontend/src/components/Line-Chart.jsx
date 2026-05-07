@@ -55,11 +55,11 @@ export default function LineChart() {
         padding: "20px",
         display: "inline-block",
         width: '100%',
-        height: isMobile ? "50vh" : "50%",
+        height: isMobile ? "50vh" : "100%",
     }; 
 
   return (
-    <div style={cardStyle}>
+    <div style={{ height: "100%" }}>
     <Line
       datasetIdKey='id'
       data={{

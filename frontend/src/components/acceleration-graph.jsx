@@ -48,18 +48,18 @@ export default function AccelerationGraph() {
   }, []);
 
   // Class styles for the button
-    const cardStyle = {
-        background: "#fff",
-        borderRadius: "16px",
-        boxShadow: "0 4px 16px rgba(0,0,0,0.10)",
-        padding: "20px",
-        display: "inline-block",
-        width: '100%',
-        height: isMobile ? "50vh" : "40%",
-    }; 
+  const cardStyle = {
+    background: "#fff",
+    borderRadius: "16px",
+    boxShadow: "0 4px 16px rgba(0,0,0,0.10)",
+    padding: "20px",
+    display: "inline-block",
+    width: '100%',
+    height: isMobile ? "50vh" : "100%",
+  }; 
 
   return (
-    <div style={cardStyle}>
+    <div style={{ height: "100%" }}>
     <Line
       datasetIdKey='id'
       data={{
