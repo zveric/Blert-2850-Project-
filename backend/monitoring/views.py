@@ -1,5 +1,6 @@
 # Gemini was used to research documentation for query_params, api_view
 import os
+import pandas as pd
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -99,6 +100,16 @@ def register(request):
 @api_view(['GET'])
 def download_csv(request):
     path = r"..\data-project-datasets-final\synthetic_outputs\livestock_tracking.csv"
-    if os.path.exists(path):
-        return FileResponse(open(path, "rb"), as_attachment=True, filename="livestock_tracking.csv")
-    return Response({"error": "File not found"}, status=404)
+
+    if not os.path.exists(path):
+        return Response({"error": "File not found"}, status=404)
+    
+    df = pd.read_csv(path)
+    df = df.dropna(how="any")
+
+    export_file_path = r"export_file.csv"
+    df.to_csv(export_file_path, index=False)
+
+    return FileResponse(open(export_file_path, "rb"), as_attachment=True, filename="export_file.csv")
+
+    
