@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { getReadings } from "../api";
 import { useWindowBreakpoints } from "./useWindowBreakpoints";
-import "./readings-list.css";
+import "./readings-list-table.css";
 
-function AlertsLog() {
+function AlertsLogTable() {
   const [alerts, setAlerts] = useState([]);
   const { isMobile } = useWindowBreakpoints();
 
@@ -78,4 +78,4 @@ function AlertsLog() {
   );
 }
 
-export default AlertsLog;
+export default AlertsLogTable;

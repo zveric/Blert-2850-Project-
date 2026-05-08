@@ -15,17 +15,17 @@ function getColor(deviation) {
 }
 
 function Recenter({ position }) {
-  const map = useMap();
+  const HerdTrackingMap = useMap();
   useEffect(() => {
     if (position) {
-      map.setView(position, map.getZoom());
+      HerdTrackingMap.setView(position, HerdTrackingMap.getZoom());
     }
-  }, [position, map]);
+  }, [position, HerdTrackingMap]);
   return null;
 }
 
 function Legend() {
-  const map = useMap();
+  const HerdTrackingMap = useMap();
 
   useEffect(() => {
     const legend = L.control({ position: "bottomright" });
@@ -50,15 +50,15 @@ function Legend() {
       return div;
     };
 
-    legend.addTo(map);
+    legend.addTo(HerdTrackingMap);
     return () => legend.remove();
-  }, [map]);
+  }, [HerdTrackingMap]);
 
   return null;
 }
 
 function HotlineLayer({ readings, sliderValue }) {
-  const map = useMap();
+  const HerdTrackingMap = useMap();
 
   useEffect(() => {
     if (!readings || readings.length < 2) return;
@@ -78,15 +78,15 @@ function HotlineLayer({ readings, sliderValue }) {
             [curr.latitude, curr.longitude],
           ],
           { color, weight: 4, opacity: 0.7 },
-        ).addTo(map);
+        ).addTo(HerdTrackingMap);
         layers.push(segment);
       }
     } catch (err) {
       console.error("Error creating hotline layer", err);
     }
 
-    return () => layers.forEach((layer) => map.removeLayer(layer));
-  }, [readings, sliderValue, map]);
+    return () => layers.forEach((layer) => HerdTrackingMap.removeLayer(layer));
+  }, [readings, sliderValue, HerdTrackingMap]);
 
   return null;
 }
@@ -102,7 +102,7 @@ const btnStyle = (active, color) => ({
   cursor: "pointer",
 });
 
-function Map({ startDate, endDate }) {
+function HerdTrackingMap({ startDate, endDate }) {
   const [readingsA, setReadingsA] = useState([]);
   const [readingsB, setReadingsB] = useState([]);
   const [livestock, setLivestock] = useState("1");
@@ -177,8 +177,8 @@ function Map({ startDate, endDate }) {
         style={{ height: isMobile ? "75%" : "90%", width: "100%" }}
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetMap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetMap.org/{z}/{x}/{y}.png"
         />
         <Recenter position={livestock === "1" ? positionA : positionB} />
 
@@ -227,7 +227,7 @@ function Map({ startDate, endDate }) {
             value={sliderValue}
             onChange={(e) => setSliderValue(Number(e.target.value))}
             style={{ flex: 1, minWidth: "100px" }}
-            aria-label="Timeline slider for Map"
+            aria-label="Timeline slider for HerdTrackingMap"
           />
           <label
             style={{ fontSize: "11px", color: "#555", whiteSpace: "nowrap" }}
@@ -280,4 +280,4 @@ function Map({ startDate, endDate }) {
   );
 }
 
-export default Map;
+export default HerdTrackingMap;
