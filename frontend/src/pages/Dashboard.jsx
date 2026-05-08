@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useWindowBreakpoints } from "../components/useWindowBreakpoints.js";
 import HerdTrackingMap from "../components/herd-tracking-map.jsx";
-import SendSMSButton from "../components/alert-button.jsx";
+import SendSMSButton from "../components/send-sms-button.jsx";
 import AmbientTemperatureGraph from "../components/ambient-temperature-graph.jsx";
 import ReadingListTable from "../components/readings-list-table.jsx";
 import AlertSystem from "../components/alert-sms-system.jsx";
