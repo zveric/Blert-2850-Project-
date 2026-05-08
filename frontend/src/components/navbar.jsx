@@ -33,6 +33,9 @@ function Navbar() {
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#navbarNav"
+                    aria-label="Toggle navigation"
+                    aria-controls="navbarNav"
+                    aria-expanded="false"
                 >
                     <span className="navbar-toggler-icon"></span>
 

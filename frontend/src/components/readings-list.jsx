@@ -53,13 +53,13 @@ function ReadingsList() {
             <div className="readings-header">
                 <h2>Readings List</h2>
                 <div className="readings-info bs-border-color-light">
-                    <select value={livestock} onChange={(e) => setLivestock(e.target.value)}>
+                    <select aria-label="Livestock selection" value={livestock} onChange={(e) => setLivestock(e.target.value)}>
                         <option value= "1">Cow Herd</option>
                         <option value= "2">Goat Herd</option>
                     </select>
                     <span>Show:</span>
                     {/*Input for number of readings (better than the old dropdown)*/}
-                    <input  type="number"  min="1"  value={limit}  onChange={(e) => {
+                    <input  aria-label="Number of readings" type="number"  min="1"  value={limit}  onChange={(e) => {
                         const v = Number(e.target.value);
                         if (Number.isInteger(v) && v >= 0) setLimit(v);
                     }} className='form-control bs-border-color-light' style={{ width: 80 }}/>
