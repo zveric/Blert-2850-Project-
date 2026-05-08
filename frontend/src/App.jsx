@@ -19,7 +19,7 @@ function App() {
   useEffect(() => {
     const call = () =>
       fetch("/utils/update-database/", {
-        headers: { Authorization: `Token $ {getToken()}` },
+        headers: { Authorization: `Token ${getToken()}` },
       });
 
     call();
