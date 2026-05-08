@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
+import { useEffect } from 'react'
 import Navbar from './components/navbar'
 import Dashboard from './pages/Dashboard'
 import Analysis from './pages/Analysis'
@@ -15,6 +16,17 @@ function PrivateRoute({ children }) {
 }
  
 function App() {
+
+    useEffect(() => {
+        const call =() => fetch('/utils/update-database/', {
+            headers: {'Authorization': `Token $ {getToken()}`}
+        });
+
+        call(); 
+        const interval = setInterval(call , 15*60*1000); 
+        return () => clearInterval(interval)
+    }, []);
+
     return (
         <Routes>
             <Route path="/register" element={<Register />} />

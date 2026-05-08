@@ -1,9 +1,12 @@
 import {useEffect, useState} from 'react'
-import jsPDF from 'jspdf'
+import jsPDF from 'jspdf' //used ClaudeAI to find the documentation for this library & learn to implement functions in the library
 import { getReadings } from '../api';  
+import ActivityPattern from './activity-pattern';
+import html2canvas from 'html2canvas'; //used ClaudeAI to find the documentation for this library & learn to implement functions in the library
+import GrazingHeatmap from './grazing-heatmap';
 
 
-function ReportModal ({ onClose, tempChartRef, activityChartRef}) {
+function ReportModal ({ onClose, tempChartRef, activityChartRef, scatterChartRef, ActivityPatternRef, GrazingHeatmapRef}) {
      
     const [options, setOptions] = useState( {
 
@@ -11,6 +14,9 @@ function ReportModal ({ onClose, tempChartRef, activityChartRef}) {
         map: true, 
         temperatureChart: true, 
         activityChart: true, 
+        scatterChart: true,
+        ActivityPattern: true, 
+        GrazingHeatmap: true,
         farmerNotes: true, 
     }); 
 
@@ -57,74 +63,84 @@ function ReportModal ({ onClose, tempChartRef, activityChartRef}) {
             y+=12; 
 
 
-            //for heatmap 
-            // if (options.map && mapRef?.current) {
-            //     if (y > 220) { pdf.addPage() ; y = 15; } 
-            //     pdf.setFontSize(13); 
-            //     pdf.text('Ambient Temperature', 14, y); 
-            //     y+=5; 
-
-            //     try { 
-            //         const chartCanvas = tempChartRef.current.querySelector('canvas');
-            //         const imgData = chartCanvas.toDataURL('image/png'); 
-            //         const imgWidth = pageWidth - 28; 
-            //         const imgHeight = (chartCanvas.height * imgWidth) / chartCanvas.width; 
-            //         pdf.addImage(imgData, 'PNG', 14, y, imgWidth, imgHeight); 
-            //         y+= imgHeight + 8; 
-            //     } catch (err) {
-            //         pdf.text ('Chart could not be captured.', 14, y); ;
-            //         y+=8; 
-            //     }
-            // }
-
-
-            //for temperature charts
-            if (options.temperatureChart && tempChartRef?.current) { 
+            const addChart = async (ref, label) => {
 
                 if (y > 220) { pdf.addPage() ; y = 15; } 
                 pdf.setFontSize(13); 
-                pdf.text('Ambient Temperature', 14, y); 
+                pdf.setTextColor(40,40,40);
+                pdf.text(label, 14, y); 
                 y+=5; 
 
                 try { 
-                    const chartCanvas = tempChartRef.current.querySelector('canvas');
-                    console.log('canvas found:', chartCanvas); 
-                    console.log('canvas width:', chartCanvas?.width);
-                    const imgData = chartCanvas.toDataURL('image/png'); 
+                    const Canvas = ref.current.querySelector('canvas');
+                    console.log('canvas found:', Canvas); 
+                    console.log('canvas width:', Canvas?.width);
+                    const imgData = Canvas.toDataURL('image/png'); 
                     console.log('imgData length:', imgData?.length); 
                     const imgWidth = pageWidth - 28; 
-                    const imgHeight = (chartCanvas.height * imgWidth) / chartCanvas.width; 
+                    const imgHeight = (Canvas.height * imgWidth) / Canvas.width;
+                    if (imgHeight > 80) imgHeigh = 80; 
                     pdf.addImage(imgData, 'PNG', 14, y, imgWidth, imgHeight); 
                     y+= imgHeight + 8; 
                 } catch (err) {
                     pdf.text ('Chart could not be captured.', 14, y); ;
                     y+=8; 
                 }
+
             }
 
-            //for acitvity charts 
-
-            if (options.activityChart && activityChartRef?.current) {
-                if (y > 220) { pdf.addPage() ; y = 15; } 
+            if (options.map && GrazingHeatmapRef?.current) {
+                
+                if (y> 220) {pdf.addPage(); y = 15;}
                 pdf.setFontSize(13); 
-                pdf.text('Activity and Acceleration', 14, y); 
+                pdf.setTextColor(40,40,40); 
+                pdf.text('Grazing Heatmap', 14, y); 
                 y+=5; 
 
-                try { 
-                    const chartCanvas = activityChartRef.current.querySelector('canvas');
-                    console.log('canvas found:', chartCanvas); 
-                    console.log('canvas width:', chartCanvas?.width);
-                    const imgData = chartCanvas.toDataURL('image/png'); 
-                    console.log('imgData length:', imgData?.length); 
+                try {
+                    const mapEl = GrazingHeatmapRef.current.querySelector('.leaflet-container')
+                    mapEl.scrollIntoView(); 
+                    await new Promise(r => setTimeout(r,500)); 
+                    console.log('mapEl found:', mapEl);              // used claudeAI to aid debugging
+                    console.log('grazingheatmapRef.current:', GrazingHeatmapRef.current); //used claudeAI to aid debugging
+                    //used claude to understand CORS, and how it effects html2canvas to take the screenshot of the heatmap
+                    const canvas = await html2canvas(mapEl, {
+                        useCORS: true, 
+                        allowTaint: true,
+                        logging: false, 
+                        scale: 2, 
+                        width: mapEl.offsetWidth, 
+                        height: mapEl.offsetHeight,
+                    }); 
+                    
+                    console.log ('canvas generated: ', canvas); //used claudeAI to aid debugging
+
+
+                    const imgData = canvas.toDataURL('image/png');
                     const imgWidth = pageWidth - 28; 
-                    const imgHeight = (chartCanvas.height * imgWidth) / chartCanvas.width; 
+                    const imgHeight = 130; 
+                    if (y + imgHeight > 270) {pdf.addPage(); y = 15} 
                     pdf.addImage(imgData, 'PNG', 14, y, imgWidth, imgHeight); 
                     y+= imgHeight + 8; 
                 } catch (err) {
-                    pdf.text ('Chart could not be captured.', 14, y); ;
+                    console.error(' Map capture error:', err); //used claudeAI to aid debugging
+                    pdf.text (' Map could not be captured.', 14, y); 
                     y+=8; 
                 }
+
             }
+
+            if (options.temperatureChart && tempChartRef?.current) 
+                await addChart(tempChartRef, 'Ambient Temperature'); 
+
+            if (options.activityChart && activityChartRef?.current) 
+                await addChart(activityChartRef, 'Activity and Acceleration'); 
+
+            if (options.scatterChart && scatterChartRef?.current) 
+                await addChart(scatterChartRef, 'Temperature vs Activity Level'); 
+
+            if (options.ActivityPattern && ActivityPatternRef?.current) 
+                await addChart(ActivityPatternRef, 'Avg Activity Level by Hour'); 
 
 
             if(options.farmerNotes && notes.trim()) {
@@ -149,7 +165,7 @@ function ReportModal ({ onClose, tempChartRef, activityChartRef}) {
         setGenerating(false); 
         onClose(); 
     }
-
+//used ClaudeAI to generate the style
     const overlayStyle = {
         position: 'fixed', top:0, left: 0, 
         width: '100vw', height : '100vh',
@@ -181,6 +197,9 @@ function ReportModal ({ onClose, tempChartRef, activityChartRef}) {
                 {/* {checkboxRow( "Heatmap", 'map')} */}
                 {checkboxRow( "Temperature Chart", "temperatureChart")}
                 {checkboxRow( "Activity Chart", "activityChart")}
+                {checkboxRow( "Temperature vs Activity", "scatterChart")}
+                {checkboxRow( "Activity by Hour", "ActivityPattern")}
+                {checkboxRow( "Grazing Heatmap", "map")}
                 {checkboxRow( "Additional Notes", "farmerNotes")}
                 {options.farmerNotes && (
 
