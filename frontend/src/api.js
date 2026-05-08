@@ -37,13 +37,13 @@ export async function getReadings(limit = 10, livestock = null, startDate = null
     if (livestock) {
         url += `&livestock=${livestock}`
     }
-
+       
     if (startDate) {
-        url +=`&start_time = ${startDate.toISOString()}`
+        url += `&start_time=${startDate.toISOString()}`
     }
-
+ 
     if (endDate) {
-        url +=`&start_time = ${startDate.toISOString()}`
+        url += `&end_time=${endDate.toISOString()}`
     }
 
     const res = await fetch(url, {

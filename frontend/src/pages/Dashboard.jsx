@@ -6,11 +6,25 @@ import LineChart from "../components/Line-Chart.jsx";
 import ReadingList from "../components/readings-list.jsx";
 import AlertSystem from "../components/AlertSystem.jsx";
 import AlertLog from "../components/alert-logs.jsx";
+import DateRangeSelector from '../components/date-range-selector.jsx';
 
 function Dashboard() {
     const [count, setCount] = useState(0)
-
     const { width, height,isMobile } = windowBreakpoints();
+    const [startDate, setStartDate]   = useState(null);
+    const [endDate, setEndDate]       = useState(null);
+    const [appliedStart, setAppliedStart] = useState(null);
+    const [appliedEnd, setAppliedEnd]     = useState(null);
+
+    const handleDateChange = ({ startDate, endDate }) => {
+        setStartDate(startDate);
+        setEndDate(endDate);
+    };
+
+    const handleApply = () => {
+        setAppliedStart(startDate);
+        setAppliedEnd(endDate);
+    };
 
     const pageStyle = {
         display: 'flex',
@@ -44,7 +58,7 @@ function Dashboard() {
         <section style={pageStyle}>
             <AlertSystem manualTrigger= {manualTrigger} onManualClose={() => setManualTrigger(false)}/>
             <div style={mapAndAlertStyle}>
-                <Map />
+                <Map startDate={appliedStart} endDate={appliedEnd} />
                 <div style={{ width: isMobile ? "100%" : "30%", gap: "20px", display: 'flex', flexDirection: 'column' }}>
                     <div style={cardStyle}>
                         <div style={{height: "100%", padding: "20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
@@ -52,9 +66,24 @@ function Dashboard() {
                             <AlertLog />
                         </div>
                     </div>
-                    <a style={{...cardStyle, padding: "20px"}} href="/analysis" target="_self" rel="noopener noreferrer">
-                        <LineChart />
-                    </a>
+                    <div style={{...cardStyle, padding: "20px"}}>
+                        <DateRangeSelector
+                            startDate={startDate}
+                            endDate={endDate}
+                            onChange={handleDateChange}
+                            onApply={handleApply}
+                            showApply={true}
+                        />
+                        <div style={{height: "83%"}}>
+                            <a href="/analysis" target="_self" rel="noopener noreferrer">
+                                <LineChart
+                                    startDate={appliedStart}
+                                    endDate={appliedEnd}
+                                    hidePickers={true}
+                                />
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div style={{margin: isMobile ? "0 0px" : "0 150px",}}>
