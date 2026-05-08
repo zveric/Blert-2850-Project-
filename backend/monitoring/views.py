@@ -26,6 +26,7 @@ class ReadingsViewSet(viewsets.ModelViewSet):
     queryset = Readings.objects.all()
     serializer_class = ReadingsSerializer
 
+    # used Gemini to understand get_queryset and query_params work 
     def get_queryset(self):
         livestock_query = self.request.query_params.get("livestock")
         limit = self.request.query_params.get("limit", None)
@@ -33,6 +34,7 @@ class ReadingsViewSet(viewsets.ModelViewSet):
         end_time = self.request.query_params.get("end_time", None)
         queryset = Readings.objects.all()
 
+        # Used to Gemini to find docs about objects filter options that are built in
         if livestock_query:
             queryset = Readings.objects.filter(livestock=livestock_query)
         else:
