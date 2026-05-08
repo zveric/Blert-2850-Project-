@@ -37,19 +37,19 @@ function Register() {
             <div className="row justify-content-center">
                 <div className="col-md-4" style={cardStyle}>
 
-                    <img src={logoImage} alt="Blert Logo" className="rounded mb-2" style={{ width: '75%', height: 'auto', display: 'block', margin: 'auto auto' }} />
+                    <img src={logoImage} alt="Blert Logo" className="rounded mb-2" style={{ width: '35%', height: 'auto', display: 'block', margin: 'auto auto' }} />
                     <h2 style={{ fontWeight: 'bold' }}>Register</h2>
 
                     {error && <p style={{ color: 'red' }}>{error}</p>}
 
                     <div className="mb-3">
                         <label className="form-label">Username</label>
-                        <input type="text" className="form-control" value={username} onChange={e => setUsername(e.target.value)}  onKeyDown={e => {if (e.key === 'Enter') document.getElementById('password-input').focus()} } />
+                        <input type="text" className="form-control" value={username} onChange={e => setUsername(e.target.value)}  onKeyDown={e => {if (e.key === 'Enter') document.getElementById('password-input').focus()} } aria-label="Username"/>
                     </div>
 
                     <div className="mb-3">
                         <label className="form-label">Password</label>
-                        <input type="password" className="form-control" id="password-input" value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => {if (e.key === 'Enter') handleRegister()} } />
+                        <input type="password" className="form-control" id="password-input" value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => {if (e.key === 'Enter') handleRegister()} } aria-label="Password"/>
                     </div>
 
                     <button className="btn btn-dark" onClick={handleRegister}>Register</button>

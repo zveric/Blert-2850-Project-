@@ -38,7 +38,7 @@ function AlertBtn(props) {
         width: "75px",
         height: "75px",
         borderRadius: "50%",
-        backgroundColor: isHovering ? "#cc322f" : "#e53935",
+        backgroundColor: isHovering ? "#cc322f" : "#b71c1c",
         border: "none",
         cursor: "pointer",
         flexShrink: 0,
@@ -72,32 +72,30 @@ function AlertBtn(props) {
                 <button
                         onClick={handleAlert}
                         onMouseEnter={e => {
-                            e.currentTarget.style.backgroundColor = '#c62828';
-                            e.currentTarget.style.boxShadow = '0 6px 18px rgba(229,57,53,0.45)';
+                            e.currentTarget.style.backgroundColor = '#8b0000';
+                            e.currentTarget.style.boxShadow = '0 6px 18px rgba(183,28,28,0.45)';
                             e.currentTarget.style.transform = 'translateY(-1px)';
                         }}
                         onMouseLeave={e => {
-                            e.currentTarget.style.backgroundColor = '#e53935';
-                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(229,57,53,0.3)';
+                            e.currentTarget.style.backgroundColor = '#b71c1c';
+                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(183,28,28,0.3)';
                             e.currentTarget.style.transform = 'translateY(0)';
                         }}
                         style={{
                             padding: '9px 20px',
                             borderRadius: '10px',
-                            border: '3px solid #b71c1c',
-                            backgroundColor: '#e53935',
+                            border: '3px solid #7f0000',
+                            backgroundColor: '#b71c1c',
                             color: '#fff',
                             cursor: 'pointer',
                             fontSize: '0.9rem',
                             fontWeight: 600,
                             whiteSpace: 'nowrap',
-                            boxShadow: '0 4px 12px rgba(229,57,53,0.3)',
+                            boxShadow: '0 4px 12px rgba(183,28,28,0.3)',
                             transition: 'background-color 0.15s, box-shadow 0.15s, transform 0.15s',
                             flexShrink: 0,
                             width: isMobile ? "93vw" : "18vw",
                         }}
-                        title="Send SMS"
-                        aria-label="Send SMS"
                     >
                         Send SMS
                     </button>

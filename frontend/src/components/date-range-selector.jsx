@@ -58,6 +58,7 @@ export default function DateRangeSelector({
         timeIntervals={15}
         placeholderText="Start Date & Time"
         dateFormat="MMM d, yyyy h:mm aa"
+        aria-label="Start Date and Time"
       />
       <DatePicker
         selected={endDate}
@@ -70,13 +71,14 @@ export default function DateRangeSelector({
         timeIntervals={15}
         placeholderText="End Date & Time"
         dateFormat="MMM d, yyyy h:mm aa"
+        aria-label="End Date and Time"
       />
       {showApply && onApply && (
-        <button onClick={onApply} style={applyBtnStyle}>
+        <button onClick={onApply} style={applyBtnStyle} aria-label="Apply date range">
           Apply Filter
         </button>
       )}
-      <button onClick={handleClear} style={clearBtnStyle}>
+      <button onClick={handleClear} style={clearBtnStyle} aria-label="Clear date range">
         Clear
       </button>
     </div>

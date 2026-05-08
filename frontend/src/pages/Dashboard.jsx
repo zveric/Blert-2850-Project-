@@ -75,7 +75,7 @@ function Dashboard() {
                             showApply={true}
                         />
                         <div style={{height: "83%"}}>
-                            <a href="/analysis" target="_self" rel="noopener noreferrer">
+                            <a href="/analysis" target="_self" rel="noopener noreferrer" aria-label="Click to go to Analysis page">
                                 <LineChart
                                     startDate={appliedStart}
                                     endDate={appliedEnd}

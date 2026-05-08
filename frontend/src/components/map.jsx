@@ -44,10 +44,10 @@ function Legend() {
             `;
             div.innerHTML = `
                 <strong style= "display: block; margin-bottom: 8px;">Activity Level</strong> 
-                <span style="color: #2196f3;">&#9632;</span> Resting/Grazing <br/>
-                <span style="color: #4CAF50;">&#9632;</span> Walking <br/>
-                <span style="color: #ff9800;">&#9632;</span> Aggitated <br/>
-                <span style="color: #f44336;">&#9632;</span> Running/Distressed
+                <span style="color: #0b5ea8;">&#9632;</span> Resting/Grazing <br/>
+                <span style="color: #276b27;">&#9632;</span> Walking <br/>
+                <span style="color: #7a4900;">&#9632;</span> Aggitated <br/>
+                <span style="color: #b91c1c;">&#9632;</span> Running/Distressed
             `;
             return div;
         };
@@ -191,11 +191,12 @@ function Map({ startDate, endDate }) {
                         value={sliderValue}
                         onChange={(e) => setSliderValue(Number(e.target.value))}
                         style={{flex: 1, minWidth: '100px'}}
+                        aria-label="Timeline slider for Map"
                     />
                     <label style={{fontSize: '11px', color: '#555', whiteSpace: 'nowrap'}}>Time: {sliderValue}</label>
 
-                    <button onClick={() => setShowA(!showA)} style={btnStyle(showA, '#2947cd')}>Cow</button>
-                    <button onClick={() => setShowB(!showB)} style={btnStyle(showB, '#00a2b7')}>Goat</button>
+                    <button onClick={() => setShowA(!showA)} style={btnStyle(showA, '#2947cd')} aria-label="Toggle Cow Herd visibility">Cow</button>
+                    <button onClick={() => setShowB(!showB)} style={btnStyle(showB, '#006f7e')} aria-label="Toggle Goat Herd visibility">Goat</button>
 
                     <div className='d-flex flex-row gap-2' style={{fontSize: '11px'}}>
                         <label style={{cursor: 'pointer'}}>
