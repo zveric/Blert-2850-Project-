@@ -2,13 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../api";
 import logoImage from "../assets/logo.jpeg";
-import { windowBreakpoints } from "../components/windowBreakpoints.js";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const { isMobile } = windowBreakpoints();
 
   const navigate = useNavigate();
 

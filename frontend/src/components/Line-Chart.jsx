@@ -11,7 +11,6 @@ import {
 import { Line } from "react-chartjs-2";
 import { getReadings } from "../api";
 import { useState, useEffect } from "react";
-import { windowBreakpoints } from "./windowBreakpoints";
 import DateRangeSelector from "./date-range-selector";
 
 ChartJS.register(
@@ -40,8 +39,6 @@ export default function LineChart({
   const [temperatures, setTemperatures] = useState([]);
   const [temperatures2, setTemperatures2] = useState([]);
   const [labels, setLabels] = useState([]);
-
-  const { isMobile } = windowBreakpoints();
 
   useEffect(() => {
     getReadings(50, 1, startDate, endDate).then((data) => {

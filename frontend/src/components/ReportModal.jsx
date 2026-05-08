@@ -1,9 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import jsPDF from "jspdf"; //used ClaudeAI to find the documentation for this library & learn to implement functions in the library
-import { getReadings } from "../api";
-import ActivityPattern from "./activity-pattern";
 import html2canvas from "html2canvas"; //used ClaudeAI to find the documentation for this library & learn to implement functions in the library
-import GrazingHeatmap from "./grazing-heatmap";
 
 function ReportModal({
   onClose,
@@ -25,19 +22,6 @@ function ReportModal({
 
   const [notes, setNotes] = useState("");
   const [generating, setGenerating] = useState(false);
-  const [readingsA, setReadingsA] = useState([]);
-  const [readingsB, setReadingsB] = useState([]);
-
-  useEffect(() => {
-    Promise.all([getReadings(50, 1), getReadings(50, 2)]).then(
-      ([dataA, dataB]) => {
-        if (dataA) setReadingsA(dataA);
-        if (dataB) setReadingsB(dataB);
-      },
-    );
-  }, []);
-
-  const readings = [...readingsA, ...readingsB];
 
   const toggle = (key) =>
     setOptions((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -82,11 +66,13 @@ function ReportModal({
           const imgData = Canvas.toDataURL("image/png");
           console.log("imgData length:", imgData?.length);
           const imgWidth = pageWidth - 28;
-          const imgHeight = (Canvas.height * imgWidth) / Canvas.width;
-          if (imgHeight > 80) imgHeigh = 80;
+          const imgHeight = Math.min(
+            (Canvas.height * imgWidth) / Canvas.width,
+            80,
+          );
           pdf.addImage(imgData, "PNG", 14, y, imgWidth, imgHeight);
           y += imgHeight + 8;
-        } catch (err) {
+        } catch {
           pdf.text("Chart could not be captured.", 14, y);
           y += 8;
         }
@@ -220,10 +206,8 @@ function ReportModal({
         <h2 style={{ marginBottom: "16px" }}> Generate Report </h2>
 
         <p style={{ fontWeight: 600, marginBottom: "8px" }}>
-          {" "}
-          Include in report:{" "}
+          Include in report:
         </p>
-        {/* {checkboxRow( "Heatmap", 'map')} */}
         {checkboxRow("Temperature Chart", "temperatureChart")}
         {checkboxRow("Activity Chart", "activityChart")}
         {checkboxRow("Temperature vs Activity", "scatterChart")}

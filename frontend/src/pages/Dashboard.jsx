@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { windowBreakpoints } from "../components/windowBreakpoints.js";
+import { useWindowBreakpoints } from "../components/useWindowBreakpoints.js";
 import Map from "../components/map.jsx";
 import AlertBtn from "../components/alert-btn.jsx";
 import LineChart from "../components/Line-Chart.jsx";
@@ -9,8 +9,7 @@ import AlertLog from "../components/alert-logs.jsx";
 import DateRangeSelector from "../components/date-range-selector.jsx";
 
 function Dashboard() {
-  const [count, setCount] = useState(0);
-  const { width, height, isMobile } = windowBreakpoints();
+  const { isMobile } = useWindowBreakpoints();
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [appliedStart, setAppliedStart] = useState(null);

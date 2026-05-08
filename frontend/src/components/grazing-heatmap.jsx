@@ -4,7 +4,7 @@ import { getReadings } from "../api";
 import "leaflet/dist/leaflet.css";
 import "leaflet.heat";
 import L from "leaflet";
-import { windowBreakpoints } from "./windowBreakpoints";
+import { useWindowBreakpoints } from "./useWindowBreakpoints";
 
 // heatmap layer for each herd
 function HeatLayer({ readings, mode }) {
@@ -57,7 +57,7 @@ function GrazingHeatmap({ startDate, endDate }) {
   const [showA, setShowA] = useState(true);
   const [showB, setShowB] = useState(true);
   const [mode, setMode] = useState("density");
-  const { isMobile } = windowBreakpoints();
+  const { isMobile } = useWindowBreakpoints();
 
   useEffect(() => {
     getReadings(500, 1, startDate, endDate).then((data) => {

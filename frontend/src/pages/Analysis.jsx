@@ -1,5 +1,4 @@
-import { windowBreakpoints } from "../components/windowBreakpoints.js";
-import Navbar from "../components/navbar";
+import { useWindowBreakpoints } from "../components/useWindowBreakpoints.js";
 import LineChart from "../components/Line-Chart.jsx";
 import AccelerationGraph from "../components/acceleration-graph.jsx";
 import GrazingHeatmap from "../components/grazing-heatmap";
@@ -23,7 +22,7 @@ function Analysis() {
   const ActivityPatternRef = useRef(null);
   const GrazingHeatmapRef = useRef(null);
 
-  const { isMobile } = windowBreakpoints();
+  const { isMobile } = useWindowBreakpoints();
 
   const handleDateChange = ({ startDate, endDate }) => {
     setStartDate(startDate);

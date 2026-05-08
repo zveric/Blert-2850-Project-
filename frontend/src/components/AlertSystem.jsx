@@ -18,8 +18,12 @@ export default function AlertSystem({ manualTrigger, onManualClose }) {
   const triggeredSMS = useRef(new Set());
   const triggeredAlert = useRef(new Set());
 
+  // FIX: Use a ref to track the previous value of manualTrigger so we can
+  // detect a rising edge (false -> true) inside a useEffect, keeping all
+  // setState calls and ref reads/writes out of the render path.
+  const prevManualTrigger = useRef(false);
   useEffect(() => {
-    if (manualTrigger) {
+    if (manualTrigger && !prevManualTrigger.current) {
       setSmsModal({
         latitude: -32.778657,
         longitude: 26.836552,
@@ -32,7 +36,8 @@ export default function AlertSystem({ manualTrigger, onManualClose }) {
       );
       onManualClose();
     }
-  }, [manualTrigger]);
+    prevManualTrigger.current = manualTrigger;
+  }, [manualTrigger, onManualClose]);
 
   useEffect(() => {
     const poll = async () => {

@@ -11,7 +11,6 @@ import {
 import { Line } from "react-chartjs-2";
 import { getReadings } from "../api";
 import { useState, useEffect } from "react";
-import { windowBreakpoints } from "./windowBreakpoints";
 import DateRangeSelector from "./date-range-selector";
 
 ChartJS.register(
@@ -41,9 +40,9 @@ export default function AccelerationGraph({
   const [accel2, setAccel2] = useState([]);
   const [labels, setLabels] = useState([]);
 
-  const { isMobile } = windowBreakpoints();
+  const [applyCount, setApplyCount] = useState(0);
 
-  const fetchGraphData = () => {
+  useEffect(() => {
     Promise.all([
       getReadings(500, 1, startDate, endDate),
       getReadings(500, 2, startDate, endDate),
@@ -64,12 +63,8 @@ export default function AccelerationGraph({
         );
       })
       .catch((err) => console.error("AccelerationGraph fetch failed:", err));
-  };
-
   // Re-fetch whenever the active dates change
-  useEffect(() => {
-    fetchGraphData();
-  }, [startDate, endDate]);
+  }, [startDate, endDate, applyCount]);
 
   const handleInternalDateChange = ({ startDate, endDate }) => {
     setInternalStart(startDate);
@@ -86,7 +81,7 @@ export default function AccelerationGraph({
             startDate={internalStart}
             endDate={internalEnd}
             onChange={handleInternalDateChange}
-            onApply={fetchGraphData}
+            onApply={() => setApplyCount((c) => c + 1)}
             showApply={true}
           />
         </div>

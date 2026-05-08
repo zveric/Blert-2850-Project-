@@ -9,14 +9,12 @@ import {
 import { Scatter } from "react-chartjs-2";
 import { getReadings } from "../api";
 import { useState, useEffect } from "react";
-import { windowBreakpoints } from "./windowBreakpoints";
 
 ChartJS.register(LinearScale, PointElement, Tooltip, Legend, Title);
 
 export default function TempVsActivity({ startDate, endDate }) {
   const [pointsA, setPointsA] = useState([]);
   const [pointsB, setPointsB] = useState([]);
-  const { isMobile } = windowBreakpoints();
 
   useEffect(() => {
     getReadings(200, 1, startDate, endDate).then((data) => {

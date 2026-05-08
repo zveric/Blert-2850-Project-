@@ -10,7 +10,6 @@ import {
 import { Bar } from "react-chartjs-2";
 import { getReadings } from "../api";
 import { useState, useEffect } from "react";
-import { windowBreakpoints } from "./windowBreakpoints";
 
 ChartJS.register(
   CategoryScale,
@@ -24,7 +23,6 @@ ChartJS.register(
 export default function ActivityPattern({ startDate, endDate }) {
   const [hourlyA, setHourlyA] = useState(new Array(24).fill(0));
   const [hourlyB, setHourlyB] = useState(new Array(24).fill(0));
-  const { isMobile } = windowBreakpoints();
 
   useEffect(() => {
     getReadings(500, 1, startDate, endDate).then((data) => {
@@ -63,17 +61,6 @@ export default function ActivityPattern({ startDate, endDate }) {
   }, [startDate, endDate]);
 
   const hours = Array.from({ length: 24 }, (_, i) => `${i}:00`);
-
-  // Class styles for the button
-  const cardStyle = {
-    background: "#fff",
-    borderRadius: "16px",
-    boxShadow: "0 4px 16px rgba(0,0,0,0.10)",
-    padding: "20px",
-    display: "inline-block",
-    width: "100%",
-    height: isMobile ? "50vh" : "40%",
-  };
 
   return (
     <div style={{ height: "100%" }}>

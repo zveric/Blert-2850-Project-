@@ -1,12 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, useMap } from "react-leaflet";
 import { getReadings } from "../api";
 import { divIcon } from "leaflet";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "leaflet/dist/leaflet.css";
-import { windowBreakpoints } from "./windowBreakpoints";
+import { useWindowBreakpoints } from "./useWindowBreakpoints";
 import L from "leaflet";
-import ReportModal from "./ReportModal";
 
 function getColor(deviation) {
   if (deviation < 0.1) return "#2196f3";
@@ -29,9 +28,9 @@ function Legend() {
   const map = useMap();
 
   useEffect(() => {
-    const Legend = L.control({ position: "bottomright" });
+    const legend = L.control({ position: "bottomright" });
 
-    Legend.onAdd = () => {
+    legend.onAdd = () => {
       const div = L.DomUtil.create("div");
       div.style.cssText = `
                 background:white;
@@ -51,8 +50,8 @@ function Legend() {
       return div;
     };
 
-    Legend.addTo(map);
-    return () => Legend.remove();
+    legend.addTo(map);
+    return () => legend.remove();
   }, [map]);
 
   return null;
@@ -107,12 +106,10 @@ function Map({ startDate, endDate }) {
   const [readingsA, setReadingsA] = useState([]);
   const [readingsB, setReadingsB] = useState([]);
   const [livestock, setLivestock] = useState("1");
-  const [timestamp, setTimestamp] = useState(null);
   const [sliderValue, setSliderValue] = useState(1);
-  const { isMobile } = windowBreakpoints();
+  const { isMobile } = useWindowBreakpoints();
   const [showA, setShowA] = useState(true);
   const [showB, setShowB] = useState(true);
-  const mapRef = useRef(null);
 
   const customIcon = (color) =>
     divIcon({
@@ -129,14 +126,30 @@ function Map({ startDate, endDate }) {
       getReadings(MAX_WINDOW, 2, startDate, endDate),
     ])
       .then(([dataA, dataB]) => {
-        if (dataA) setReadingsA(dataA);
-        if (dataA) setTimestamp(dataA[idxA].timestamp);
-        if (dataB) setReadingsB(dataB);
+        if (dataA && dataA.length > 0) setReadingsA(dataA);
+        if (dataB && dataB.length > 0) setReadingsB(dataB);
+        setSliderValue(1);
       })
       .catch((err) => console.error("Error fetching readings:", err));
-
-    setSliderValue(1);
   }, [startDate, endDate]);
+
+  const idxA =
+    readingsA.length > 0
+      ? Math.max(0, Math.min(sliderValue - 1, readingsA.length - 1))
+      : 0;
+  const idxB =
+    readingsB.length > 0
+      ? Math.max(0, Math.min(sliderValue - 1, readingsB.length - 1))
+      : 0;
+
+  const timestamp = readingsA[idxA]?.timestamp ?? null;
+
+  const positionA = readingsA[idxA]?.latitude
+    ? [readingsA[idxA].latitude, readingsA[idxA].longitude]
+    : null;
+  const positionB = readingsB[idxB]?.latitude
+    ? [readingsB[idxB].latitude, readingsB[idxB].longitude]
+    : null;
 
   const cardStyle = {
     background: "#fff",
@@ -148,29 +161,6 @@ function Map({ startDate, endDate }) {
     height: isMobile ? "50vh" : "100%",
     boxSizing: "border-box",
   };
-
-  const idxA =
-    readingsA.length > 0
-      ? Math.max(0, Math.min(sliderValue - 1, readingsA.length - 1))
-      : 0;
-  const idxB =
-    readingsB.length > 0
-      ? Math.max(0, Math.min(sliderValue - 1, readingsB.length - 1))
-      : 0;
-
-  useEffect(() => {
-    const idxA = Math.max(0, Math.min(sliderValue - 1, readingsA.length - 1));
-    if (readingsA[idxA]?.timestamp) {
-      setTimestamp(readingsA[idxA].timestamp);
-    }
-  }, [sliderValue, livestock, readingsA, readingsB]);
-
-  const positionA = readingsA[idxA]?.latitude
-    ? [readingsA[idxA].latitude, readingsA[idxA].longitude]
-    : null;
-  const positionB = readingsB[idxB]?.latitude
-    ? [readingsB[idxB].latitude, readingsB[idxB].longitude]
-    : null;
 
   if (!positionA || !positionB)
     return <p> Map is mapping out your livestock ...</p>;
@@ -200,10 +190,10 @@ function Map({ startDate, endDate }) {
         )}
 
         {showA && positionA && (
-          <Marker position={positionA} icon={customIcon("#2947cd")}></Marker>
+          <Marker position={positionA} icon={customIcon("#2947cd")} />
         )}
         {showB && positionB && (
-          <Marker position={positionB} icon={customIcon("#00a2b7")}></Marker>
+          <Marker position={positionB} icon={customIcon("#006f7e")} />
         )}
         <Legend />
       </MapContainer>
@@ -213,17 +203,16 @@ function Map({ startDate, endDate }) {
           style={{ fontSize: "12px", color: "#555", marginTop: "6px" }}
         >
           <p style={{ margin: 0 }}>
-            Day: {timestamp ? new Date(timestamp).getDate() : "N/A"}{" "}
+            Day: {timestamp ? new Date(timestamp).getDate() : "N/A"}
           </p>
           <p style={{ margin: 0 }}>
-            Month: {timestamp ? new Date(timestamp).getMonth() + 1 : "N/A"}{" "}
+            Month: {timestamp ? new Date(timestamp).getMonth() + 1 : "N/A"}
           </p>
           <p style={{ margin: 0 }}>
-            Year: {timestamp ? new Date(timestamp).getFullYear() : "N/A"}{" "}
+            Year: {timestamp ? new Date(timestamp).getFullYear() : "N/A"}
           </p>
           <p style={{ margin: 0 }}>
-            Time:{" "}
-            {timestamp ? new Date(timestamp).toLocaleTimeString() : "N/A"}{" "}
+            Time: {timestamp ? new Date(timestamp).toLocaleTimeString() : "N/A"}
           </p>
         </div>
 

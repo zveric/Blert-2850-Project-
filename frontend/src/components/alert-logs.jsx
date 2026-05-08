@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { getReadings } from "../api";
-import { windowBreakpoints } from "./windowBreakpoints";
+import { useWindowBreakpoints } from "./useWindowBreakpoints";
 import "./readings-list.css";
 
 function AlertsLog() {
   const [alerts, setAlerts] = useState([]);
-  const { isMobile } = windowBreakpoints();
+  const { isMobile } = useWindowBreakpoints();
 
   useEffect(() => {
     getReadings(200).then((data) => {
@@ -34,16 +34,6 @@ function AlertsLog() {
     if (id === "1") return "Cow Herd";
     if (id === "2") return "Goat Herd";
     return `Livestock ${id}`;
-  };
-
-  const cardStyle = {
-    background: "#fff",
-    borderRadius: "16px",
-    boxShadow: "0 4px 16px rgba(0,0,0,0.10)",
-    display: "inline-block",
-    width: "100%",
-    height: "60vh",
-    overflow: "hidden",
   };
 
   return (

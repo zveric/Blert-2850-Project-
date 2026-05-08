@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export function windowBreakpoints() {
+export function useWindowBreakpoints() {
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -23,3 +23,5 @@ export function windowBreakpoints() {
     isDesktop: windowSize.width >= 1000,
   };
 }
+
+export default useWindowBreakpoints;

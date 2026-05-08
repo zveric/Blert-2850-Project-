@@ -3,7 +3,6 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "../styles/navbar.css";
 import "../index.css";
 import { Link } from "react-router-dom";
-import { FaRegMap } from "react-icons/fa";
 import logoImage from "../assets/logo.jpeg";
 import { logout } from "../api";
 
