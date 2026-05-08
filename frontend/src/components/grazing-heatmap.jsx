@@ -51,7 +51,7 @@ function HeatLayer({ readings, mode }) {
   return null;
 }
 
-function GrazingHeatmapGraph({ startDate, endDate }) {
+function GrazingHeatmap({ startDate, endDate }) {
   const [readingsA, setReadingsA] = useState([]);
   const [readingsB, setReadingsB] = useState([]);
   const [showA, setShowA] = useState(true);
@@ -130,4 +130,4 @@ function GrazingHeatmapGraph({ startDate, endDate }) {
   );
 }
 
-export default GrazingHeatmapGraph;
+export default GrazingHeatmap;

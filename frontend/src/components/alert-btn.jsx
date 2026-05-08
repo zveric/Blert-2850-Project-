@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { useWindowBreakpoints } from "./useWindowBreakpoints";
 
-function SendSMSButton(props) {
+function AlertBtn(props) {
   const scrollRef = useState(null)[0];
-  // neccessary for alerts to be there, otherwise sms doesn't work
-  // eslint-disable-next-line no-unused-vars
-  const [alerts, setAlerts] = useState([]);
+  const [setAlerts] = useState([]);
   const { width, height, isMobile } = useWindowBreakpoints();
 
   console.log("Window size:", width, "x", height, "isMobile:", isMobile);
@@ -87,4 +85,4 @@ function SendSMSButton(props) {
     </div>
   );
 }
-export default SendSMSButton;
+export default AlertBtn;
