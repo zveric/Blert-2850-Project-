@@ -37,7 +37,7 @@ export default function ActivityPattern({startDate, endDate}) {
             })
             setHourlyB(buckets.map((sum, i) => counts[i] ? +(sum / counts[i]).toFixed(3) : 0))
         })
-    }, [])
+    }, [startDate, endDate])
 
     const hours = Array.from({length: 24}, (_, i) => `${i}:00`)
 
