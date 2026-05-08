@@ -100,9 +100,9 @@ const btnStyle = (active, color) => ({
 })
 
 
-function Map() {
-    const [readingsA, setReadingsA] = useState(1);
-    const [readingsB, setReadingsB] = useState(1);
+function Map({ startDate, endDate }) {
+    const [readingsA, setReadingsA] = useState([]);
+    const [readingsB, setReadingsB] = useState([]);
     const [livestock, setLivestock] = useState("1")
     const [timestamp, setTimestamp] = useState(null);
     const [sliderValue, setSliderValue] = useState(1);
@@ -121,14 +121,16 @@ function Map() {
     useEffect(() => {
         const MAX_WINDOW = 50
         Promise.all([
-            getReadings(MAX_WINDOW, 1),
-            getReadings(MAX_WINDOW, 2)
+            getReadings(MAX_WINDOW, 1, startDate, endDate),
+            getReadings(MAX_WINDOW, 2, startDate, endDate)
         ]).then(([dataA, dataB]) => {
             if (dataA) setReadingsA(dataA)
             if (dataA) setTimestamp(dataA[idxA].timestamp)
             if (dataB) setReadingsB(dataB)
         }).catch(err => console.error("Error fetching readings:", err))
-    }, [])
+
+        setSliderValue(1)
+    }, [startDate, endDate])
 
     const cardStyle = {
         background: "#fff",
@@ -185,7 +187,7 @@ function Map() {
                     <input
                         type="range"
                         min="1"
-                        max="50"
+                        max={Math.max(readingsA.length, readingsB.length, 1)}
                         value={sliderValue}
                         onChange={(e) => setSliderValue(Number(e.target.value))}
                         style={{flex: 1, minWidth: '100px'}}

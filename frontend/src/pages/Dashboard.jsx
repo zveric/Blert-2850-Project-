@@ -58,7 +58,7 @@ function Dashboard() {
         <section style={pageStyle}>
             <AlertSystem manualTrigger= {manualTrigger} onManualClose={() => setManualTrigger(false)}/>
             <div style={mapAndAlertStyle}>
-                <Map />
+                <Map startDate={appliedStart} endDate={appliedEnd} />
                 <div style={{ width: isMobile ? "100%" : "30%", gap: "20px", display: 'flex', flexDirection: 'column' }}>
                     <div style={cardStyle}>
                         <div style={{height: "100%", padding: "20px", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
@@ -74,13 +74,15 @@ function Dashboard() {
                             onApply={handleApply}
                             showApply={true}
                         />
-                        <a href="/analysis" target="_self" rel="noopener noreferrer">
-                            <LineChart
-                                startDate={appliedStart}
-                                endDate={appliedEnd}
-                                hidePickers={true}
-                            />
-                        </a>
+                        <div style={{height: "83%"}}>
+                            <a href="/analysis" target="_self" rel="noopener noreferrer">
+                                <LineChart
+                                    startDate={appliedStart}
+                                    endDate={appliedEnd}
+                                    hidePickers={true}
+                                />
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
