@@ -15,20 +15,6 @@ jobs:
       matrix:
         python-version: [3.14]
 
-    services:
-      postgres:
-        image: postgis/postgis:16-3.4
-        env:
-          POSTGRES_DB: test_db
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
 
     steps:
     - uses: actions/checkout@v4
@@ -37,11 +23,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install system GIS dependencies (GDAL/GEOS)
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y gdal-bin libgdal-dev libgeos-dev
-        gdalinfo --version
+
     - name: Install Dependencies
       working-directory: backend
       run: |
@@ -50,13 +32,10 @@ jobs:
     - name: Run Tests
       working-directory: backend
       env:
-        DJANGO_SETTINGS_MODULE: core.settings
-        DJANGO_SECRET_KEY: "ci-insecure-secret-key"
-        DB_HOST: localhost
-        DB_PORT: 5432
-        DB_NAME: test_db
-        DB_USER: postgres
-        DB_PASSWORD: postgres
+          DJANGO_SETTINGS_MODULE: core.settings
+          DJANGO_SECRET_KEY: "ci-insecure-secret-key"
+          DB_ENGINE: django.db.backends.sqlite3
+          DB_NAME: db.sqlite3
       run: |
         python manage.py test
         pytest
