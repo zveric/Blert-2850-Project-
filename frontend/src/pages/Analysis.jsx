@@ -7,6 +7,7 @@ import ReportModal from '../components/ReportModal.jsx';
 import AlertBreakdown from '../components/alert-breakdown.jsx';
 import ActivityPattern from '../components/activity-pattern.jsx';
 import DateRangeSelector from '../components/date-range-selector.jsx';
+import DownloadCSV from '../components/export-btn.jsx';
 import { useState, useRef } from 'react';
 
 function Analysis() {
@@ -63,38 +64,41 @@ function Analysis() {
                             showApply={true}
                         />
                     </div>
+                    <div style={{gap: "20px", display: 'flex'}}>
+                        <DownloadCSV/>
 
-                    <button
-                        onClick={() => setShowReport(true)}
-                        onMouseEnter={e => {
-                            e.currentTarget.style.backgroundColor = '#c62828';
-                            e.currentTarget.style.boxShadow = '0 6px 18px rgba(229,57,53,0.45)';
-                            e.currentTarget.style.transform = 'translateY(-1px)';
-                        }}
-                        onMouseLeave={e => {
-                            e.currentTarget.style.backgroundColor = '#e53935';
-                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(229,57,53,0.3)';
-                            e.currentTarget.style.transform = 'translateY(0)';
-                        }}
-                        style={{
-                            padding: '9px 20px',
-                            borderRadius: '10px',
-                            border: '3px solid #b71c1c',
-                            backgroundColor: '#e53935',
-                            color: '#fff',
-                            cursor: 'pointer',
-                            fontSize: '0.9rem',
-                            fontWeight: 600,
-                            whiteSpace: 'nowrap',
-                            boxShadow: '0 4px 12px rgba(229,57,53,0.3)',
-                            transition: 'background-color 0.15s, box-shadow 0.15s, transform 0.15s',
-                            flexShrink: 0,
-                        }}
-                        title="Generate A Report"
-                        aria-label="Generate A Report"
-                    >
-                        Generate Report
-                    </button>
+                        <button
+                            onClick={() => setShowReport(true)}
+                            onMouseEnter={e => {
+                                e.currentTarget.style.backgroundColor = '#c62828';
+                                e.currentTarget.style.boxShadow = '0 6px 18px rgba(229,57,53,0.45)';
+                                e.currentTarget.style.transform = 'translateY(-1px)';
+                            }}
+                            onMouseLeave={e => {
+                                e.currentTarget.style.backgroundColor = '#e53935';
+                                e.currentTarget.style.boxShadow = '0 4px 12px rgba(229,57,53,0.3)';
+                                e.currentTarget.style.transform = 'translateY(0)';
+                            }}
+                            style={{
+                                padding: '9px 20px',
+                                borderRadius: '10px',
+                                border: '3px solid #b71c1c',
+                                backgroundColor: '#e53935',
+                                color: '#fff',
+                                cursor: 'pointer',
+                                fontSize: '0.9rem',
+                                fontWeight: 600,
+                                whiteSpace: 'nowrap',
+                                boxShadow: '0 4px 12px rgba(229,57,53,0.3)',
+                                transition: 'background-color 0.15s, box-shadow 0.15s, transform 0.15s',
+                                flexShrink: 0,
+                            }}
+                            title="Generate A Report"
+                            aria-label="Generate A Report"
+                        >
+                            Generate Report
+                        </button>
+                    </div>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: '20px', alignItems: 'flex-start' }}>

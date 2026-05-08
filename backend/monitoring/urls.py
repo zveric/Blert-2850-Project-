@@ -15,7 +15,6 @@ router.register(r"alerts", AlertsViewset, basename="alerts")
 urlpatterns = [
     path("", include(router.urls)),
     path("update-database", update, name="update_database"),
-    path("sms/send/", manual_sms, name = "manual_sms"),
-    path("csv/", download_csv)
+    path("sms/send/", manual_sms, name = "manual_sms")
 ]
 
