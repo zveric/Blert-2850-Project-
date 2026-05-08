@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import { getReadings, getToken } from "../api";
 
+//used ClaudeAI to help with finding the documentation for React
+
 const check_interval = 5000;
 const livestock_id = [1, 2];
 const readings_limit = 10;
@@ -143,6 +145,7 @@ export default function AlertSystem({ manualTrigger, onManualClose }) {
     setSmsError("");
     setSmsSent(false);
   };
+
 
   return (
     <>

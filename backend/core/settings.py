@@ -10,6 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+
+#Used ClaudeAI to research,find, and understand the documentation for Django project Structure Setup,  as well as documentation for INSTALLED_APPS configuration
+#Used ClaudeAI to research,find, and understand the documemntation for authentication setup, and CORS configuration
+#Used ClaudeAI to research,find, and understand documentation for python-decouple library to manage environment variables
+
+
 from pathlib import Path
 from decouple import config
 
@@ -38,13 +44,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'django.contrib.gis',
     'monitoring',
-    #'geofence',
     'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    #'rest_framework_gis',
 ]
 
 MIDDLEWARE = [
