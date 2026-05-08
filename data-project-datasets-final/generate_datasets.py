@@ -265,7 +265,8 @@ def make_soil(bb):
         }[site]
 
         # Soil moisture: exponential decay, rain infiltration
-        moist = np.zeros(n);  moist[0] = m0
+        moist = np.zeros(n)
+        moist[0] = m0
         FC = m0 + 0.12
         for i in range(1, n):
             moist[i] = min(moist[i-1] * 0.9995 + min(R[i] * 0.004, 0.08), FC)
@@ -424,8 +425,10 @@ def _livestock_raw(bb):
         geo_r = 0.004  if unit == "herd_cattle_A" else 0.006
 
         # GPS: correlated random walk with kraal attraction at night
-        lats = np.zeros(n);  lats[0] = KLAT + rng.normal(0, 0.0002)
-        lons = np.zeros(n);  lons[0] = KLON + rng.normal(0, 0.0002)
+        lats = np.zeros(n)
+        lats[0] = KLAT + rng.normal(0, 0.0002)
+        lons = np.zeros(n)
+        lons[0] = KLON + rng.normal(0, 0.0002)
         for i in range(1, n):
             h, t = HR[i], T[i]
             if h < 6 or h >= 19:                      # night: pull toward kraal
@@ -457,7 +460,6 @@ def _livestock_raw(bb):
         geo_b     = (dist > geo_r).astype(int)
         # Low activity alert: only meaningful during active hours (06:00-20:00)
         # Resting accel ~1.0g at night is normal behaviour, not illness
-        active_hours = ((HR >= 6) & (HR <= 20)).astype(float)
         low_act   = (pd.Series((accel < 1.08) & (HR >= 6) & (HR <= 20))
                        .rolling(4).min().fillna(0).to_numpy().astype(int))
         flee_al   = (accel > 3.5).astype(int)

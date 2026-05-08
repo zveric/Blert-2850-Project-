@@ -41,10 +41,10 @@ INSTALLED_APPS = [
     #'django.contrib.gis',
     'monitoring',
     #'geofence',
-    'rest_framework', 
+    'rest_framework',
     'rest_framework.authtoken',
     'corsheaders',
-    #'rest_framework_gis', 
+    #'rest_framework_gis',
 ]
 
 MIDDLEWARE = [
@@ -136,7 +136,7 @@ CORS_ALLOWED_ORIGINS = [
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication' # Used Gemini to find docs to implement token authentication  
+        'rest_framework.authentication.TokenAuthentication' # Used Gemini to find docs to implement token authentication
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated'

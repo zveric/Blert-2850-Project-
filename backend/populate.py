@@ -2,12 +2,13 @@ import os
 import pandas as pd
 import django
 # Used AI to see why populate.py was slowing down after a while
-from django.db import transaction 
+from django.db import transaction
+from monitoring.models import User, Livestock, Readings, Alerts
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
 django.setup()
 
-from monitoring.models import User, Livestock, Readings, Alerts
+
 
 def populate():
     PATH = "data-project-datasets-final/synthetic_outputs/livestock_tracking.csv"
@@ -29,7 +30,7 @@ def populate():
                 site_id = row["site_id"],
                 defaults = {"user": user}
             )
-    
+
             reading = Readings.objects.create(
                 livestock = animal,
                 timestamp = row["timestamp"],
@@ -41,17 +42,17 @@ def populate():
                 # alert_triggered = int(row["alert_triggered"]),
                 # alert_low_activity = int(row["alert_low_activity"]),
                 # alert_geofence = int(row["alert_geofence"]),
-                # alert_flee = int(row["alert_flee"]) 
-            ) 
-    
+                # alert_flee = int(row["alert_flee"])
+            )
+
             if row["alert_triggered"] == 1:
                 Alerts.objects.create(
                     readings = reading,
                     alert_triggered = int(row["alert_triggered"]),
                     alert_low_activity = int(row["alert_low_activity"]),
                     alert_geofence = int(row["alert_geofence"]),
-                    alert_flee = int(row["alert_flee"]) 
+                    alert_flee = int(row["alert_flee"])
                 )
-    
+
 if __name__ == "__main__":
     populate()

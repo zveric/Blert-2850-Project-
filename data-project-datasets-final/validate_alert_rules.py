@@ -18,7 +18,6 @@ All checks account for:
       the corresponding sensor reading is NaN)
 """
 
-import json
 import pandas as pd
 import numpy as np
 from pathlib import Path

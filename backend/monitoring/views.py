@@ -7,8 +7,8 @@ from rest_framework.response import Response
 from monitoring.utils import update
 from monitoring.models import User, Livestock, Readings, Alerts
 from monitoring.serializers import UserSerializer, LivestockSerializer, ReadingsSerializer, AlertsSerializer
-from monitoring.services import send_sms 
-from rest_framework.decorators import api_view, permission_classes 
+from monitoring.services import send_sms
+from rest_framework.decorators import permission_classes
 from rest_framework.permissions import AllowAny
 from django.http import FileResponse # Used Claude to research docs for sending a file through the api
 
@@ -25,13 +25,12 @@ class LivestockViewSet(viewsets.ModelViewSet):
 class ReadingsViewSet(viewsets.ModelViewSet):
     queryset = Readings.objects.all()
     serializer_class = ReadingsSerializer
-    
+
     def get_queryset(self):
-        timestamp_query = self.request.query_params.get("timestamp")
         livestock_query = self.request.query_params.get("livestock")
         limit = self.request.query_params.get("limit", None)
-        start_time = self.request.query_params.get("start_time", None) 
-        end_time = self.request.query_params.get("end_time", None) 
+        start_time = self.request.query_params.get("start_time", None)
+        end_time = self.request.query_params.get("end_time", None)
         queryset = Readings.objects.all()
 
         if livestock_query:
@@ -39,11 +38,11 @@ class ReadingsViewSet(viewsets.ModelViewSet):
         else:
             queryset = Readings.objects.all()
 
-        if start_time: 
-            queryset = queryset.filter(timestamp__gte=start_time) 
+        if start_time:
+            queryset = queryset.filter(timestamp__gte=start_time)
 
         if end_time:
-            queryset = queryset.filter(timestamp__lte = end_time) 
+            queryset = queryset.filter(timestamp__lte = end_time)
 
         queryset = queryset.order_by('-timestamp')
 
@@ -52,7 +51,7 @@ class ReadingsViewSet(viewsets.ModelViewSet):
             queryset = queryset[:int(limit)]
 
         return queryset
-    
+
 class AlertsViewset(viewsets.ModelViewSet):
     queryset = Alerts.objects.all()
     serializer_class = AlertsSerializer
@@ -65,7 +64,7 @@ def update_database(request):
         return Response({"status": "Success", "message": "Updated"})
     except Exception as e:
         return Response({"status": "Failure", "error": str(e)}, status=500)
-    
+
 
 @api_view(['POST'])
 def manual_sms(request):
@@ -73,17 +72,17 @@ def manual_sms(request):
     phone_number = request.data.get('phone_number')
     message = request.data.get('message')
 
-    if not phone_number or not message: 
+    if not phone_number or not message:
         return Response ({'error': 'phone_number and message are required'}, status = 400)
-    
-    try: 
+
+    try:
         response = send_sms(phone_number, message)
         return Response({'status': 'SMS sent', 'response': str(response)})
-    except Exception as e: 
+    except Exception as e:
         print(f"SMS Error: {e}")
         return Response ({'error': str(e)}, status = 500 )
 
-# Used Gemini to understand the documentation for permission classes 
+# Used Gemini to understand the documentation for permission classes
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register(request):
@@ -103,7 +102,7 @@ def download_csv(request):
 
     if not os.path.exists(path):
         return Response({"error": "File not found"}, status=404)
-    
+
     df = pd.read_csv(path)
     df = df.dropna(how="any")
 
@@ -112,4 +111,3 @@ def download_csv(request):
 
     return FileResponse(open(export_file_path, "rb"), as_attachment=True, filename="export_file.csv")
 
-    
