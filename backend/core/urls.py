@@ -26,7 +26,6 @@ urlpatterns = [
     path('api/login/', obtain_auth_token),
     path('api/register/', register),
     path('utils/update-database/', update_database),
-    path('utils/update-database/', download_csv),
     path('api/csv/', download_csv),
     #path('api/geofence/', include('geofence.urls')),
     #path('utils/populate-database/', views.populate_database),
