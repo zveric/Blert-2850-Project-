@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from monitoring.views import update_database, register
+from monitoring.views import update_database, register, download_csv
 from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
@@ -26,6 +26,8 @@ urlpatterns = [
     path('api/login/', obtain_auth_token),
     path('api/register/', register),
     path('utils/update-database/', update_database),
+    path('utils/update-database/', download_csv),
+    path('api/csv/', download_csv),
     #path('api/geofence/', include('geofence.urls')),
     #path('utils/populate-database/', views.populate_database),
 ]
