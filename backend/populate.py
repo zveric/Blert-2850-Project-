@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 import django
-# Used AI to see why populate.py was slowing down after a while
+# Used Gemini to see why populate.py was slowing down after a while
 from django.db import transaction
 from monitoring.models import User, Livestock, Readings, Alerts
 
