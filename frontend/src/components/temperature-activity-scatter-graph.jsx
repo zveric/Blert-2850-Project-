@@ -12,7 +12,8 @@ import { useState, useEffect } from "react";
 
 ChartJS.register(LinearScale, PointElement, Tooltip, Legend, Title);
 
-export default function TempVsActivity({ startDate, endDate }) {
+// Claude AI used to help learn how to make scatter graph 
+export default function TemperatureActivityScatterGraph({ startDate, endDate }) {
   const [pointsA, setPointsA] = useState([]);
   const [pointsB, setPointsB] = useState([]);
 

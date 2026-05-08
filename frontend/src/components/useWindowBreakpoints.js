@@ -25,3 +25,4 @@ export function useWindowBreakpoints() {
 }
 
 export default useWindowBreakpoints;
+// Gemini Ai used to find the functions needed to make this program
