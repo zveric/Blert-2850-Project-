@@ -1,4 +1,5 @@
 # Gemini was used to research documentation for query_params, api_view
+import os
 from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -8,6 +9,7 @@ from monitoring.serializers import UserSerializer, LivestockSerializer, Readings
 from monitoring.services import send_sms 
 from rest_framework.decorators import api_view, permission_classes 
 from rest_framework.permissions import AllowAny
+from django.http import FileResponse # Used Claude to research docs for sending a file through the api
 
 # ViewSets define the view behavior.
 class UserViewSet(viewsets.ModelViewSet):
@@ -92,3 +94,11 @@ def register(request):
 
     User.objects.create_user(username=username, password=password)
     return Response({'message': 'User created'}, status=201)
+
+# Used Claude to read docs for sending over a file through RestAPI
+@api_view(['GET'])
+def download_csv(request):
+    path = r"..\data-project-datasets-final\synthetic_outputs\livestock_tracking.csv"
+    if os.path.exists(path):
+        return FileResponse(open(path, "rb"), as_attachment=True, filename="livestock_tracking.csv")
+    return Response({"error": "File not found"}, status=404)
