@@ -7,6 +7,7 @@ import L from "leaflet";
 import { useWindowBreakpoints } from "./useWindowBreakpoints";
 
 // heatmap layer for each herd
+// Claude AI used to help learn how to make a heatmap using leaflet-heat 
 function HeatLayer({ readings, mode }) {
   const map = useMap();
   const layerRef = useRef(null);
