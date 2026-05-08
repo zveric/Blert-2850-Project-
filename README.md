@@ -81,11 +81,11 @@ The backend server will be available at `http://localhost:8000` by default.
  
 ## API-Endpoints
 User Management
-- GET /api/user/ - List all users
-- POST /api/user/ - Create user
-- GET /api/user/{id}/ - Get specific user
-- PUT /api/user/{id}/ - Update user
-- DELETE /api/user/{id}/ - Delete user
+- `GET /api/user/` - List all users
+- `POST /api/user/` - Create user
+- `GET /api/user/{id}/` - Get specific user
+- `PUT /api/user/{id}/`- Update user
+- `DELETE /api/user/{id}/` - Delete user
 
 Livestock
 - `GET /api/livestock/` - List all livestock
@@ -107,13 +107,12 @@ Alerts
 - `GET /api/alerts/{id}/` - Get specific alert
 - `PUT /api/alerts/{id}/` - Update alert
 - `DELETE /api/alerts/{id}/` - Delete alert
+- `POST /api/sms/send/` - Send manual SMS (requires `phone_number`, `message`)
 
 Authentication
 - `POST /api/login/` - Login (obtain auth token)
 - `POST /api/register/` - Register new user
 
-SMS & Communication
-- `POST /api/sms/send/` - Send manual SMS (requires `phone_number`, `message`)
 
 Utilities
 - `GET /api/update-database/` - Trigger database update
