@@ -1,0 +1,14 @@
+asgiref==3.11.1
+Django==6.0.3
+django-cors-headers==4.0
+djangorestframework==3.17.1
+sqlparse==0.5.5
+tzdata==2025.3
+python-decouple==3.8
+psycopg[binary]==3.2.13
+djangorestframework-gis
+pytest==7.4.3
+pytest-django==4.7.0
+pandas
+factory-boy
+africastalking==2.0.2
