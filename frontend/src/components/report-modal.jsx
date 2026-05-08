@@ -2,6 +2,7 @@ import { useState } from "react";
 import jsPDF from "jspdf"; //used ClaudeAI to find the documentation for this library & learn to implement functions in the library
 import html2canvas from "html2canvas"; //used ClaudeAI to find the documentation for this library & learn to implement functions in the library
 
+//Used AI to help implement async function generateReport, specifically on debugginng, and usage of functions from html2canvas and jspdf within the function
 function ReportModal({
   onClose,
   tempChartRef,

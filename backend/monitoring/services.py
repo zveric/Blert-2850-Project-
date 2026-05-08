@@ -1,4 +1,4 @@
-import africastalking
+import africastalking  #used ClaudeAI, to discover this library and read the documentation for this library
 from decouple import config
 
 def send_sms(phone_number, message):
