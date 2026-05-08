@@ -84,7 +84,8 @@ riv  = s[s.site_id == 'site_riverside'].reset_index(drop=True)
 
 # 6. Soil moisture decays in dry windows after rain
 rain_idx = hill[hill.wx_rain_mm_hr > 5.0].index
-ok = 0; checked = 0
+ok = 0
+checked = 0
 for idx in rain_idx[:20]:
     start = idx + 2
     end   = min(idx + 16, len(hill) - 1)
