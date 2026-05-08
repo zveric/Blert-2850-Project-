@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { getReadings } from "../api";
-import "./readings-list-table.css";
+import "./readings-list.css";
 
-function ReadingsListTable() {
+function ReadingsList() {
   const [readings, setReadings] = useState([]);
 
   const [limit, setLimit] = useState(10);
@@ -118,4 +118,4 @@ function ReadingsListTable() {
   );
 }
 
-export default ReadingsListTable;
+export default ReadingsList;

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useWindowBreakpoints } from "../components/useWindowBreakpoints.js";
-import HerdTrackingMap from "../components/herd-tracking-map.jsx";
-import SendSMSButton from "../components/alert-button.jsx";
-import AmbientTemperatureGraph from "../components/ambient-temperature-graph.jsx";
-import ReadingListTable from "../components/readings-list-table.jsx";
-import AlertSystem from "../components/alert-sms-system.jsx";
-import AlertsLogTable from "../components/alerts-log-table.jsx";
+import Map from "../components/map.jsx";
+import AlertBtn from "../components/alert-btn.jsx";
+import LineChart from "../components/Line-Chart.jsx";
+import ReadingList from "../components/readings-list.jsx";
+import AlertSystem from "../components/AlertSystem.jsx";
+import AlertLog from "../components/alert-logs.jsx";
 import DateRangeSelector from "../components/date-range-selector.jsx";
 
 function Dashboard() {
@@ -59,7 +59,7 @@ function Dashboard() {
         onManualClose={() => setManualTrigger(false)}
       />
       <div style={mapAndAlertStyle}>
-        <HerdTrackingMap startDate={appliedStart} endDate={appliedEnd} />
+        <Map startDate={appliedStart} endDate={appliedEnd} />
         <div
           style={{
             width: isMobile ? "100%" : "30%",
@@ -79,8 +79,8 @@ function Dashboard() {
                 alignItems: "center",
               }}
             >
-              <SendSMSButton onTrigger={() => setManualTrigger(true)} />
-              <AlertsLogTable />
+              <AlertBtn onTrigger={() => setManualTrigger(true)} />
+              <AlertLog />
             </div>
           </div>
           <div style={{ ...cardStyle, padding: "20px" }}>
@@ -98,7 +98,7 @@ function Dashboard() {
                 rel="noopener noreferrer"
                 aria-label="Click to go to Analysis page"
               >
-                <AmbientTemperatureGraph
+                <LineChart
                   startDate={appliedStart}
                   endDate={appliedEnd}
                   hidePickers={true}
@@ -108,8 +108,8 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <div style={{ margin: isMobile ? "0 0px" : "0 10vw" }}>
-        <ReadingListTable />
+      <div style={{ margin: isMobile ? "0 0px" : "0 150px" }}>
+        <ReadingList />
       </div>
       <div style={{ padding: "0 50px" }}></div>
     </section>

@@ -1,12 +1,12 @@
 import { useWindowBreakpoints } from "../components/useWindowBreakpoints.js";
-import AmbientTemperatureGraph from "../components/ambient-temperature-graph.jsx";
+import LineChart from "../components/Line-Chart.jsx";
 import AccelerationGraph from "../components/acceleration-graph.jsx";
-import GrazingHeatmapGraph from "../components/grazing-heatmap-graph.jsx";
-import ReportModal from "../components/report-modal.jsx";
-import TemperatureActivityScatterGraph from "../components/temperature-activity-scatter-graph.jsx";
-import ActivityPatternGraph from "../components/activity-pattern-graph.jsx";
+import GrazingHeatmap from "../components/grazing-heatmap";
+import ReportModal from "../components/ReportModal.jsx";
+import AlertBreakdown from "../components/alert-breakdown.jsx";
+import ActivityPattern from "../components/activity-pattern.jsx";
 import DateRangeSelector from "../components/date-range-selector.jsx";
-import DownloadCSV from "../components/export-button.jsx";
+import DownloadCSV from "../components/export-btn.jsx";
 import { useState, useRef } from "react";
 
 function Analysis() {
@@ -157,7 +157,7 @@ function Analysis() {
               }}
               ref={tempChartRef}
             >
-              <AmbientTemperatureGraph
+              <LineChart
                 startDate={appliedStart}
                 endDate={appliedEnd}
                 hidePickers={true}
@@ -187,7 +187,7 @@ function Analysis() {
               }}
               ref={scatterChartRef}
             >
-              <TemperatureActivityScatterGraph startDate={appliedStart} endDate={appliedEnd} />
+              <AlertBreakdown startDate={appliedStart} endDate={appliedEnd} />
             </div>
           </div>
           <div
@@ -208,7 +208,7 @@ function Analysis() {
               }}
               ref={GrazingHeatmapRef}
             >
-              <GrazingHeatmapGraph startDate={appliedStart} endDate={appliedEnd} />
+              <GrazingHeatmap startDate={appliedStart} endDate={appliedEnd} />
             </div>
             <div
               style={{
@@ -219,7 +219,7 @@ function Analysis() {
               }}
               ref={ActivityPatternRef}
             >
-              <ActivityPatternGraph startDate={appliedStart} endDate={appliedEnd} />
+              <ActivityPattern startDate={appliedStart} endDate={appliedEnd} />
             </div>
           </div>
         </div>
