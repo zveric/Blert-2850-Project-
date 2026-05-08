@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { getReadings } from "../api";
+import { getReadings, getToken } from "../api";
 
 const check_interval = 5000;
 const livestock_id = [1, 2];
@@ -53,7 +53,9 @@ export default function AlertSystem({ manualTrigger, onManualClose }) {
               !triggeredAlert.current.has(reading.id)
             ) {
               try {
-                const alertRes = await fetch(reading.alert);
+                const alertRes = await fetch(reading.alert, {
+                  headers: { Authorization: `Token ${getToken()}`},
+                });
                 const alertData = await alertRes.json();
 
                 const isFlee = alertData.alert_flee === 1;
@@ -77,30 +79,13 @@ export default function AlertSystem({ manualTrigger, onManualClose }) {
                       },
                   );
                 }
-
-                // if (isTriggered && !triggeredSMS.current.has(reading.id)) {
-                //     triggeredSMS.current.add(reading.id)
-
-                //     setSmsModal( prev => prev ?? {
-                //         latitude: reading.latitude,
-                //         longitude: reading.longitude,
-                //         livestockId: id,
-
-                //     })
-
-                //     setSmsMessage (
-                //         `ALERT: Livestock ${id} has triggered an alert. \n ` +
-                //         `Location: Latitude: ${reading.latitude}, Longitude: ${reading.longitude} \n `+
-                //         `Time: ${new Date(reading.timestamp).toLocaleString()}`
-                //     )
-                // }
               } catch (e) {
                 console.error("Failed to fetch alert details:", e);
               }
             }
           }
         } catch (err) {
-          console.error("AlertSystem pollling error for livestock ${id}:", err);
+          console.error(`AlertSystem pollling error for livestock ${id}:`, err);
         }
       }
     };
@@ -118,7 +103,10 @@ export default function AlertSystem({ manualTrigger, onManualClose }) {
     try {
       const res = await fetch("/api/sms/send/", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json" ,
+          "Authorization": `Token ${getToken()}` ,
+        },
         body: JSON.stringify({
           phone_number: phoneNumber.trim(),
           message: smsMessage.trim(),
