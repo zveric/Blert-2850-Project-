@@ -3,11 +3,11 @@ import os
 import pandas as pd
 import django
 from datetime import datetime
-
+from monitoring.models import User, Livestock, Readings, Alerts
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "core.settings")
 django.setup()
 
-from monitoring.models import User, Livestock, Readings, Alerts
+
 
 PATH = r"..\data-project-datasets-final\synthetic_outputs\livestock_tracking.csv"
 UPDATE_CHECK = r"update_check.txt"

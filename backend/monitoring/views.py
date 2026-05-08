@@ -27,7 +27,6 @@ class ReadingsViewSet(viewsets.ModelViewSet):
     serializer_class = ReadingsSerializer
 
     def get_queryset(self):
-        timestamp_query = self.request.query_params.get("timestamp")
         livestock_query = self.request.query_params.get("livestock")
         limit = self.request.query_params.get("limit", None)
         start_time = self.request.query_params.get("start_time", None)

@@ -2,14 +2,14 @@ from django.contrib.gis.db import models
 
 # Create your models here.
 '''
-2 Models Created for Geofencing 
+2 Models Created for Geofencing
 
 1. Geofence: shows the geofence boundary for each farm
     - farm - references the farm where we are geofencing
-    - boundary - the boundary that we are creating for the farm 
+    - boundary - the boundary that we are creating for the farm
     - created_at - timestamp for when the geofence was created
 
-2. GeofenceBreachEvent: shows geofence breach events for each farm 
+2. GeofenceBreachEvent: shows geofence breach events for each farm
     - livestock - reference which livestock breachd the geofence
     - geofence - reference which geofence was breached
     - timestamp - time of breach event

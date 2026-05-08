@@ -3,23 +3,23 @@ from django.contrib.gis.geos import Point
 #import africastalking - not being implemented yet
 
 """
-Core Functions for the Geofencing aspect of the Blert System 
+Core Functions for the Geofencing aspect of the Blert System
 
-1. geofence_breach_check: 
+1. geofence_breach_check:
     - checks if livestock has breached the geofence boundary
     - if breach detected, creates a geofence_bpipreach_event, returns True
 2. send_breach_alert:
-    - for now just print alert to console, 
-    - out of MVP scope: Integrate with SMS API like Africa's Talking or Twilio 
+    - for now just print alert to console,
+    - out of MVP scope: Integrate with SMS API like Africa's Talking or Twilio
 3. geofence_breach_resolution:
     - marks breach event as resolved when breach is resolved by police, or farmer
-4 Create Geofence 
-    - creating geofence for a site for a particular farm 
+4 Create Geofence
+    - creating geofence for a site for a particular farm
 5. Update Geofence
     - Update geofence boundary for a site (done by admin/farmer)
 6. Delete Geofence
     - Delete geofence for a site (done by admin/farmer)
-7. Get Geofennce breah by livestock 
+7. Get Geofennce breah by livestock
     - Get all the geofence breach per livestock (for farmers to monitor and track)
 
 """
