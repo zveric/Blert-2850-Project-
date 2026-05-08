@@ -41,7 +41,9 @@
   background: white;
   font-size: 14px;
   cursor: pointer;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 .readings-info select:hover {
@@ -96,7 +98,6 @@
 .readings-table tbody tr {
   border-bottom: 1px solid #e8e8e8;
   transition: background-color 0.2s;
-
 }
 
 .readings-table tbody tr:hover {
@@ -113,13 +114,13 @@
 }
 
 .timestamp-cell {
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   font-size: 13px;
   color: #555;
 }
 
 .location-cell {
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   font-size: 13px;
   color: #555;
 }

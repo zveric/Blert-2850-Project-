@@ -1,4 +1,4 @@
-import DatePicker from "react-datepicker";  //used ai to learn about this library and compare to alternatives
+import DatePicker from "react-datepicker"; //used ai to learn about this library and compare to alternatives
 import "react-datepicker/dist/react-datepicker.css";
 
 export default function DateRangeSelector({
@@ -74,11 +74,19 @@ export default function DateRangeSelector({
         aria-label="End Date and Time"
       />
       {showApply && onApply && (
-        <button onClick={onApply} style={applyBtnStyle} aria-label="Apply date range">
+        <button
+          onClick={onApply}
+          style={applyBtnStyle}
+          aria-label="Apply date range"
+        >
           Apply Filter
         </button>
       )}
-      <button onClick={handleClear} style={clearBtnStyle} aria-label="Clear date range">
+      <button
+        onClick={handleClear}
+        style={clearBtnStyle}
+        aria-label="Clear date range"
+      >
         Clear
       </button>
     </div>
