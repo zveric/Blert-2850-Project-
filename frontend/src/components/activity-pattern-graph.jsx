@@ -20,7 +20,7 @@ ChartJS.register(
   Legend,
 );
 
-export default function ActivityPattern({ startDate, endDate }) {
+export default function ActivityPatternGraph({ startDate, endDate }) {
   const [hourlyA, setHourlyA] = useState(new Array(24).fill(0));
   const [hourlyB, setHourlyB] = useState(new Array(24).fill(0));
 

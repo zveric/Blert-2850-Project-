@@ -23,7 +23,7 @@ ChartJS.register(
   Legend,
 );
 
-export default function LineChart({
+export default function AmbientTemperatureGraph({
   startDate: externalStart,
   endDate: externalEnd,
   hidePickers = false,
