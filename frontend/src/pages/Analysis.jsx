@@ -18,6 +18,10 @@ function Analysis() {
 
     const tempChartRef     = useRef(null);
     const activityChartRef = useRef(null);
+    const scatterChartRef = useRef(null); 
+    const ActivityPatternRef = useRef(null); 
+    const GrazingHeatmapRef = useRef(null); 
+
     const { isMobile }     = windowBreakpoints();
 
     const handleDateChange = ({ startDate, endDate }) => {
@@ -113,7 +117,7 @@ function Analysis() {
                                 hidePickers={true}
                             />
                         </div>
-                        <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "30vh", minHeight: "300px" }}>
+                        <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "30vh", minHeight: "300px" }} ref={scatterChartRef}>
                             <AlertBreakdown
                                 startDate = {appliedStart}
                                 endDate = {appliedEnd}                            
@@ -121,13 +125,13 @@ function Analysis() {
                         </div>
                     </div>
                     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', gap: '20px', flex: 1 }}>
-                        <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "55vh", minHeight: "300px" }}>
+                        <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "55vh", minHeight: "300px" }} ref = {GrazingHeatmapRef}>
                             <GrazingHeatmap 
                                 startDate = {appliedStart}
                                 endDate = {appliedEnd}                             
                             />
                         </div>
-                        <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "35vh", minHeight: "300px" }}>
+                        <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "35vh", minHeight: "300px" }}ref={ActivityPatternRef}>
                             <ActivityPattern
                                 startDate = {appliedStart}
                                 endDate = {appliedEnd} 
@@ -141,6 +145,9 @@ function Analysis() {
                         onClose={() => setShowReport(false)}
                         tempChartRef={tempChartRef}
                         activityChartRef={activityChartRef}
+                        scatterChartRef={scatterChartRef}
+                        ActivityPatternRef={ActivityPatternRef}
+                        GrazingHeatmapRef={GrazingHeatmapRef}
                     />
                 )}
             </main>
