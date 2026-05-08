@@ -1,12 +1,11 @@
+# Copilot AI was used to read documentation surrounding Django testing and factory_boy.
+# These tests were then written following these non-specific instructions (it took ages)
+
+
 import random
-
 from django.test import TestCase
-
 from monitoring.models import User, Livestock, Readings, Alerts
-
 import factory
-
-
 import unittest
 from datetime import timedelta
 from django.urls import reverse
@@ -17,7 +16,7 @@ from rest_framework.test import APITestCase
 from monitoring.models import Readings
 
 
-class UserFactory(factory.django.DjangoModelFactory):
+class UserFactory(factory.django.DjangoModelFactory): # Generates users using fake data
     class Meta:
         model = User
 
@@ -29,7 +28,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     is_active = True
 
 
-class LivestockFactory(factory.django.DjangoModelFactory):
+class LivestockFactory(factory.django.DjangoModelFactory): #Generates Livestock using fake data
     class Meta:
         model = Livestock
 
@@ -37,12 +36,12 @@ class LivestockFactory(factory.django.DjangoModelFactory):
     site_id = factory.Sequence(lambda n: f"site_{n}")
 
 
-class ReadingsFactory(factory.django.DjangoModelFactory):
+class ReadingsFactory(factory.django.DjangoModelFactory): #Generates readings using fake data
     class Meta:
         model = Readings
 
     livestock = factory.SubFactory(LivestockFactory)
-    timestamp = factory.LazyFunction(timezone.now)
+    timestamp = factory.LazyFunction(timezone.now) # fix for the timezone error
     latitude = factory.Faker("latitude")
     longitude = factory.Faker("longitude")
     accel_mag_g = factory.Faker("pyfloat", positive=True, right_digits=2)
