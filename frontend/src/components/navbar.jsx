@@ -33,6 +33,7 @@ function Navbar() {
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#navbarNav"
+                    alt="Toggle navigation"
                 >
                     <span className="navbar-toggler-icon"></span>
 
