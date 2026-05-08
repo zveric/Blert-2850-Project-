@@ -34,7 +34,7 @@ function Analysis() {
         display: 'flex',
         flexDirection: 'column',
         gap: '20px',
-        margin: isMobile ? "0 0px" : "0 150px",
+        margin: isMobile ? "0 0px" : "0 10vw",
         height: "100vh",
     };
 
@@ -50,16 +50,7 @@ function Analysis() {
     return (
         <>
             <main style={pageStyle}>
-
-                <div style={{
-                    ...cardStyle,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    flexWrap: 'wrap',
-                    gap: '12px',
-                    padding: '14px 20px',
-                }}>
+                <div style={{ ...cardStyle, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', padding: '14px 20px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
                         <span style={{ fontWeight: 600, fontSize: '0.9rem', color: '#444', whiteSpace: 'nowrap' }}>
                             Filter charts:
@@ -73,7 +64,6 @@ function Analysis() {
                         />
                     </div>
 
-                    
                     <button
                         onClick={() => setShowReport(true)}
                         onMouseEnter={e => {
@@ -89,9 +79,9 @@ function Analysis() {
                         style={{
                             padding: '9px 20px',
                             borderRadius: '10px',
+                            border: '3px solid #b71c1c',
                             backgroundColor: '#e53935',
                             color: '#fff',
-                            border: 'none',
                             cursor: 'pointer',
                             fontSize: '0.9rem',
                             fontWeight: 600,
@@ -109,21 +99,21 @@ function Analysis() {
 
                 <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: '20px', alignItems: 'flex-start' }}>
                     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', gap: '20px', flex: 1 }}>
-                        <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "30vh" }} ref={tempChartRef}>
+                        <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "30vh", minHeight: "300px" }} ref={tempChartRef}>
                             <LineChart
                                 startDate={appliedStart}
                                 endDate={appliedEnd}
                                 hidePickers={true}
                             />
                         </div>
-                        <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "30vh" }} ref={activityChartRef}>
+                        <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "30vh", minHeight: "300px" }} ref={activityChartRef}>
                             <AccelerationGraph
                                 startDate={appliedStart}
                                 endDate={appliedEnd}
                                 hidePickers={true}
                             />
                         </div>
-                        <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "30vh" }}>
+                        <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "30vh", minHeight: "300px" }}>
                             <AlertBreakdown
                                 startDate = {appliedStart}
                                 endDate = {appliedEnd}                            
@@ -131,13 +121,13 @@ function Analysis() {
                         </div>
                     </div>
                     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', gap: '20px', flex: 1 }}>
-                        <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "55vh" }}>
+                        <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "55vh", minHeight: "300px" }}>
                             <GrazingHeatmap 
                                 startDate = {appliedStart}
                                 endDate = {appliedEnd}                             
                             />
                         </div>
-                        <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "35vh" }}>
+                        <div style={{ ...cardStyle, width: isMobile ? "100vw" : "100%", height: isMobile ? "30vh" : "35vh", minHeight: "300px" }}>
                             <ActivityPattern
                                 startDate = {appliedStart}
                                 endDate = {appliedEnd} 

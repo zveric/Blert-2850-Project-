@@ -1,23 +1,21 @@
 import random
 
 from django.test import TestCase
+from django.utils import timezone
 from monitoring.models import User, Livestock, Readings, Alerts
 
-import factory  # for dynamic data https://factoryboy.readthedocs.io/en/stable/index.html
+import factory
 
 
-class UserFactory(factory.django.DjangoModelFactory): 
+class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = User
 
-    # Make a basic user profile. With some of the abstract user information
     username = factory.Sequence(lambda n: f"user_{n}")
     email = factory.Sequence(lambda n: f"useremail{n}@test.com")
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
-    password = factory.PostGenerationMethodCall(
-        "set_password", "testpass123"
-    )  # Create the password after the user obj is setup. Using hashing to make it more realistic
+    password = factory.PostGenerationMethodCall("set_password", "testpass123")
     is_active = True
 
 
@@ -34,16 +32,19 @@ class ReadingsFactory(factory.django.DjangoModelFactory):
         model = Readings
 
     livestock = factory.SubFactory(LivestockFactory)
-    timestamp = factory.Faker("date_time")
+    timestamp = factory.LazyFunction(timezone.now)
     latitude = factory.Faker("latitude")
     longitude = factory.Faker("longitude")
     accel_mag_g = factory.Faker("pyfloat", positive=True, right_digits=2)
     ambient_temperature_c = factory.Faker("pyfloat", positive=True, right_digits=2)
     status = factory.Faker("sentence")
 
+
 class AlertsFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Alerts
+
+    readings = factory.SubFactory(ReadingsFactory)
     alert_triggered = factory.LazyFunction(lambda: random.randint(0, 1))
     alert_low_activity = factory.LazyFunction(lambda: random.randint(0, 1))
     alert_geofence = factory.LazyFunction(lambda: random.randint(0, 1))
@@ -68,3 +69,11 @@ class TestModels(TestCase):
         self.assertIsNotNone(readings.longitude)
         self.assertGreaterEqual(readings.accel_mag_g, 0)
         self.assertGreaterEqual(readings.ambient_temperature_c, 0)
+
+    def test_alerts_creation(self):
+        alerts = AlertsFactory()
+        self.assertIsNotNone(alerts.readings)
+        self.assertIn(alerts.alert_triggered, [0, 1])
+        self.assertIn(alerts.alert_low_activity, [0, 1])
+        self.assertIn(alerts.alert_geofence, [0, 1])
+        self.assertIn(alerts.alert_flee, [0, 1])

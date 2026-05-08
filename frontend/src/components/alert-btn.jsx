@@ -68,19 +68,40 @@ function AlertBtn(props) {
 
     return (
         <div>
-            <p style = {{fontSize: "18px", fontWeight: "bold", marginBottom: "8px"}}>
-                PRESS TO TRIGGER ALERT
-            </p>
-
-            <div style = {{display: "flex", alignItems: "flex-start", gap: "16px"}}>
-                <button 
-                    onClick={handleAlert}
-                    onMouseEnter={() => setIsHovering(true)}
-                    onMouseLeave={() => setIsHovering(false)}
-                    style = {buttonStyle}
-                />
-                
-                <div style = {{maxHeight: isMobile ? '21vh' :  "38vh", overflowY: "scroll", width: "100%"}}>
+            <div style = {{display: "flex", alignItems: "center", gap: "16px"}}>
+                <button
+                        onClick={handleAlert}
+                        onMouseEnter={e => {
+                            e.currentTarget.style.backgroundColor = '#c62828';
+                            e.currentTarget.style.boxShadow = '0 6px 18px rgba(229,57,53,0.45)';
+                            e.currentTarget.style.transform = 'translateY(-1px)';
+                        }}
+                        onMouseLeave={e => {
+                            e.currentTarget.style.backgroundColor = '#e53935';
+                            e.currentTarget.style.boxShadow = '0 4px 12px rgba(229,57,53,0.3)';
+                            e.currentTarget.style.transform = 'translateY(0)';
+                        }}
+                        style={{
+                            padding: '9px 20px',
+                            borderRadius: '10px',
+                            border: '3px solid #b71c1c',
+                            backgroundColor: '#e53935',
+                            color: '#fff',
+                            cursor: 'pointer',
+                            fontSize: '0.9rem',
+                            fontWeight: 600,
+                            whiteSpace: 'nowrap',
+                            boxShadow: '0 4px 12px rgba(229,57,53,0.3)',
+                            transition: 'background-color 0.15s, box-shadow 0.15s, transform 0.15s',
+                            flexShrink: 0,
+                            width: isMobile ? "93vw" : "18vw",
+                        }}
+                        title="Send SMS"
+                        aria-label="Send SMS"
+                    >
+                        Send SMS
+                    </button>
+                {/* <div style = {{maxHeight: isMobile ? '21vh' :  "38vh", overflowY: "scroll", width: "100%"}}>
                     <table style = {{borderCollapse: "collapse", width: "100%"}}>
                         <thead> 
                             <tr> 
@@ -105,7 +126,7 @@ function AlertBtn(props) {
                             )}
                         </tbody>
                     </table>
-                </div>
+                </div> */}
             </div>
         </div>
     );
