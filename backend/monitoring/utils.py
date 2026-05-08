@@ -34,7 +34,7 @@ def update(request=None):
     print("Update function triggered")
     if not update_required():
         print("Already up to date")
-        return 0        
+        return 0
 
     new_lines = pd.read_csv(PATH)
     new_lines = new_lines.dropna(how="any").tail(2)
@@ -42,7 +42,7 @@ def update(request=None):
     existing_timestamps = [t.timestamp() for t in Readings.objects.values_list("timestamp", flat=True)]
 
     user = User.objects.first()
-    
+
     print(existing_timestamps[1])
     print(new_lines.tail)
 
@@ -75,7 +75,7 @@ def update(request=None):
                     alert_triggered = int(row["alert_triggered"]),
                     alert_low_activity = int(row["alert_low_activity"]),
                     alert_geofence = int(row["alert_geofence"]),
-                    alert_flee = int(row["alert_flee"]) 
+                    alert_flee = int(row["alert_flee"])
                 )
         else:
             print("ERROR: Duplicate timestamp, reading skipped")

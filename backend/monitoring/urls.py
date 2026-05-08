@@ -3,7 +3,7 @@ from rest_framework import routers
 from monitoring.views import UserViewSet, LivestockViewSet, ReadingsViewSet, AlertsViewset, manual_sms
 from monitoring.utils import update
 
-# Routers 
+# Routers
 router = routers.DefaultRouter()
 
 router.register(r"user", UserViewSet)

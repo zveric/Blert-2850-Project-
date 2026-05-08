@@ -1,5 +1,4 @@
 from django.contrib.gis.db import models
-from monitoring.models import Livestock, Readings, User
 
 # Create your models here.
 '''
@@ -19,24 +18,24 @@ from monitoring.models import Livestock, Readings, User
 
 '''
 
-class Geofence(models.Model): 
+class Geofence(models.Model):
     site_id = models.CharField(max_length=100, unique=True)
-    boundary = models.PolygonField() 
-    created_at = models.DateTimeField(auto_now_add = True) 
+    boundary = models.PolygonField()
+    created_at = models.DateTimeField(auto_now_add = True)
 
     def __str__(self):
         return f"Geofence for {self.site.id}"
 
-    def contains (self, point): 
+    def contains (self, point):
         return self.boundary.contains(point)
-    
 
-class GeofenceBreachEvent(models.Model): 
+
+class GeofenceBreachEvent(models.Model):
     livestock = models.ForeignKey('monitoring.Livestock', on_delete=models.CASCADE, related_name = "breaches")
     geofence = models.ForeignKey(Geofence, on_delete=models.CASCADE, related_name= 'breaches' )
     timestamp = models.DateTimeField(auto_now_add = True)
-    location = models.PointField(srid=4326) 
+    location = models.PointField(srid=4326)
     resolved = models.BooleanField(default = False)
 
-    def __str__(self): 
+    def __str__(self):
         return f"Farm Breach by {self.livestock.name} at {self.timestamp}"

@@ -5,7 +5,7 @@ from django.contrib.auth.models import AbstractUser
 # https://docs.djangoproject.com/en/6.0/topics/auth/customizing/
 
 class User(AbstractUser):
-    """Using Django provided class"""  
+    """Using Django provided class"""
 
 class Livestock(models.Model):
     """Livestock class to hold all the reading data related to the different herds"""
@@ -33,7 +33,7 @@ class Readings(models.Model):
     longitude = models.FloatField()
     accel_mag_g = models.FloatField()
     ambient_temperature_c = models.FloatField()
-    status = models.CharField(max_length=100)  
+    status = models.CharField(max_length=100)
 
     def __str__(self):
         return str(self.timestamp)
